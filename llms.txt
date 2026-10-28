@@ -82,9 +82,16 @@
 
 ## Blog (SEO guides, full English)
 
-- [Search Intent First: The SEO Tip That Decides Whether You Rank at All](https://linkxcel.blogspot.com/2026/10/search-intent-first-seo-tip-that.html): Why matching search intent comes before keywords, links, and technical fixes.
-- [Title Tags and Meta Descriptions That Earn Clicks in 2026](https://linkxcel.blogspot.com/2026/10/title-tags-and-meta-descriptions-that.html): How to write titles and descriptions that earn clicks.
-- [Helpful Content and E-E-A-T: How Google Judges Whether to Trust Your Page](https://linkxcel.blogspot.com/2026/10/helpful-content-and-e-e-t-how-google.html): Helpful content and E-E-A-T explained; E-E-A-T is a rater-guide framework, not a direct ranking factor.
+- [Search Intent First: The SEO Tip That Decides Whether You Rank at All](https://linkxcel.blogspot.com/2026/10/search-intent-first-seo-tip.html): Why matching search intent comes before keywords, links, and technical fixes.
+- [Title Tags and Meta Descriptions That Earn Clicks in 2026](https://linkxcel.blogspot.com/2026/10/title-tags-meta-descriptions-clicks.html): How to write titles and descriptions that earn clicks.
+- [Helpful Content and E-E-A-T: How Google Judges Whether to Trust Your Page](https://linkxcel.blogspot.com/2026/10/helpful-content-eeat-google-trust.html): Helpful content and E-E-A-T explained; E-E-A-T is a rater-guide framework, not a direct ranking factor.
+- [Technical SEO Basics: Sitemaps, Robots.txt, Canonicals and Mobile-First Indexing](https://linkxcel.blogspot.com/2026/10/technical-seo-basics-sitemap-robots.html): Technical SEO without jargon: sitemaps, robots.txt, canonical tags and mobile-first indexing.
+- [Page Speed and Core Web Vitals: Compress Images Before They Cost You Rankings](https://linkxcel.blogspot.com/2026/10/page-speed-core-web-vitals-images.html): Core Web Vitals in plain English — LCP, INP and CLS thresholds, plus the image fixes that move them fastest.
+- [Backlink Quality Over Quantity: How Smart Teams Vet Links Before Building Them](https://linkxcel.blogspot.com/2026/10/backlink-quality-over-quantity.html): Vet backlinks like a team lead: relevance, real traffic, and clean history beat raw link counts.
+- [Internal Linking and Anchor Text: Fix Orphan Pages and Pass Authority Where It Counts](https://linkxcel.blogspot.com/2026/10/internal-linking-anchor-text-guide.html): Internal linking done right: fix orphan pages, use descriptive anchors, and guide authority to your best content.
+- [Duplicate and Thin Content: Find It, Fix It, and Stop Keywords Cannibalizing Each Other](https://linkxcel.blogspot.com/2026/10/duplicate-thin-content-fix.html): Duplicate and thin content explained: how to find it, merge or canonicalize it, and stop pages competing with each other.
+- [AEO: Structure Your Content So AI Search Cites You, Not Your Competitor](https://linkxcel.blogspot.com/2026/10/aeo-ai-search-citation-guide.html): AEO basics: answer-first structure, question headings and schema that help AI search cite your pages.
+- [The SEO Maintenance Loop: Refresh Old Content, Track Search Console, and Grow Month by Month](https://linkxcel.blogspot.com/2026/10/seo-maintenance-loop-guide.html): SEO is a loop, not a launch: refresh old pages, read Search Console, and compound small gains month by month.
 
 ## More from SEO Academy
 

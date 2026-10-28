@@ -27,24 +27,31 @@
   var empty = document.getElementById('blogEmpty');
   var error = document.getElementById('blogError');
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
-  fetch('https://searchxcelaratetools.blogspot.com/feeds/posts/default?max-results=50&alt=json')
-    .then(function(r){ if (!r.ok) throw new Error('Feed request failed: ' + r.status); return r.json(); })
-    .then(function(data){
-      loading.style.display = 'none';
-      var entries = (data.feed && data.feed.entry) ? data.feed.entry : [];
-      var posts = [];
-      entries.forEach(function(e){
-        var link = '';
-        (e.link || []).forEach(function(l){ if (l.rel === 'alternate') link = l.href; });
-        if (!link || TOOL_URLS.indexOf(link) !== -1) return;
-        var title = (e.title && e.title.$t) ? e.title.$t : 'Untitled';
-        var date = (e.published && e.published.$t) ? e.published.$t.slice(0, 10) : '';
-        var summary = (e.summary && e.summary.$t) ? e.summary.$t : '';
-        posts.push('<article class="section"><h2><a href="' + esc(link) + '">' + esc(title) + '</a></h2>' + (date ? '<p><small>' + esc(date) + '</small></p>' : '') + (summary ? '<p>' + esc(summary.slice(0, 300)) + '</p>' : '') + '</article>');
-      });
-      if (!posts.length) { empty.style.display = ''; } else { list.innerHTML = posts.join('\n'); }
-    })
-    .catch(function(){ loading.style.display = 'none'; error.style.display = ''; });
+  /* Blogger's feed does not allow cross-origin fetch() from GitHub Pages (no CORS
+     headers), which is why the feed failed to load live even though the feed URL
+     itself works. JSONP via a <script> tag bypasses CORS, so use that instead. */
+  var done = false;
+  window.linkxcelBlogFeed = function(data){
+    if (done) return; done = true;
+    loading.style.display = 'none';
+    var entries = (data.feed && data.feed.entry) ? data.feed.entry : [];
+    var posts = [];
+    entries.forEach(function(e){
+      var link = '';
+      (e.link || []).forEach(function(l){ if (l.rel === 'alternate') link = l.href; });
+      if (!link || TOOL_URLS.indexOf(link) !== -1) return;
+      var title = (e.title && e.title.$t) ? e.title.$t : 'Untitled';
+      var date = (e.published && e.published.$t) ? e.published.$t.slice(0, 10) : '';
+      var summary = (e.summary && e.summary.$t) ? e.summary.$t : '';
+      posts.push('<article class="section"><h2><a href="' + esc(link) + '">' + esc(title) + '</a></h2>' + (date ? '<p><small>' + esc(date) + '</small></p>' : '') + (summary ? '<p>' + esc(summary.slice(0, 300)) + '</p>' : '') + '</article>');
+    });
+    if (!posts.length) { empty.style.display = ''; } else { list.innerHTML = posts.join('\n'); }
+  };
+  var s = document.createElement('script');
+  s.src = 'https://searchxcelaratetools.blogspot.com/feeds/posts/default?max-results=50&alt=json-in-script&callback=linkxcelBlogFeed';
+  s.onerror = function(){ if (!done) { done = true; loading.style.display = 'none'; error.style.display = ''; } };
+  document.head.appendChild(s);
+  setTimeout(function(){ if (!done) { done = true; loading.style.display = 'none'; error.style.display = ''; } }, 10000);
 })();
 </script>
 </body>

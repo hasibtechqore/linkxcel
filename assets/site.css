@@ -1,5 +1,5 @@
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f1f5f9;color:#0f172a;line-height:1.55}
-a{color:#2563eb}.topbar{background:#000;color:#fff;position:sticky;top:0;z-index:50}
+a{color:#2563eb}.topbar{background:#000;color:#fff;position:static}
 .topbar-in{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:10px;color:#fff!important;text-decoration:none;font-weight:800;font-size:22px}
 .brand img{width:42px;height:42px;border-radius:8px;object-fit:cover}
@@ -41,3 +41,7 @@ a{color:#2563eb}.topbar{background:#000;color:#fff;position:sticky;top:0;z-index
 /* LinkXcel header/footer guard: a tool's own global CSS must never restyle the site header or footer. */
 .topbar{background:#000!important;color:#fff!important}.topbar a{color:#fff!important}.topbar small{color:#cbd5e1!important}
 .footer{background:#0f172a!important;color:#cbd5e1!important}.footer a{color:#fff!important}.footer b{color:#fff!important}
+
+/* Tool banner images must never overflow their card. */
+.tool-body img{max-width:100%;height:auto}
+.tool-body table{max-width:100%}

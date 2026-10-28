@@ -1,0 +1,94 @@
+# LinkXcel
+
+> LinkXcel by SEO Academy is a free hub of 44 browser-based tools for teams and creators: backlink validation, DR checks, link matching, SEO previews, developer JSON tools, calculators, image compression, and text tools. All tools run in the browser, no sign-up required, no cost.
+> Official site: https://linkxcel.blogspot.com/
+> Tools open on the Blogger site and are hosted for speed on GitHub Pages.
+
+## About
+
+- Name: LinkXcel
+- By: SEO Academy
+- Price: Free, no sign-up
+- How tools work: client-side in the browser. No tool sends your input to a server, except the tools that have always loaded a file-parsing library (SheetJS/PapaParse) for Excel/CSV input.
+- Honest limits: the DR Checker uses a built-in local list, not a live Ahrefs/Moz database. The Backlink Validator checks link lists against a built-in buyer list, it does not crawl the live web. The SERP Simulator is a preview simulation, not Google's actual display. The Sitemap Validator checks structure only, not Google indexing.
+
+## Backlink Check
+
+- [Backlink Validator Tool](https://linkxcel.blogspot.com/p/backlink-validator.html): Validate a list of backlinks against a built-in buyer list of 1,742 entries.
+- [DR Checker](https://linkxcel.blogspot.com/p/dr-checker.html): Check domain ratings from a built-in local list of 1,471 entries. Local list only, not a live DR database.
+- [Bulk Domain Rating Checker](https://linkxcel.blogspot.com/p/bulk-domain-rating-checker.html): Bulk-check domains against a user-uploaded CSV/Excel dataset stored in the browser.
+- [DR Formatter](https://linkxcel.blogspot.com/p/domain-dr-formatter.html): Format domain and DR lines into clean output. Does not check DR.
+
+## Link Tools
+
+- [Links Shuffler](https://linkxcel.blogspot.com/p/links-shuffler.html): Shuffle a list of links from a file.
+- [SEO Link Comparator](https://linkxcel.blogspot.com/p/seo-link-comparator.html): Compare two link lists. Does not fetch live links.
+- [Worker-Buyer Link Matcher](https://linkxcel.blogspot.com/p/worker-buyer-link-matcher.html): Match worker-submitted links against buyer link lists.
+- [Duplicate Link Checker](https://linkxcel.blogspot.com/p/duplicate-link-checker.html): Find exact duplicate links in a list.
+- [Links Converter](https://linkxcel.blogspot.com/p/links-converter.html): Convert links between formats and remove diacritics.
+
+## Domain Tools
+
+- [URL Domain Matcher](https://linkxcel.blogspot.com/p/url-domain-matcher.html): Match URLs by their full host, with www stripped.
+- [URL to Domain Extractor](https://linkxcel.blogspot.com/p/url-to-domain-extractor.html): Extract domains from a list of URLs.
+
+## Design Tools
+
+- [Photo Resizer](https://linkxcel.blogspot.com/p/photo-resizer.html): Resize photos in the browser.
+- [Image Compressor](https://linkxcel.blogspot.com/p/image-compressor.html): Compress images locally in the browser with a quality slider and format choice. 100 percent browser-local, no upload.
+
+## SEO Tools
+
+- [Google SERP Simulator](https://linkxcel.blogspot.com/p/google-serp-simulator.html): Preview how a title and meta description could appear in search results. Simulation only, not Google's actual display.
+- [Keyword Density Checker](https://linkxcel.blogspot.com/p/keyword-density-checker.html): Measure keyword density in pasted text.
+- [Meta Tag Generator](https://linkxcel.blogspot.com/p/meta-tag-generator.html): Generate title, description, and social meta tags.
+- [Open Graph Preview](https://linkxcel.blogspot.com/p/open-graph-preview.html): Preview Open Graph title, description, and image presentation.
+- [Robots.txt Generator](https://linkxcel.blogspot.com/p/robotstxt-generator.html): Generate a robots.txt file.
+- [XML Sitemap Validator](https://linkxcel.blogspot.com/p/xml-sitemap-validator.html): Validate XML sitemap structure. Structure only, not Google indexing status.
+
+## Text Tools
+
+- [Character Counter](https://linkxcel.blogspot.com/p/character-counter.html): Count characters, words, and lines in text.
+- [Lorem Ipsum Generator](https://linkxcel.blogspot.com/p/lorem-ipsum-generator.html): Generate placeholder Lorem Ipsum text.
+- [Remove Duplicate Lines](https://linkxcel.blogspot.com/p/remove-duplicate-lines.html): Remove duplicate lines from pasted text.
+- [String Reverser](https://linkxcel.blogspot.com/p/string-reverser.html): Reverse a string.
+- [Text Case Converter](https://linkxcel.blogspot.com/p/text-case-converter.html): Convert text between 8 case formats.
+- [Text to Slug Converter](https://linkxcel.blogspot.com/p/text-to-slug-converter.html): Convert text into a URL slug. Does not check URL availability.
+- [Word Counter](https://linkxcel.blogspot.com/p/word-counter.html): Count words and estimate reading time at 200 words per minute.
+
+## Developer Tools
+
+- [Base64 Encoder Decoder](https://linkxcel.blogspot.com/p/base64-encoder-decoder.html): Unicode-safe Base64 encode and decode.
+- [Color Converter](https://linkxcel.blogspot.com/p/color-converter.html): Convert colors between HEX, RGB, HSL, and CMYK.
+- [HTML Entity Encoder Decoder](https://linkxcel.blogspot.com/p/html-entity-encoder-decoder.html): Encode and decode HTML entities.
+- [JSON Diff](https://linkxcel.blogspot.com/p/json-diff.html): Compare two JSON documents and show differences.
+- [JSON Flattener](https://linkxcel.blogspot.com/p/json-flattener.html): Flatten nested JSON into key paths.
+- [JSON Formatter Validator](https://linkxcel.blogspot.com/p/json-formatter-validator.html): Format and validate JSON.
+- [JSON Merger](https://linkxcel.blogspot.com/p/json-merger.html): Merge two JSON documents.
+- [JSON Stringify Parse Tester](https://linkxcel.blogspot.com/p/json-stringify-parse-tester.html): Test JSON stringify and parse without eval.
+- [JWT Decoder](https://linkxcel.blogspot.com/p/jwt-decoder.html): Decode JWT header and payload offline in the browser. Signature is not verified; never paste tokens with secrets.
+- [Regex Tester](https://linkxcel.blogspot.com/p/regex-tester.html): Test regular expressions against sample text.
+- [Timestamp Converter](https://linkxcel.blogspot.com/p/timestamp-converter.html): Convert Unix timestamps to UTC and local dates.
+- [URL Encoder Decoder](https://linkxcel.blogspot.com/p/url-encoder-decoder.html): URL-encode and decode text.
+- [UUID Generator](https://linkxcel.blogspot.com/p/uuid-generator.html): Generate version 4 UUIDs, 1 to 100 at a time.
+
+## Calculator Tools
+
+- [Age Calculator](https://linkxcel.blogspot.com/p/age-calculator.html): Calculate age from a date of birth.
+- [Percentage Calculator](https://linkxcel.blogspot.com/p/percentage-calculator.html): Percentage calculations in 3 modes.
+- [Temperature Converter](https://linkxcel.blogspot.com/p/temperature-converter.html): Convert between Celsius, Fahrenheit, Kelvin, and Rankine, with an absolute-zero check.
+- [Unit Converter](https://linkxcel.blogspot.com/p/unit-converter.html): Convert length, weight, and volume units.
+- [Volume Converter](https://linkxcel.blogspot.com/p/volume-converter.html): Convert US volume measures.
+
+## Blog (SEO guides, full English)
+
+- [Search Intent First: The SEO Tip That Decides Whether You Rank at All](https://linkxcel.blogspot.com/2026/10/search-intent-first-seo-tip-that.html): Why matching search intent comes before keywords, links, and technical fixes.
+- [Title Tags and Meta Descriptions That Earn Clicks in 2026](https://linkxcel.blogspot.com/2026/10/title-tags-and-meta-descriptions-that.html): How to write titles and descriptions that earn clicks.
+- [Helpful Content and E-E-A-T: How Google Judges Whether to Trust Your Page](https://linkxcel.blogspot.com/2026/10/helpful-content-and-e-e-t-how-google.html): Helpful content and E-E-A-T explained; E-E-A-T is a rater-guide framework, not a direct ranking factor.
+
+## More from SEO Academy
+
+- [VoxLab, free PC voice studio with voice cloning](https://voxlabapp.blogspot.com/)
+- [SEO Academy Bangla Voice, free Bengali AI voice maker](https://www.seoacademybangla.top/)
+- [SEO Academy on Facebook](https://facebook.com/seoacademy05)
+- [SEO Academy on Telegram](https://t.me/seoacademy05)

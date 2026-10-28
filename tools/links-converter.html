@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Links Converter &amp; Text Normalization | LinkXcel</title>
+<meta name="description" content="Two tools in one page: convert pasted URLs to HTML output and BBCode output (each with a Copy button), and remove diacritics / special characters from pasted text to get Cleaned Text.">
+<link rel="icon" href="../assets/favicon.png">
+<link rel="stylesheet" href="../assets/site.css">
+
+
+<style>
+/* LinkXcel header/footer guard (after the tool's own CSS): the tool's global rules must not restyle the site chrome. */
+.topbar{background:#000!important;color:#fff!important}.topbar a{color:#fff!important}.topbar small{color:#cbd5e1!important}
+.footer{background:#0f172a!important;color:#cbd5e1!important}.footer a{color:#fff!important}.footer b{color:#fff!important}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-in"><a class="brand" href="../index.html"><img src="../assets/logo.png" alt="LinkXcel logo" onerror="this.style.display='none'"><span>LinkXcel<small>BY SEO ACADEMY &bull; FREE BACKLINK TOOLS</small></span></a><nav class="mainnav"><a href="../index.html#tools">Tools</a><a href="../blog.html">Blog</a><a href="../index.html#how">How It Works</a><a href="../index.html#faq">FAQ</a></nav></div></header>
+<main class="wrap">
+<a class="backlink" href="../index.html#tools">&larr; All Tools</a>
+<section class="tool-intro"><h1>Links Converter &amp; Text Normalization</h1><p>Two tools in one page: convert pasted URLs to HTML output and BBCode output (each with a Copy button), and remove diacritics / special characters from pasted text to get Cleaned Text.</p><p class="note">Note: the Cleaned Text box originally had no Copy button. LinkXcel adds one, using the same copy mechanism as the other outputs. (Added by LinkXcel: a Copy Cleaned Text button after the Cleaned Text box.)</p></section>
+<div class="tool-body">
+<!-- Paste this in Blogger post (HTML view) -->
+<div id="tool-wrapper" style="font-family: Montserrat, Arial, sans-serif; max-width:900px; margin:20px auto;">
+
+  <h1>URL Converter Tool</h1>
+
+  <label for="urlInput">Paste multiple URLs (one per line):</label>
+  <textarea id="urlInput" placeholder="https://example.com&#10;https://site.org" style="width:100%; min-height:120px;"></textarea>
+  <button id="convertBtn" type="button" style="margin-top:8px;">Convert to HTML & BBCode</button>
+
+  <div style="display:flex; gap:16px; margin-top:18px; flex-direction:column;">
+    <div style="background:#282c34; color:#fff; padding:14px; border-radius:8px;">
+      <h3 style="margin:0 0 8px 0;">HTML Output</h3>
+      <textarea id="htmlOutput" readonly style="width:100%; min-height:120px; background:#333; color:#fff;"></textarea>
+      <button class="copyBtn" data-target="htmlOutput" type="button" style="margin-top:8px;">Copy HTML</button>
+    </div>
+
+    <div style="background:#282c34; color:#fff; padding:14px; border-radius:8px;">
+      <h3 style="margin:0 0 8px 0;">BBCode Output</h3>
+      <textarea id="bbcodeOutput" readonly style="width:100%; min-height:120px; background:#333; color:#fff;"></textarea>
+      <button class="copyBtn" data-target="bbcodeOutput" type="button" style="margin-top:8px;">Copy BBCode</button>
+    </div>
+  </div>
+
+  <hr style="margin:24px 0;">
+
+  <h1>Special Character / Diacritics Remover</h1>
+  <label for="inputText">Enter text:</label>
+  <textarea id="inputText" style="width:100%; min-height:120px;" placeholder="Enter any text with diacritics here..."></textarea>
+  <button id="removeBtn" type="button" style="margin-top:8px;">Remove Diacritics</button>
+
+  <h3 style="margin-top:18px;">Cleaned Text</h3>
+  <textarea id="outputText" readonly style="width:100%; min-height:120px; background:#f7f7f7;"></textarea> <button class="copyBtn" data-target="outputText" type="button" style="margin-top:8px;">Copy Cleaned Text</button>
+
+  <div id="tool-toast" style="position:fixed; right:20px; bottom:20px; background:#111; color:#fff; padding:10px 14px; border-radius:6px; display:none;"></div>
+</div>
+
+
+
+<div class="separator" style="clear: both;"><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg7CzPWf6cLFe4Sq0K6iJO1DZAbvwedaYc8Jb3wiQ9sCpbfHtKGy_dV-zVPd0MbZvPbZ4CIuPLdv7Ko1lvslSdNDkm-bFDFEQMrcxtUUDhDMZOH727v-6pBYzSELBwG-VukTFogAR3g5BSYjDmTArerEkP8rQkjB_rv-ErZ0kvaJ54dPvioGzjyLGqSMgk/s1600/Links%20Converter%20Thumbnail%20Fixed.png" style="display: block; padding: 1em 0; text-align: center; "><img alt="" border="0" data-original-height="1536" data-original-width="2752" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg7CzPWf6cLFe4Sq0K6iJO1DZAbvwedaYc8Jb3wiQ9sCpbfHtKGy_dV-zVPd0MbZvPbZ4CIuPLdv7Ko1lvslSdNDkm-bFDFEQMrcxtUUDhDMZOH727v-6pBYzSELBwG-VukTFogAR3g5BSYjDmTArerEkP8rQkjB_rv-ErZ0kvaJ54dPvioGzjyLGqSMgk/s1600/Links%20Converter%20Thumbnail%20Fixed.png"/></a></div>
+</div>
+<script>
+
+(function () {
+  // Utility: show a small toast
+  function showToast(msg, timeout = 1800) {
+    const t = document.getElementById('tool-toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', timeout);
+  }
+
+  // Safe copy with fallback
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).then(() => true).catch(() => false);
+    } else {
+      // fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return Promise.resolve(ok);
+      } catch (e) {
+        document.body.removeChild(ta);
+        return Promise.resolve(false);
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Elements
+    const urlInput = document.getElementById('urlInput');
+    const convertBtn = document.getElementById('convertBtn');
+    const htmlOutput = document.getElementById('htmlOutput');
+    const bbcodeOutput = document.getElementById('bbcodeOutput');
+
+    const inputText = document.getElementById('inputText');
+    const removeBtn = document.getElementById('removeBtn');
+    const outputText = document.getElementById('outputText');
+
+    // Convert URLs
+    convertBtn.addEventListener('click', function () {
+      const lines = (urlInput.value || '').split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      if (lines.length === 0) {
+        showToast('Please paste at least one URL.');
+        return;
+      }
+      let html = '';
+      let bb = '';
+      lines.forEach(u => {
+        // if user pasted raw text without protocol, ensure it has http:// (optional)
+        let safe = u;
+        // optional: ensure scheme exists — keep as user entered to avoid wrong modifications
+        html += `<a href="${safe}" target="_blank" rel="noopener noreferrer">${safe}</a>\n`;
+        bb += `[url=${safe}]${safe}[/url]\n`;
+      });
+      htmlOutput.value = html.trim();
+      bbcodeOutput.value = bb.trim();
+      showToast('Converted ✓');
+    });
+
+    // Copy buttons (delegation)
+    document.querySelectorAll('.copyBtn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const targetId = btn.getAttribute('data-target');
+        const ta = document.getElementById(targetId);
+        if (!ta) return;
+        copyText(ta.value).then(ok => {
+          showToast(ok ? 'Copied to clipboard!' : 'Copy failed — try selecting and Ctrl+C');
+        });
+      });
+    });
+
+    // Remove diacritics (only combining marks)
+    removeBtn.addEventListener('click', function () {
+      const text = inputText.value || '';
+      if (!text) {
+        showToast('Enter text to clean.');
+        return;
+      }
+      // Normalize to NFD (decomposed) and strip combining diacritical marks U+0300–U+036F
+      let cleaned = text.normalize && text.normalize('NFD') ? text.normalize('NFD').replace(/[\u0300-\u036f]/g, '') : text;
+      // recompose to NFC for canonical form
+      try { cleaned = cleaned.normalize('NFC'); } catch(e) {}
+      outputText.value = cleaned;
+      showToast('Diacritics removed ✓');
+    });
+
+    // Quick debug helper: log if elements missing
+    if (!urlInput || !convertBtn || !htmlOutput || !bbcodeOutput || !inputText || !removeBtn || !outputText) {
+      console.warn('Some tool elements are missing. If you pasted into Compose mode, Blogger may strip scripts. Paste in HTML mode and republish.');
+    }
+  });
+})();
+
+</script>
+
+
+</main>
+<footer class="footer"><b>LinkXcel</b> by SEO Academy &mdash; Free Backlink Checker, Backlink Validator &amp; DR Checker<br><span>Tools run in your browser. No sign-up, no payment. For articles, see the Blog page.</span></footer>
+</body>
+</html>

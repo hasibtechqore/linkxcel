@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Links Shuffler | LinkXcel</title>
+<meta name="description" content="Upload an Excel or CSV file of links, shuffle them into random order or sort them A to Z, then download the result as links_shuffled.xlsx.">
+<link rel="icon" href="../assets/favicon.png">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+
+    body { font-family: Arial; text-align: center; padding: 20px; }
+    button { padding: 10px 20px; margin: 10px; cursor: pointer; }
+    input { margin: 10px; }
+  
+</style>
+<style>
+/* LinkXcel header/footer guard (after the tool's own CSS): the tool's global rules must not restyle the site chrome. */
+.topbar{background:#000!important;color:#fff!important}.topbar a{color:#fff!important}.topbar small{color:#cbd5e1!important}
+.footer{background:#0f172a!important;color:#cbd5e1!important}.footer a{color:#fff!important}.footer b{color:#fff!important}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-in"><a class="brand" href="../index.html"><img src="../assets/logo.png" alt="LinkXcel logo" onerror="this.style.display='none'"><span>LinkXcel<small>BY SEO ACADEMY &bull; FREE BACKLINK TOOLS</small></span></a><nav class="mainnav"><a href="../index.html#tools">Tools</a><a href="../blog.html">Blog</a><a href="../index.html#how">How It Works</a><a href="../index.html#faq">FAQ</a></nav></div></header>
+<main class="wrap">
+<a class="backlink" href="../index.html#tools">&larr; All Tools</a>
+<section class="tool-intro"><h1>Links Shuffler</h1><p>Upload an Excel or CSV file of links, shuffle them into random order or sort them A to Z, then download the result as links_shuffled.xlsx.</p><p class="note">Note: this tool is file-only. There is no paste box and no on-screen result preview — the result comes from the download.</p></section>
+<div class="tool-body">
+<h2>🔗 Links Shuffler Tool</h2>
+
+<input type="file" id="upload" accept=".xlsx, .csv" />
+<br>
+
+<button onclick="shuffleData()">Shuffle Links</button> <button onclick="sortAZ()">Sort A → Z</button>
+
+<br><br> <button onclick="downloadFile()">Download Result</button>
+
+
+<div class="separator" style="clear: both;"><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqvemVSwlCcNBEwXECX1qwY3KuUGTKvHcoakZhbbp35tk5C4j6KDqrpoq4IxKEHJcVMe_VEyQ8aYAH0Oa5WBfku-TFEDY7St1tp6U_9icn2PExF1I2ikTmILb7UH2ykDCiedUi58TnsN_AjJtlcbDOtFcz4C0X0EiG3_OHKo0tRBg-iXKq4pHdxZ4pzsw/s1376/YouTube%20Thumbnail%20-%20Shuffle%20Links.jpg" style="display: block; padding: 1em 0; text-align: center; "><img alt="" border="0" width="320" data-original-height="768" data-original-width="1376" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqvemVSwlCcNBEwXECX1qwY3KuUGTKvHcoakZhbbp35tk5C4j6KDqrpoq4IxKEHJcVMe_VEyQ8aYAH0Oa5WBfku-TFEDY7St1tp6U_9icn2PExF1I2ikTmILb7UH2ykDCiedUi58TnsN_AjJtlcbDOtFcz4C0X0EiG3_OHKo0tRBg-iXKq4pHdxZ4pzsw/s320/YouTube%20Thumbnail%20-%20Shuffle%20Links.jpg"/></a></div>
+</div>
+<script>
+
+let originalData = [];
+let processedData = [];
+
+document.getElementById('upload').addEventListener('change', function(e) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, {type: 'array'});
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        originalData = XLSX.utils.sheet_to_json(sheet);
+        processedData = [...originalData];
+        alert("File loaded successfully!");
+    };
+    reader.readAsArrayBuffer(e.target.files[0]);
+});
+
+function shuffleData() {
+    processedData = [...originalData].sort(() => Math.random() - 0.5);
+    alert("Links shuffled!");
+}
+
+function sortAZ() {
+    processedData = [...originalData].sort((a, b) => {
+        return (a.Link || "").localeCompare(b.Link || "");
+    });
+    alert("Sorted A → Z!");
+}
+
+function downloadFile() {
+    const worksheet = XLSX.utils.json_to_sheet(processedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Shuffled Links");
+    XLSX.writeFile(workbook, "links_shuffled.xlsx");
+}
+
+</script>
+
+<script>
+// LinkXcel patch (2026-10-28): empty-data guards. Original functions are kept and called only when there is data.
+(function(){
+  if (typeof shuffleData !== 'undefined') { var _s = shuffleData; shuffleData = function(){ if (!originalData || !originalData.length) { alert('Please upload an Excel or CSV file first.'); return; } _s(); }; }
+  if (typeof sortAZ !== 'undefined') { var _z = sortAZ; sortAZ = function(){ if (!originalData || !originalData.length) { alert('Please upload an Excel or CSV file first.'); return; } _z(); }; }
+  if (typeof downloadFile !== 'undefined') { var _d = downloadFile; downloadFile = function(){ if (typeof XLSX === 'undefined') { alert('The Excel library (SheetJS) did not load. Check your connection and reload the page.'); return; } if (!processedData || !processedData.length) { alert('Nothing to download yet. Upload a file, then Shuffle or Sort first.'); return; } _d(); }; }
+})();
+</script>
+
+<script>
+// LinkXcel: if a CDN library failed to load, say so plainly instead of letting a button fail silently.
+(function(){ if (typeof XLSX === 'undefined') { var d = document.createElement('div'); d.style.cssText = 'background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:12px 14px;border-radius:8px;margin:0 0 16px;font-family:Arial,sans-serif;'; d.textContent = 'Note: the SheetJS library did not load (check your connection and reload the page). File upload and Excel export need it; the rest of the page still works.'; var t = document.querySelector('.tool-body'); if (t) t.insertBefore(d, t.firstChild); } })();
+</script>
+</main>
+<footer class="footer"><b>LinkXcel</b> by SEO Academy &mdash; Free Backlink Checker, Backlink Validator &amp; DR Checker<br><span>Tools run in your browser. No sign-up, no payment. For articles, see the Blog page.</span></footer>
+</body>
+</html>

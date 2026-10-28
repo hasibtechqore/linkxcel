@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bulk Domain Rating Checker | LinkXcel</title>
+<meta name="description" content="Upload your own CSV or Excel domain-to-DR dataset once (it is saved in your browser), then paste domains in bulk to search it. Export results to Excel, show all stored domains, or clear the stored dataset.">
+<link rel="icon" href="../assets/favicon.png">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<style>
+
+
+    body { font-family: Arial, sans-serif; margin:18px; color:#222; }
+
+    .card { border:1px solid #e6e6e6; padding:14px; border-radius:8px; max-width:1100px; }
+
+    h1 { margin:0 0 8px; font-size:20px; }
+
+    .muted { color:#666; font-size:0.95em; margin-bottom:10px; }
+
+    .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
+
+    input[type="file"] { padding:6px; }
+
+    textarea { width:100%; height:140px; padding:8px; border-radius:6px; border:1px solid #ccc; }
+
+    button { padding:8px 12px; border-radius:6px; border:none; background:#1976d2; color:white; cursor:pointer; }
+
+    button.secondary { background:#555; }
+
+    button.danger { background:#b00020; }
+
+    button:disabled { opacity:0.5; cursor:not-allowed; }
+
+    .status { margin-top:8px; color:#333; font-size:0.95em; }
+
+    table { width:100%; border-collapse:collapse; margin-top:12px; max-height:360px; overflow:auto; display:block; }
+
+    th, td { border:1px solid #eaeaea; padding:8px; text-align:left; }
+
+    th { background:#f6f6f6; position: sticky; top:0; }
+
+    tr:nth-child(even) { background:#fbfbfb; }
+
+    .controls { margin-bottom:12px; }
+
+    .small { font-size:0.9em; color:#666; }
+
+    .kbd { font-family:monospace; background:#eee; padding:2px 6px; border-radius:4px; }
+
+  
+</style>
+<style>
+/* LinkXcel header/footer guard (after the tool's own CSS): the tool's global rules must not restyle the site chrome. */
+.topbar{background:#000!important;color:#fff!important}.topbar a{color:#fff!important}.topbar small{color:#cbd5e1!important}
+.footer{background:#0f172a!important;color:#cbd5e1!important}.footer a{color:#fff!important}.footer b{color:#fff!important}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-in"><a class="brand" href="../index.html"><img src="../assets/logo.png" alt="LinkXcel logo" onerror="this.style.display='none'"><span>LinkXcel<small>BY SEO ACADEMY &bull; FREE BACKLINK TOOLS</small></span></a><nav class="mainnav"><a href="../index.html#tools">Tools</a><a href="../blog.html">Blog</a><a href="../index.html#how">How It Works</a><a href="../index.html#faq">FAQ</a></nav></div></header>
+<main class="wrap">
+<a class="backlink" href="../index.html#tools">&larr; All Tools</a>
+<section class="tool-intro"><h1>Bulk Domain Rating Checker</h1><p>Upload your own CSV or Excel domain-to-DR dataset once (it is saved in your browser), then paste domains in bulk to search it. Export results to Excel, show all stored domains, or clear the stored dataset.</p><p class="note">Honest note: there is no built-in list and no live lookup. You must upload a dataset first, and any domain missing from it gets the placeholder default DR 70 (editable) — that 70 is not a measured DR.</p></section>
+<div class="tool-body">
+<div class="card">
+
+    <h1>Persistent Bulk Domain DR Checker</h1>
+
+    <div class="muted">
+
+      Upload your domain→DR dataset once and it will be stored locally in your browser. After that, you can paste/search bulk domains anytime without re-uploading.
+
+      <br><strong>Default DR for missing domains: 70</strong>
+
+    </div>
+
+
+
+    <div class="controls row">
+
+      <input id="fileInput" type="file" accept=".csv,.xlsx,.xls" />
+
+      <button id="loadBtn" class="secondary">Load Dataset (from file)</button>
+
+      <button id="clearStorage" class="danger">Clear Stored Dataset</button>
+
+      <div style="flex:1"></div>
+
+      <button id="exportAll" disabled>Export Stored Dataset (.xlsx)</button>
+
+    </div>
+
+
+
+    <div class="small">If you already have a stored dataset in this browser, it will be loaded automatically. To replace it, use <em>Load Dataset (from file)</em>.</div>
+
+    <div id="storageInfo" class="status"></div>
+
+
+
+    <hr style="margin:12px 0">
+
+
+
+    <div><strong>Bulk Search</strong></div>
+
+    <div class="muted small">Paste domains (one per line, or separated by spaces/commas). Then press <span class="kbd">Search</span>.</div>
+
+    <textarea id="bulkInput" placeholder="example.com&#10;google.com"></textarea>
+
+    <div class="row" style="margin-top:8px;">
+
+      <button id="searchBtn">Search</button>
+
+      <button id="exportMatches" disabled>Export Results (.xlsx)</button>
+
+      <button id="showAll" class="secondary">Show All Stored (sample)</button>
+
+      <div style="flex:1"></div>
+
+      <label class="small">Default DR for missing:</label>
+
+      <input id="defaultDr" type="number" value="70" min="0" style="width:80px;padding:6px;border-radius:6px;border:1px solid #ccc;margin-left:8px;">
+
+    </div>
+
+
+
+    <div id="status" class="status">Status: Ready.</div>
+
+    <div id="tableContainer"></div>
+
+  </div>
+
+
+
+
+
+<div class="separator" style="clear: both;"><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg_PQ8CEx-0woXT7dZCHi5X66QgNAIP5KKmZns4FdS05FhmMBznrz4VQYkQtV83C00ybVbTcMBiRr6lF5VbsQnz2i6cVDGgi10qqFRjJvdEVxJicCgDussYxJAyxZ-V21uBEJ0583pBWwyQYr25Ja9x1a1lHmkkuIHORsEYXHdC50zP6uXfBI6s636YUHI/s1600/Bulk%20Domain%20Rating%20Checker%20Thumbnail%20Fixed.png" style="display: block; padding: 1em 0; text-align: center; "><img alt="" border="0" data-original-height="1536" data-original-width="2752" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg_PQ8CEx-0woXT7dZCHi5X66QgNAIP5KKmZns4FdS05FhmMBznrz4VQYkQtV83C00ybVbTcMBiRr6lF5VbsQnz2i6cVDGgi10qqFRjJvdEVxJicCgDussYxJAyxZ-V21uBEJ0583pBWwyQYr25Ja9x1a1lHmkkuIHORsEYXHdC50zP6uXfBI6s636YUHI/s1600/Bulk%20Domain%20Rating%20Checker%20Thumbnail%20Fixed.png"/></a></div>
+</div>
+<script>
+
+
+(function(){
+
+  // localStorage key
+
+  const STORAGE_KEY = "persistent_domain_dr_dataset_v1";
+
+
+
+  // in-memory dataset map for fast lookup
+
+  let datasetMap = null; // { domain: dr, ... }
+
+  let lastResults = [];
+
+
+
+  // UTILITIES
+
+  function normalizeDomain(d){
+
+    if(!d && d !== 0) return "";
+
+    let s = String(d).trim().toLowerCase();
+
+    s = s.replace(/^(https?:\/\/)/, "");
+
+    s = s.replace(/^www\./, "");
+
+    s = s.split('/')[0].split('?')[0].split('#')[0];
+
+    s = s.split(':')[0]; // remove port
+
+    return s;
+
+  }
+
+
+
+  function setStatus(msg, isError=false){
+
+    const el = document.getElementById("status");
+
+    el.textContent = "Status: " + msg;
+
+    el.style.color = isError ? "#b00020" : "#333";
+
+  }
+
+
+
+  function setStorageInfo(msg){
+
+    document.getElementById("storageInfo").textContent = msg;
+
+  }
+
+
+
+  function saveDatasetToLocalStorage(mapObj){
+
+    try{
+
+      const json = JSON.stringify(mapObj);
+
+      localStorage.setItem(STORAGE_KEY, json);
+
+      datasetMap = mapObj;
+
+      setStorageInfo(`Dataset saved locally (${Object.keys(mapObj).length} domains).`);
+
+      document.getElementById("exportAll").disabled = false;
+
+      setStatus("Dataset loaded and stored locally.");
+
+    }catch(e){
+
+      setStatus("Failed to save dataset locally: " + e.message, true);
+
+    }
+
+  }
+
+
+
+  function loadDatasetFromLocalStorage(){
+
+    try{
+
+      const raw = localStorage.getItem(STORAGE_KEY);
+
+      if(!raw){
+
+        setStorageInfo("No stored dataset found in this browser.");
+
+        document.getElementById("exportAll").disabled = true;
+
+        return null;
+
+      }
+
+      const parsed = JSON.parse(raw);
+
+      datasetMap = parsed;
+
+      setStorageInfo(`Loaded stored dataset (${Object.keys(datasetMap).length} domains).`);
+
+      document.getElementById("exportAll").disabled = false;
+
+      return parsed;
+
+    }catch(e){
+
+      setStatus("Error loading stored dataset: " + e.message, true);
+
+      return null;
+
+    }
+
+  }
+
+
+
+  function clearStoredDataset(){
+
+    localStorage.removeItem(STORAGE_KEY);
+
+    datasetMap = null;
+
+    document.getElementById("exportAll").disabled = true;
+
+    setStorageInfo("Stored dataset cleared.");
+
+    setStatus("Stored dataset removed.");
+
+  }
+
+
+
+  // Parse uploaded file (CSV or Excel) and build map {domain: dr}
+
+  async function parseFileToMap(file){
+
+    return new Promise((resolve, reject) => {
+
+      const name = (file && file.name) ? file.name.toLowerCase() : "";
+
+      const ext = name.split('.').pop();
+
+      if(ext === "csv"){
+
+        Papa.parse(file, {
+
+          header: true,
+
+          skipEmptyLines: true,
+
+          complete: function(results){
+
+            const map = rowsToMap(results.data);
+
+            resolve(map);
+
+          },
+
+          error: function(err){
+
+            reject(err);
+
+          }
+
+        });
+
+      } else if(ext === "xlsx" || ext === "xls"){
+
+        const reader = new FileReader();
+
+        reader.onload = function(e){
+
+          try{
+
+            const data = new Uint8Array(e.target.result);
+
+            const wb = XLSX.read(data, {type:'array'});
+
+            const sheet = wb.Sheets[wb.SheetNames[0]];
+
+            const json = XLSX.utils.sheet_to_json(sheet, {defval:""});
+
+            const map = rowsToMap(json);
+
+            resolve(map);
+
+          }catch(err){
+
+            reject(err);
+
+          }
+
+        };
+
+        reader.readAsArrayBuffer(file);
+
+      } else {
+
+        reject(new Error("Unsupported file type. Use CSV or Excel."));
+
+      }
+
+    });
+
+  }
+
+
+
+  // rows: array of objects (header -> value). Detect which keys are domain & dr.
+
+  function rowsToMap(rows){
+
+    if(!rows || !rows.length) return {};
+
+    const headerKeys = Object.keys(rows[0]).map(k => ({ raw: k, norm: k.toLowerCase().trim() }));
+
+    // find domain key
+
+    const domainCandidates = ["domain","site","url","website","host","hostname","domainname"];
+
+    const drCandidates = ["dr","domain_rating","domain rating","domainrating","rating","authority","da","score","domain_authority","domain authority"];
+
+    let domainKey = null, drKey = null;
+
+    for(const hk of headerKeys){
+
+      const n = hk.norm;
+
+      if(!domainKey && domainCandidates.some(c => n === c || n.includes(c))) domainKey = hk.raw;
+
+      if(!drKey && drCandidates.some(c => n === c || n.includes(c))) drKey = hk.raw;
+
+    }
+
+    // fallback: domain = first col, dr = second col
+
+    if(!domainKey) domainKey = Object.keys(rows[0])[0];
+
+    if(!drKey) domainKey = Object.keys(rows[0])[1] ? Object.keys(rows[0])[1] : Object.keys(rows[0])[0];
+
+
+
+    const map = {};
+
+    rows.forEach(r => {
+
+      try {
+
+        const rawDomain = r[domainKey];
+
+        if(rawDomain === undefined || rawDomain === null || String(rawDomain).trim() === "") return;
+
+        const domain = normalizeDomain(rawDomain);
+
+        let drVal = r[drKey];
+
+        if(drVal === undefined || drVal === null || String(drVal).trim() === "") {
+
+          drVal = "";
+
+        } else {
+
+          // try numeric conversion
+
+          const num = Number(String(drVal).toString().replace(/[^0-9\.\-]/g,''));
+
+          drVal = (isNaN(num) ? String(drVal) : (Number.isInteger(num) ? Math.trunc(num) : num));
+
+        }
+
+        map[domain] = drVal;
+
+      } catch(e){}
+
+    });
+
+    return map;
+
+  }
+
+
+
+  // EXPORT functions
+
+  function exportToExcel(rows, filename){
+
+    if(!rows || !rows.length){
+
+      alert("No rows to export.");
+
+      return;
+
+    }
+
+    // rows is array of {domain:..., dr:...}
+
+    const ws = XLSX.utils.json_to_sheet(rows);
+
+    const wb = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(wb, ws, "Results");
+
+    XLSX.writeFile(wb, filename);
+
+  }
+
+
+
+  // UI actions
+
+  document.getElementById("loadBtn").addEventListener("click", async function(){
+
+    const fEl = document.getElementById("fileInput");
+
+    if(!fEl.files || !fEl.files[0]) { alert("Choose a CSV or Excel file first."); return; }
+
+    const file = fEl.files[0];
+
+    setStatus("Parsing file...");
+
+    try{
+
+      const map = await parseFileToMap(file);
+
+      saveDatasetToLocalStorage(map);
+
+      setStatus(`Loaded and stored ${Object.keys(map).length} domains.`);
+
+    }catch(err){
+
+      setStatus("Error parsing file: " + err.message, true);
+
+    }
+
+  });
+
+
+
+  document.getElementById("clearStorage").addEventListener("click", function(){
+
+    if(!confirm("Clear stored dataset from this browser? This cannot be undone.")) return;
+
+    clearStoredDataset();
+
+  });
+
+
+
+  document.getElementById("exportAll").addEventListener("click", function(){
+
+    if(!datasetMap){ alert("No stored dataset to export."); return; }
+
+    // convert map to array
+
+    const arr = Object.keys(datasetMap).map(k => ({ domain: k, dr: datasetMap[k] }));
+
+    exportToExcel(arr, "stored_dataset.xlsx");
+
+  });
+
+
+
+  document.getElementById("showAll").addEventListener("click", function(){
+
+    if(!datasetMap){ alert("No stored dataset. Load one first."); return; }
+
+    // show sample or paginated? show first 500 rows
+
+    const arr = Object.keys(datasetMap).slice(0,500).map(k => ({ domain: k, dr: datasetMap[k] }));
+
+    renderTable(arr);
+
+    setStatus(`Showing first ${arr.length} stored domains (of ${Object.keys(datasetMap).length}).`);
+
+  });
+
+
+
+  document.getElementById("searchBtn").addEventListener("click", function(){
+
+    const raw = document.getElementById("bulkInput").value.trim();
+
+    if(!raw){ alert("Paste domains to search (one per line or separated by commas/spaces)."); return; }
+
+    if(!datasetMap){ alert("No stored dataset found. Please upload your dataset once first."); return; }
+
+
+
+    const defaultDr = Number(document.getElementById("defaultDr").value) || 70;
+
+    // split by newlines, commas, spaces
+
+    const items = raw.split(/[\r\n,]+/).map(s => s.split(/\s+/).join(' ')).filter(Boolean)
+
+      .map(s => s.trim())
+
+      .reduce((acc, s) => {
+
+        // further split items that contain spaces
+
+        s.split(/\s+/).forEach(token => { if(token) acc.push(token); });
+
+        return acc;
+
+      }, []);
+
+    // normalize and dedupe preserve order
+
+    const seen = new Set();
+
+    const queries = [];
+
+    for(const it of items){
+
+      const n = normalizeDomain(it);
+
+      if(n && !seen.has(n)){ seen.add(n); queries.push(n); }
+
+    }
+
+
+
+    const out = queries.map(q => {
+
+      const found = (datasetMap[q] !== undefined && datasetMap[q] !== null && String(datasetMap[q]).trim() !== "") ? datasetMap[q] : defaultDr;
+
+      return { domain: q, dr: found };
+
+    });
+
+
+
+    lastResults = out;
+
+    renderTable(out);
+
+    document.getElementById("exportMatches").disabled = out.length === 0;
+
+    setStatus(`Found ${out.filter(r=> r.dr !== defaultDr).length} matches (others set to ${defaultDr}). Processed ${out.length} queries.`);
+
+  });
+
+
+
+  document.getElementById("exportMatches").addEventListener("click", function(){
+
+    if(!lastResults || !lastResults.length){ alert("Run a search first."); return; }
+
+    exportToExcel(lastResults, "search_results.xlsx");
+
+  });
+
+
+
+  // render table
+
+  function renderTable(rows){
+
+    const container = document.getElementById("tableContainer");
+
+    if(!rows || !rows.length){ container.innerHTML = "<div class='small'>No results to display.</div>"; return; }
+
+    let html = "<table><thead><tr><th>Domain</th><th>DR</th></tr></thead><tbody>";
+
+    // Keep order as provided
+
+    rows.forEach(r => {
+
+      html += `<tr><td>${escapeHtml(r.domain)}</td><td>${escapeHtml(String(r.dr))}</td></tr>`;
+
+    });
+
+    html += "</tbody></table>";
+
+    container.innerHTML = html;
+
+  }
+
+
+
+  function escapeHtml(s){
+
+    return String(s).replace(/[&<>"'`]/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#x60;'})[m]; });
+
+  }
+
+
+
+  // On load: try to read stored dataset
+
+  (function init(){
+
+    const loaded = loadDatasetFromLocalStorage();
+
+    if(loaded){
+
+      setStatus(`Loaded ${Object.keys(loaded).length} stored domains. Ready to search.`);
+
+    } else {
+
+      setStatus("No stored dataset. Upload your CSV/Excel once using Load Dataset (from file).");
+
+    }
+
+  })();
+
+
+
+})();
+
+
+</script>
+
+
+<script>
+// LinkXcel: if a CDN library failed to load, say so plainly instead of letting a button fail silently.
+(function(){ if (typeof XLSX === 'undefined' || typeof Papa === 'undefined') { var d = document.createElement('div'); d.style.cssText = 'background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:12px 14px;border-radius:8px;margin:0 0 16px;font-family:Arial,sans-serif;'; d.textContent = 'Note: the SheetJS and PapaParse library did not load (check your connection and reload the page). File upload and Excel export need it; the rest of the page still works.'; var t = document.querySelector('.tool-body'); if (t) t.insertBefore(d, t.firstChild); } })();
+</script>
+</main>
+<footer class="footer"><b>LinkXcel</b> by SEO Academy &mdash; Free Backlink Checker, Backlink Validator &amp; DR Checker<br><span>Tools run in your browser. No sign-up, no payment. For articles, see the Blog page.</span></footer>
+</body>
+</html>

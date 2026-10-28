@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>URL → Domain Extractor | LinkXcel</title>
+<meta name="description" content="Paste full URLs and extract one domain per line, with www. stripped and invalid lines skipped.">
+<link rel="icon" href="../assets/favicon.png">
+<link rel="stylesheet" href="../assets/site.css">
+
+<style>
+
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+    h2 { margin-bottom: 10px; }
+    textarea { width: 100%; height: 200px; padding: 10px; font-size: 14px; }
+    button { padding: 10px 20px; font-size: 16px; margin-top: 10px; cursor: pointer; }
+    #output { margin-top: 20px; height: 200px; }
+
+</style>
+<style>
+/* LinkXcel header/footer guard (after the tool's own CSS): the tool's global rules must not restyle the site chrome. */
+.topbar{background:#000!important;color:#fff!important}.topbar a{color:#fff!important}.topbar small{color:#cbd5e1!important}
+.footer{background:#0f172a!important;color:#cbd5e1!important}.footer a{color:#fff!important}.footer b{color:#fff!important}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-in"><a class="brand" href="../index.html"><img src="../assets/logo.png" alt="LinkXcel logo" onerror="this.style.display='none'"><span>LinkXcel<small>BY SEO ACADEMY &bull; FREE BACKLINK TOOLS</small></span></a><nav class="mainnav"><a href="../index.html#tools">Tools</a><a href="../blog.html">Blog</a><a href="../index.html#how">How It Works</a><a href="../index.html#faq">FAQ</a></nav></div></header>
+<main class="wrap">
+<a class="backlink" href="../index.html#tools">&larr; All Tools</a>
+<section class="tool-intro"><h1>URL → Domain Extractor</h1><p>Paste full URLs and extract one domain per line, with www. stripped and invalid lines skipped.</p><p class="note">Honest note: the post title says “Domain To URL Converter”, but the tool actually does the reverse — it extracts domains FROM URLs. A bare domain with no scheme gives blank output; paste full URLs.</p></section>
+<div class="tool-body">
+<h2>Bulk Domain to URLS Converter</h2>
+
+<textarea id="input" placeholder="Paste your URLs here..."></textarea>
+
+<br>
+<button onclick="convertDomains()">Convert</button>
+
+<h3>Output:</h3>
+<textarea id="output" readonly></textarea>
+
+
+
+
+
+<div class="separator" style="clear: both;"><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjVqBzVyyYsFV5b3Ab5tVydLfZGb21bjKE-kuTkXVkoNyZsTC67-EuM02ADywGaW1fBGQy011gbcVNwANj0qjaq6dMufEd_y34v7qALMcpWgpOHrwQrODrevdhHCsUsTpARsXbnfvPPezuzk_OnWLS-f4xgeX1Vi3gHPmN6sga62hHAjKu6-zKmFqhs2og/s2752/Mr_Beast_YouTube_Thumbnail_Corrected.png" style="display: block; padding: 1em 0; text-align: center; "><img alt="" border="0" width="320" data-original-height="1536" data-original-width="2752" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjVqBzVyyYsFV5b3Ab5tVydLfZGb21bjKE-kuTkXVkoNyZsTC67-EuM02ADywGaW1fBGQy011gbcVNwANj0qjaq6dMufEd_y34v7qALMcpWgpOHrwQrODrevdhHCsUsTpARsXbnfvPPezuzk_OnWLS-f4xgeX1Vi3gHPmN6sga62hHAjKu6-zKmFqhs2og/s320/Mr_Beast_YouTube_Thumbnail_Corrected.png"/></a></div>
+</div>
+<script>
+
+function extractDomain(url) {
+    try {
+        let domain = new URL(url).hostname;
+
+        // Remove "www."
+        domain = domain.replace(/^www\./, '');
+
+        return domain;
+    } catch (e) {
+        return ""; // Skip invalid URLs
+    }
+}
+
+function convertDomains() {
+    let input = document.getElementById("input").value.trim().split(/\n+/);
+    let result = [];
+
+    input.forEach(url => {
+        let domain = extractDomain(url);
+        if (domain) result.push(domain);
+    });
+
+    document.getElementById("output").value = result.join("\n");
+}
+
+</script>
+
+
+</main>
+<footer class="footer"><b>LinkXcel</b> by SEO Academy &mdash; Free Backlink Checker, Backlink Validator &amp; DR Checker<br><span>Tools run in your browser. No sign-up, no payment. For articles, see the Blog page.</span></footer>
+</body>
+</html>

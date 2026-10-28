@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LinkXcel | Free Backlink Checker, Backlink Validator &amp; DR Checker</title>
+<meta name="description" content="LinkXcel by SEO Academy: free backlink checker tools — backlink validator, backlink validation, DR checker, bulk domain rating checker, duplicate link checker, link shuffler and domain tools — all in one place, built for profile backlink teams.">
+<meta name="keywords" content="free backlink checker, backlink checker, backlink validator, backlink validation, DR checker, domain rating checker, bulk domain rating checker, domain authority checker, backlink audit, referring domains, duplicate link checker, link shuffler, SEO link comparator, URL domain matcher, domain to URL converter, link building tools, profile backlinks, profile backlink creator">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LinkXcel | Free Backlink Checker, Backlink Validator &amp; DR Checker">
+<meta property="og:description" content="Free backlink checker, backlink validator, DR checker and link building tools, built for profile backlink teams.">
+<meta property="og:image" content="assets/logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LinkXcel | Free Backlink Checker, Backlink Validator &amp; DR Checker">
+<meta name="twitter:description" content="Free backlink checker, backlink validator, DR checker and link building tools, built for profile backlink teams.">
+<meta name="twitter:image" content="assets/logo.png">
+<link rel="icon" href="assets/favicon.png">
+<link rel="stylesheet" href="assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","name":"SEO Academy","url":"index.html"},
+{"@type":"WebSite","name":"LinkXcel","url":"index.html"},
+{"@type":"ItemList","name":"LinkXcel tools","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Backlink Validator","url":"tools/backlink-validator.html"},
+{"@type":"ListItem","position":2,"name":"DR Checker","url":"tools/dr-checker.html"},
+{"@type":"ListItem","position":3,"name":"Bulk Domain Rating Checker","url":"tools/bulk-dr-checker.html"},
+{"@type":"ListItem","position":4,"name":"Links Shuffler","url":"tools/links-shuffler.html"},
+{"@type":"ListItem","position":5,"name":"SEO Link Comparator","url":"tools/seo-link-comparator.html"}]},
+{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Are the DR results live?","acceptedAnswer":{"@type":"Answer","text":"No. The DR Checker uses a built-in local list, and the Bulk DR Checker searches a dataset you upload yourself. Neither calls a live DR API, so a domain that is not in the list is not a measured result \u2014 in Bulk DR it gets the placeholder default DR 70."}},
+{"@type":"Question","name":"What dataset does the Bulk DR Checker need?","acceptedAnswer":{"@type":"Answer","text":"Your own CSV or Excel file of domains and DR values. Upload it once with Load Dataset; it is saved in your browser (localStorage). After that, paste domains in bulk to search it, export results, or clear the stored dataset."}},
+{"@type":"Question","name":"Why is the \u201cDR\u201d post actually a formatter?","acceptedAnswer":{"@type":"Answer","text":"That is one of three title mismatches on the original posts, and LinkXcel says so plainly. The DR Formatter does not check DR \u2014 it formats lines like \u201chttps://example.com 45\u201d into \u201cexample.com\u201d: 45, so you can build a DR database."}},
+{"@type":"Question","name":"Why is the \u201cLink Distribution Tool\u201d actually a matcher?","acceptedAnswer":{"@type":"Answer","text":"Second title mismatch. It does not distribute links. It matches a Worker Master Sheet against a Buyer Demo Sheet (exact URL first, then domain fallback) and exports one sheet per worker, plus Summary and Not_Found."}},
+{"@type":"Question","name":"Why does the \u201cDomain To URL Converter\u201d extract domains?","acceptedAnswer":{"@type":"Answer","text":"Third title mismatch. It does the reverse of its title: it extracts domains FROM full URLs. Paste full URLs \u2014 a bare domain with no scheme gives blank output."}},
+{"@type":"Question","name":"Does the SEO Link Comparator fetch live links?","acceptedAnswer":{"@type":"Answer","text":"No. Despite \u201cLive\u201d in its name, it only compares the two lists you paste or drop. It never fetches a page from the internet."}},
+{"@type":"Question","name":"How do profile backlink teams use LinkXcel?","acceptedAnswer":{"@type":"Answer","text":"A team lead collects worker links, validates them against the buyer list, filters by DR, matches worker sheets to buyer sheets, shuffles lists for distribution across the team, removes duplicates, and exports the finished sheets for the buyer \u2014 all free, in the browser, with no sign-up."}}]}
+]}
+</script>
+</head>
+<body>
+<header class="topbar"><div class="topbar-in"><a class="brand" href="index.html"><img src="assets/logo.png" alt="LinkXcel logo" onerror="this.style.display='none'"><span>LinkXcel<small>BY SEO ACADEMY &bull; FREE BACKLINK TOOLS</small></span></a><nav class="mainnav"><a href="index.html#tools">Tools</a><a href="blog.html">Blog</a><a href="index.html#how">How It Works</a><a href="index.html#faq">FAQ</a></nav></div></header>
+<main class="wrap">
+<section class="hero reveal">
+<h1>LinkXcel &mdash; Free Backlink Tools, Fast &amp; Simple</h1>
+<p>Built for profile backlink creators who run teams: validate worker links, match buyer sheets, filter by DR, and distribute work across your team &mdash; free, in your browser, no sign-up.</p>
+</section>
+<div class="marquee" aria-hidden="true"><span>Free Backlink Checker &bull; Backlink Validator &bull; DR Checker &bull; Bulk Domain Rating Checker &bull; Duplicate Link Checker &bull; Link Shuffler &bull; SEO Link Comparator &bull; URL Domain Matcher &bull; Profile Backlinks &bull;&nbsp;</span></div>
+<section id="tools">
+<input class="searchbar" id="hubSearch" type="search" placeholder="Search tools, for example: validator, DR, shuffle, duplicate&hellip;" aria-label="Search tools">
+<div class="filters" id="hubFilters">
+<button class="active" data-filter="All">All</button><button data-filter="Backlink Check">Backlink Check</button><button data-filter="Link Tools">Link Tools</button><button data-filter="Domain Tools">Domain Tools</button><button data-filter="Design Tools">Design Tools</button>
+</div>
+<div class="grid" id="toolsGrid">
+<article class="card reveal" data-cat="Backlink Check" data-name="backlink validator paste worker links and check each one against a built-in buyer list. results show link, domain and status, with totals for found and not found, and a download of the not found links.">
+<h3>Backlink Validator</h3><p>Paste worker links and check each one against a built-in buyer list. Results show Link, Domain and Status, with totals for Found and Not Found, and a download of the NOT FOUND links.</p>
+<a class="btn" style="background:#16a34a" href="tools/backlink-validator.html">✓ Validate Links</a></article>
+<article class="card reveal" data-cat="Backlink Check" data-name="dr checker set a minimum dr, paste worker links, and check each domain against a built-in dr list. results show link, domain, dr and pass or fail, with separate downloads for pass and fail links.">
+<h3>DR Checker</h3><p>Set a minimum DR, paste worker links, and check each domain against a built-in DR list. Results show Link, Domain, DR and PASS or FAIL, with separate downloads for PASS and FAIL links.</p>
+<a class="btn" style="background:#2563eb" href="tools/dr-checker.html">◉ Check DR</a></article>
+<article class="card reveal" data-cat="Backlink Check" data-name="bulk domain rating checker upload your own csv or excel domain-to-dr dataset once (it is saved in your browser), then paste domains in bulk to search it. export results to excel, show all stored domains, or clear the stored dataset.">
+<h3>Bulk Domain Rating Checker</h3><p>Upload your own CSV or Excel domain-to-DR dataset once (it is saved in your browser), then paste domains in bulk to search it. Export results to Excel, show all stored domains, or clear the stored dataset.</p>
+<a class="btn" style="background:#7c3aed" href="tools/bulk-dr-checker.html">▦ Search Bulk DR</a></article>
+<article class="card reveal" data-cat="Link Tools" data-name="domain + dr formatter paste lines like “https://example.com 45” and generate formatted lines like “example.com”: 45, ready to build a domain-to-dr database from.">
+<h3>Domain + DR Formatter</h3><p>Paste lines like “https://example.com 45” and generate formatted lines like “example.com”: 45, ready to build a domain-to-DR database from.</p>
+<a class="btn" style="background:#0891b2" href="tools/dr-formatter.html">✎ Format DR List</a></article>
+<article class="card reveal" data-cat="Link Tools" data-name="links shuffler upload an excel or csv file of links, shuffle them into random order or sort them a to z, then download the result as links_shuffled.xlsx.">
+<h3>Links Shuffler</h3><p>Upload an Excel or CSV file of links, shuffle them into random order or sort them A to Z, then download the result as links_shuffled.xlsx.</p>
+<a class="btn" style="background:#ea580c" href="tools/links-shuffler.html">↻ Shuffle Links</a></article>
+<article class="card reveal" data-cat="Link Tools" data-name="seo link comparator compare two link lists (live links vs backlinks), by pasting them or dropping csv files. options for domain only match, partial match and remove duplicates. matched links show green, missing links show red, with an excel download.">
+<h3>SEO Link Comparator</h3><p>Compare two link lists (Live Links vs Backlinks), by pasting them or dropping CSV files. Options for Domain Only Match, Partial Match and Remove Duplicates. Matched links show green, missing links show red, with an Excel download.</p>
+<a class="btn" style="background:#db2777" href="tools/seo-link-comparator.html">↔ Compare Links</a></article>
+<article class="card reveal" data-cat="Link Tools" data-name="excel worker ↔ buyer link matcher upload a worker master sheet (worker/name + link/url) and a buyer demo sheet, then match them — exact url first, then domain fallback. export final_matched_links.xlsx with one sheet per worker, plus summary and not_found sheets.">
+<h3>Excel Worker ↔ Buyer Link Matcher</h3><p>Upload a Worker Master Sheet (Worker/Name + Link/URL) and a Buyer Demo Sheet, then match them — exact URL first, then domain fallback. Export final_matched_links.xlsx with one sheet per worker, plus Summary and Not_Found sheets.</p>
+<a class="btn" style="background:#0d9488" href="tools/worker-buyer-matcher.html">⧉ Match Worker Links</a></article>
+<article class="card reveal" data-cat="Link Tools" data-name="duplicate link checker paste urls one per line and separate them into unique urls and duplicate urls, with total, unique and duplicates counts and copy buttons for each list.">
+<h3>Duplicate Link Checker</h3><p>Paste URLs one per line and separate them into Unique URLs and Duplicate URLs, with Total, Unique and Duplicates counts and Copy buttons for each list.</p>
+<a class="btn" style="background:#dc2626" href="tools/duplicate-link-checker.html">⊘ Find Duplicates</a></article>
+<article class="card reveal" data-cat="Link Tools" data-name="links converter &amp; text normalization two tools in one page: convert pasted urls to html output and bbcode output (each with a copy button), and remove diacritics / special characters from pasted text to get cleaned text.">
+<h3>Links Converter &amp; Text Normalization</h3><p>Two tools in one page: convert pasted URLs to HTML output and BBCode output (each with a Copy button), and remove diacritics / special characters from pasted text to get Cleaned Text.</p>
+<a class="btn" style="background:#65a30d" href="tools/links-converter.html">⇋ Convert to HTML &amp; BBCode</a></article>
+<article class="card reveal" data-cat="Domain Tools" data-name="url domain matcher paste two link lists and compare them by main domain (www. stripped). results show matched pairs and the unmatched links from list 2, with counts and csv downloads for each.">
+<h3>URL Domain Matcher</h3><p>Paste two link lists and compare them by main domain (www. stripped). Results show matched pairs and the unmatched links from List 2, with counts and CSV downloads for each.</p>
+<a class="btn" style="background:#4f46e5" href="tools/url-domain-matcher.html">≣ Compare &amp; Match Domains</a></article>
+<article class="card reveal" data-cat="Domain Tools" data-name="url → domain extractor paste full urls and extract one domain per line, with www. stripped and invalid lines skipped.">
+<h3>URL → Domain Extractor</h3><p>Paste full URLs and extract one domain per line, with www. stripped and invalid lines skipped.</p>
+<a class="btn" style="background:#b45309" href="tools/url-to-domain-extractor.html">➜ Extract Domains</a></article>
+<article class="card reveal" data-cat="Design Tools" data-name="photo resizer &amp; logo/banner creator upload an image, pick custom, logo 512×512 or banner 1920×450 (or set your own width and height, with optional aspect-ratio lock), preview it on canvas, and download a resized jpeg (quality 0.92).">
+<h3>Photo Resizer &amp; Logo/Banner Creator</h3><p>Upload an image, pick Custom, Logo 512×512 or Banner 1920×450 (or set your own width and height, with optional aspect-ratio lock), preview it on canvas, and download a resized JPEG (quality 0.92).</p>
+<a class="btn" style="background:#0284c7" href="tools/photo-resizer.html">▭ Resize &amp; Preview</a></article>
+</div>
+<p id="noToolsMsg" style="display:none">No tools match your search. Try a different word, or choose All.</p>
+</section>
+<section class="section reveal" id="notes"><h2>Tool Notes &mdash; Read Before You Use Them</h2>
+<p><b>Backlink Validator and DR Checker</b> use built-in local lists. They are <b>not</b> live APIs and they do not crawl the internet.</p>
+<p><b>Bulk DR Checker</b> has no built-in list. Upload your own dataset first; missing domains get the placeholder default DR 70, which is not a measured DR.</p>
+<p><b>DR Formatter</b> does not check DR, it formats lists. <b>Worker &harr; Buyer Matcher</b> does not distribute links, it matches sheets. <b>URL &rarr; Domain Extractor</b> extracts domains from URLs (its old title says the reverse) and a bare domain gives blank output.</p>
+<p><b>SEO Link Comparator</b> does not fetch live links; it compares the two lists you give it.</p>
+<p>All tools run in your browser. Nothing you paste or upload is sent to a LinkXcel server, because there is no server.</p></section>
+<section class="section reveal" id="how"><h2>How It Works</h2><div class="steps">
+<div><h3>1. Paste or upload</h3><p>Workers paste their links, or the team lead uploads the worker and buyer sheets.</p></div>
+<div><h3>2. Run the check</h3><p>Validate, filter by DR, match, shuffle, or remove duplicates — in one click.</p></div>
+<div><h3>3. Download and deliver</h3><p>Export the finished CSV or Excel sheet and hand it to the buyer.</p></div>
+</div></section>
+<section class="section reveal" id="faq"><h2>Frequently Asked Questions</h2>
+<h3>Are the DR results live?</h3><p>No. The DR Checker uses a built-in local list, and the Bulk DR Checker searches a dataset you upload yourself. Neither calls a live DR API, so a domain that is not in the list is not a measured result — in Bulk DR it gets the placeholder default DR 70.</p>
+<h3>What dataset does the Bulk DR Checker need?</h3><p>Your own CSV or Excel file of domains and DR values. Upload it once with Load Dataset; it is saved in your browser (localStorage). After that, paste domains in bulk to search it, export results, or clear the stored dataset.</p>
+<h3>Why is the “DR” post actually a formatter?</h3><p>That is one of three title mismatches on the original posts, and LinkXcel says so plainly. The DR Formatter does not check DR — it formats lines like “https://example.com 45” into “example.com”: 45, so you can build a DR database.</p>
+<h3>Why is the “Link Distribution Tool” actually a matcher?</h3><p>Second title mismatch. It does not distribute links. It matches a Worker Master Sheet against a Buyer Demo Sheet (exact URL first, then domain fallback) and exports one sheet per worker, plus Summary and Not_Found.</p>
+<h3>Why does the “Domain To URL Converter” extract domains?</h3><p>Third title mismatch. It does the reverse of its title: it extracts domains FROM full URLs. Paste full URLs — a bare domain with no scheme gives blank output.</p>
+<h3>Does the SEO Link Comparator fetch live links?</h3><p>No. Despite “Live” in its name, it only compares the two lists you paste or drop. It never fetches a page from the internet.</p>
+<h3>How do profile backlink teams use LinkXcel?</h3><p>A team lead collects worker links, validates them against the buyer list, filters by DR, matches worker sheets to buyer sheets, shuffles lists for distribution across the team, removes duplicates, and exports the finished sheets for the buyer — all free, in the browser, with no sign-up.</p>
+</section>
+</main>
+<footer class="footer"><b>LinkXcel</b> by SEO Academy &mdash; Free Backlink Checker, Backlink Validator &amp; DR Checker<br><span>Tools run in your browser. No sign-up, no payment. For articles, see the Blog page.</span></footer>
+<script>
+// Hub search + filters. Content is visible by default; this script only hides non-matching cards.
+(function(){
+  var search = document.getElementById('hubSearch');
+  var buttons = document.querySelectorAll('#hubFilters button');
+  var cards = document.querySelectorAll('#toolsGrid .card');
+  var msg = document.getElementById('noToolsMsg');
+  var active = 'All';
+  function apply(){
+    var q = (search.value || '').trim().toLowerCase();
+    var shown = 0;
+    cards.forEach(function(c){
+      var catOk = (active === 'All' || c.getAttribute('data-cat') === active);
+      var qOk = (!q || (c.getAttribute('data-name') || '').indexOf(q) !== -1);
+      c.style.display = (catOk && qOk) ? '' : 'none';
+      if (catOk && qOk) shown++;
+    });
+    msg.style.display = shown ? 'none' : '';
+  }
+  search.addEventListener('input', apply);
+  buttons.forEach(function(b){ b.addEventListener('click', function(){
+    buttons.forEach(function(x){ x.classList.remove('active'); });
+    b.classList.add('active'); active = b.getAttribute('data-filter'); apply();
+  }); });
+})();
+</script>
+</body>
+</html>

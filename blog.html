@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog | LinkXcel</title>
+<meta name="description" content="LinkXcel blog: articles from SEO Academy. Tool pages are not listed here — only blog articles appear.">
+<link rel="icon" href="assets/favicon.png">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="topbar"><div class="topbar-in"><a class="brand" href="index.html"><img src="assets/logo.png" alt="LinkXcel logo" onerror="this.style.display='none'"><span>LinkXcel<small>BY SEO ACADEMY &bull; FREE BACKLINK TOOLS</small></span></a><nav class="mainnav"><a href="index.html#tools">Tools</a><a href="blog.html">Blog</a><a href="index.html#how">How It Works</a><a href="index.html#faq">FAQ</a></nav></div></header>
+<main class="wrap">
+<h1>Blog</h1>
+<p>Articles published from Blogger appear here automatically. The 12 tool pages are not blog articles, so they are never listed here.</p>
+<div id="blogLoading">Loading blog articles&hellip;</div>
+<div id="blogList"></div>
+<div id="blogEmpty" style="display:none" class="section"><h2>No blog articles yet</h2><p>There are no blog articles to show right now. New articles published from Blogger will appear here automatically.</p></div>
+<div id="blogError" style="display:none" class="section"><h2>Could not load blog articles</h2><p>The blog feed could not be loaded. Please check your connection and try again, or visit the blog feed directly.</p></div>
+</main>
+<footer class="footer"><b>LinkXcel</b> by SEO Academy &mdash; Free Backlink Checker, Backlink Validator &amp; DR Checker<br><span>Tools run in your browser. No sign-up, no payment. For articles, see the Blog page.</span></footer>
+<script>
+(function(){
+  var TOOL_URLS = ["https://searchxcelaratetools.blogspot.com/2026/04/backlink-validator-tool.html", "https://searchxcelaratetools.blogspot.com/2026/04/dr-checker.html", "https://searchxcelaratetools.blogspot.com/2025/10/drchecker.html", "https://searchxcelaratetools.blogspot.com/2026/04/dr.html", "https://searchxcelaratetools.blogspot.com/2026/04/links-shuffler-tool.html", "https://searchxcelaratetools.blogspot.com/2026/02/seo-link-comparator.html", "https://searchxcelaratetools.blogspot.com/2026/01/link-distribution-tool.html", "https://searchxcelaratetools.blogspot.com/2025/10/duplicate-link-checker.html", "https://searchxcelaratetools.blogspot.com/2025/10/links-converter-and-text-normalization.html", "https://searchxcelaratetools.blogspot.com/2026/01/url-domain-matcher.html", "https://searchxcelaratetools.blogspot.com/2025/10/domain-to-url-converter.html", "https://searchxcelaratetools.blogspot.com/2025/10/photo-resizer-logobanner-creator.html", "https://searchxcelaratetools.blogspot.com/2026/10/ishtiaque-hasib.html"];
+  var list = document.getElementById('blogList');
+  var loading = document.getElementById('blogLoading');
+  var empty = document.getElementById('blogEmpty');
+  var error = document.getElementById('blogError');
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  fetch('https://searchxcelaratetools.blogspot.com/feeds/posts/default?max-results=50&alt=json')
+    .then(function(r){ if (!r.ok) throw new Error('Feed request failed: ' + r.status); return r.json(); })
+    .then(function(data){
+      loading.style.display = 'none';
+      var entries = (data.feed && data.feed.entry) ? data.feed.entry : [];
+      var posts = [];
+      entries.forEach(function(e){
+        var link = '';
+        (e.link || []).forEach(function(l){ if (l.rel === 'alternate') link = l.href; });
+        if (!link || TOOL_URLS.indexOf(link) !== -1) return;
+        var title = (e.title && e.title.$t) ? e.title.$t : 'Untitled';
+        var date = (e.published && e.published.$t) ? e.published.$t.slice(0, 10) : '';
+        var summary = (e.summary && e.summary.$t) ? e.summary.$t : '';
+        posts.push('<article class="section"><h2><a href="' + esc(link) + '">' + esc(title) + '</a></h2>' + (date ? '<p><small>' + esc(date) + '</small></p>' : '') + (summary ? '<p>' + esc(summary.slice(0, 300)) + '</p>' : '') + '</article>');
+      });
+      if (!posts.length) { empty.style.display = ''; } else { list.innerHTML = posts.join('\n'); }
+    })
+    .catch(function(){ loading.style.display = 'none'; error.style.display = ''; });
+})();
+</script>
+</body>
+</html>

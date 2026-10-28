@@ -6,18 +6,18 @@
 <title>URL Domain Matcher | LinkXcel</title>
 <meta name="description" content="Compare two pasted link lists by main domain and see which domains appear in both lists, plus the List 2 links whose domains do not appear in List 1.">
 <style>
-.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#111;border:1px solid #262626;border-radius:14px;color:#e2e8f0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
 .tool-body *{box-sizing:border-box}
-.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
-.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
-.tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
-.tool-body h3{margin:16px 0 8px;font-size:16px;color:#0f172a}
-.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#0f172a}
-.tool-body .desc{color:#334155;margin:0 0 12px}
-.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
-.tool-body .warn{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;color:#991b1b;margin:12px 0}
-.tool-body .ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;color:#166534;margin:12px 0}
-.tool-body textarea,.tool-body input[type="text"],.tool-body input[type="number"],.tool-body select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#7dd3fc;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#e2e8f0}
+.tool-body h2{margin:24px 0 8px;font-size:19px;color:#e2e8f0}
+.tool-body h3{margin:16px 0 8px;font-size:16px;color:#e2e8f0}
+.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#e2e8f0}
+.tool-body .desc{color:#cbd5e1;margin:0 0 12px}
+.tool-body .note{background:#292524;border:1px solid #78350f;border-radius:8px;padding:10px 12px;color:#fde68a;margin:12px 0}
+.tool-body .warn{background:#450a0a;border:1px solid #7f1d1d;border-radius:8px;padding:10px 12px;color:#fca5a5;margin:12px 0}
+.tool-body .ok{background:#052e16;border:1px solid #166534;border-radius:8px;padding:10px 12px;color:#86efac;margin:12px 0}
+.tool-body textarea,.tool-body input[type="text"],.tool-body input[type="number"],.tool-body select{width:100%;padding:10px;border:1px solid #262626;border-radius:8px;font-size:15px;background:#1a1a1a;color:#e2e8f0}
 .tool-body textarea{min-height:150px;resize:vertical}
 .tool-body input[type="file"]{width:100%;padding:8px}
 .tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
@@ -25,25 +25,87 @@
 .tool-body .row .narrow{flex:0 1 140px}
 .tool-body button,.tool-body .btn{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#4f46e5}
 .tool-body button:hover,.tool-body .btn:hover{filter:brightness(1.08)}
-.tool-body .btn-sec{background:#fff;color:#0f172a;border:1px solid #cbd5e1}
-.tool-body .btn-sec:hover{background:#f1f5f9}
+.tool-body .btn-sec{background:#1a1a1a;color:#e2e8f0;border:1px solid #262626}
+.tool-body .btn-sec:hover{background:#262626}
 .tool-body .tblwrap{overflow-x:auto;margin-top:16px}
 .tool-body table{width:100%;border-collapse:collapse;min-width:480px}
-.tool-body th,.tool-body td{border:1px solid #e2e8f0;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
-.tool-body th{background:#f1f5f9}
-.tool-body tr.found,.tool-body tr.pass{background:#dcfce7}
-.tool-body tr.notfound,.tool-body tr.fail{background:#fee2e2}
-.tool-body .highlight{background:#dcfce7;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
-.tool-body .diff{background:#fee2e2;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body th,.tool-body td{border:1px solid #262626;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
+.tool-body th{background:#1a1a1a}
+.tool-body tr.found,.tool-body tr.pass{background:#14532d}
+.tool-body tr.notfound,.tool-body tr.fail{background:#450a0a}
+.tool-body .highlight{background:#14532d;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .diff{background:#450a0a;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
 .tool-body .stats{font-weight:700;margin:12px 0}
-.tool-body canvas{max-width:100%;border:1px solid #e2e8f0;border-radius:8px}
+.tool-body canvas{max-width:100%;border:1px solid #262626;border-radius:8px}
 .tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
 .tool-body .two-col>*{flex:1 1 320px}
 @media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
+body{background:#050505}
+body.light{background:#f1f5f9}
+.tool-body .theme-toggle{float:right;background:#262626;color:#e2e8f0;padding:8px 14px;font-size:14px}
+body.light .tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+body.light .tool-body *{box-sizing:border-box}
+body.light .tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+body.light .tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+body.light .tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
+body.light .tool-body h3{margin:16px 0 8px;font-size:16px;color:#0f172a}
+body.light .tool-body p,body.light .tool-body label,body.light .tool-body li,body.light .tool-body td,body.light .tool-body th{color:#0f172a}
+body.light .tool-body .desc{color:#334155;margin:0 0 12px}
+body.light .tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+body.light .tool-body .warn{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;color:#991b1b;margin:12px 0}
+body.light .tool-body .ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;color:#166534;margin:12px 0}
+body.light .tool-body textarea,body.light .tool-body input[type="text"],body.light .tool-body input[type="number"],body.light .tool-body select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+body.light .tool-body textarea{min-height:150px;resize:vertical}
+body.light .tool-body input[type="file"]{width:100%;padding:8px}
+body.light .tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+body.light .tool-body .row>*{flex:1 1 200px}
+body.light .tool-body .row .narrow{flex:0 1 140px}
+body.light .tool-body button,body.light .tool-body .btn{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#4f46e5}
+body.light .tool-body button:hover,body.light .tool-body .btn:hover{filter:brightness(1.08)}
+body.light .tool-body .btn-sec{background:#fff;color:#0f172a;border:1px solid #cbd5e1}
+body.light .tool-body .btn-sec:hover{background:#f1f5f9}
+body.light .tool-body .tblwrap{overflow-x:auto;margin-top:16px}
+body.light .tool-body table{width:100%;border-collapse:collapse;min-width:480px}
+body.light .tool-body th,body.light .tool-body td{border:1px solid #e2e8f0;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
+body.light .tool-body th{background:#f1f5f9}
+body.light .tool-body tr.found,body.light .tool-body tr.pass{background:#dcfce7}
+body.light .tool-body tr.notfound,body.light .tool-body tr.fail{background:#fee2e2}
+body.light .tool-body .highlight{background:#dcfce7;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+body.light .tool-body .diff{background:#fee2e2;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+body.light .tool-body .stats{font-weight:700;margin:12px 0}
+body.light .tool-body canvas{max-width:100%;border:1px solid #e2e8f0;border-radius:8px}
+body.light .tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
+body.light .tool-body .two-col>*{flex:1 1 320px}
+@media (max-width:600px){body.light .tool-body{margin:12px;padding:16px}body.light .tool-body h1{font-size:22px}}
+body.light .tool-body .theme-toggle{background:#e2e8f0;color:#0f172a}
+
+/* LinkXcel motion typography — gradient H1, staggered entrances, hover lift + glow, smooth theme switching. Transform/opacity only; no external resources. */
+.tool-body{position:relative}
+.tool-body::before{content:"";position:absolute;top:0;left:20px;right:20px;height:3px;border-radius:3px;background:linear-gradient(90deg,#38bdf8,#a78bfa,#f472b6,#38bdf8)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+.tool-body h1{background:linear-gradient(90deg,#7dd3fc,#a78bfa,#f472b6,#7dd3fc);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .tool-body h1{background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777,#2563eb);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .tool-body::before{background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777,#2563eb)}
+}
+@media (prefers-reduced-motion: no-preference){
+@keyframes linkxcelFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes linkxcelGradient{from{background-position:0% center}to{background-position:200% center}}
+.tool-body{animation:linkxcelFadeUp .5s ease both}
+.tool-body h1{animation:linkxcelFadeUp .5s .05s ease both,linkxcelGradient 8s linear infinite}
+.tool-body .desc{animation:linkxcelFadeUp .5s .12s ease both}
+.tool-body button{transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}
+.tool-body button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+body.light .tool-body button:hover{box-shadow:0 8px 20px rgba(15,23,42,.18)}
+.tool-body .theme-toggle{transition:background-color .3s ease,color .3s ease,transform .2s ease}
+body,.tool-body{transition:background-color .3s ease,border-color .3s ease}
+}
+.tool-body .footline{margin:24px 0 0;text-align:center;font-size:13px;color:#94a3b8}
+body.light .tool-body .footline{color:#64748b}
 </style>
 </head>
-<body style="margin:0;background:#f1f5f9">
+<body style="margin:0">
 <div class="tool-body">
+<button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark theme">☀ Light mode</button>
 <a class="backlink" href="../index.html">&larr; All Tools</a>
 <h1>URL Domain Matcher</h1>
 <p class="desc">Compare two pasted link lists by main domain and see which domains appear in both lists, plus the List 2 links whose domains do not appear in List 1.</p>
@@ -56,79 +118,9 @@
 <h2>Unmatched (List 2 only)</h2>
 <div id="unmatchedArea"></div>
 <div class="row"><button type="button" id="downloadMatched" class="btn-sec">Download Matched CSV</button><button type="button" id="downloadUnmatched" class="btn-sec">Download Unmatched CSV</button></div>
+<p class="footline">© LinkXcel — All rights reserved.</p>
 </div>
-<script>
-function splitLines(text) { return text.split(/\r?\n/).map(function (s) { return s.trim(); }).filter(Boolean); }
-function extractDomain(url) {
-  try {
-    var withScheme = /^(https?:)?\/\//i.test(url) ? url : "http://" + url;
-    var host = new URL(withScheme).hostname || "";
-    if (host.toLowerCase().indexOf("www.") === 0) host = host.slice(4);
-    return host.toLowerCase();
-  } catch (e) { return null; }
-}
-function buildMatched(list1, list2) {
-  var map1 = new Map(), map2 = new Map();
-  list1.forEach(function (u) { var d = extractDomain(u); if (!d) return; if (!map1.has(d)) map1.set(d, []); map1.get(d).push(u); });
-  list2.forEach(function (u) { var d = extractDomain(u); if (!d) return; if (!map2.has(d)) map2.set(d, []); map2.get(d).push(u); });
-  var rows = [], unmatched = [];
-  map1.forEach(function (arr1, domain) {
-    if (map2.has(domain)) map2.get(domain).forEach(function (a2) { arr1.forEach(function (a1) { rows.push({ a1: a1, a2: a2, domain: domain }); }); });
-  });
-  map2.forEach(function (arr2, domain) {
-    if (!map1.has(domain)) arr2.forEach(function (a2) { unmatched.push({ a2: a2, domain: domain }); });
-  });
-  return { rows: rows, unmatched: unmatched };
-}
-function esc(s) { var d = document.createElement("div"); d.textContent = String(s); return d.innerHTML; }
-function renderTable(area, headers, rows, fields) {
-  if (!rows.length) { area.innerHTML = "<p>No rows.</p>"; return; }
-  var html = "<div class=\"tblwrap\"><table><thead><tr>" + headers.map(function (h) { return "<th>" + h + "</th>"; }).join("") + "</tr></thead><tbody>";
-  rows.forEach(function (r) { html += "<tr>" + fields.map(function (f) { return "<td>" + esc(r[f]) + "</td>"; }).join("") + "</tr>"; });
-  area.innerHTML = html + "</tbody></table></div>";
-}
-function toCSV(rows, headers) {
-  function cell(s) { return '"' + String(s === undefined || s === null ? "" : s).replace(/"/g, '""') + '"'; }
-  var lines = [headers.map(cell).join(",")];
-  rows.forEach(function (r) { lines.push(headers.map(function (h) { return cell(r[h]); }).join(",")); });
-  return lines.join("\r\n");
-}
-function downloadFile(filename, content) {
-  var a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([content], { type: "text/csv;charset=utf-8;" }));
-  a.download = filename; document.body.appendChild(a); a.click(); a.remove();
-}
-var latest = null;
-document.getElementById("run").addEventListener("click", function () {
-  var list1 = splitLines(document.getElementById("list1").value);
-  var list2 = splitLines(document.getElementById("list2").value);
-  var res = buildMatched(list1, list2);
-  latest = res;
-  renderTable(document.getElementById("matchedArea"), ["List 1", "List 2", "Domain"], res.rows, ["a1", "a2", "domain"]);
-  if (!res.rows.length) document.getElementById("matchedArea").innerHTML = "<p>No matched links found.</p>";
-  renderTable(document.getElementById("unmatchedArea"), ["List 2", "Domain"], res.unmatched, ["a2", "domain"]);
-  if (!res.unmatched.length) document.getElementById("unmatchedArea").innerHTML = "<p>All links from List 2 matched domains in List 1.</p>";
-  document.getElementById("summary").textContent = "List 1: " + list1.length + " links — List 2: " + list2.length + " links — Matches: " + res.rows.length + " pairs — Unmatched in List 2: " + res.unmatched.length;
-});
-document.getElementById("downloadMatched").addEventListener("click", function () {
-  if (!latest) { alert("Run the matcher first"); return; }
-  downloadFile("matched_links.csv", toCSV(latest.rows.map(function (r) { return { input1: r.a1, input2: r.a2, domain: r.domain }; }), ["input1", "input2", "domain"]));
-});
-document.getElementById("downloadUnmatched").addEventListener("click", function () {
-  if (!latest) { alert("Run the matcher first"); return; }
-  downloadFile("unmatched_list2.csv", toCSV(latest.unmatched.map(function (r) { return { input2: r.a2, domain: r.domain }; }), ["input2", "domain"]));
-});
-document.getElementById("clear").addEventListener("click", function () {
-  document.getElementById("list1").value = ""; document.getElementById("list2").value = "";
-  document.getElementById("matchedArea").innerHTML = ""; document.getElementById("unmatchedArea").innerHTML = "";
-  document.getElementById("summary").textContent = ""; latest = null;
-});
-function loadExample() {
-  document.getElementById("list1").value = "https://example.com/page1\nhttps://google.com/search\nhttps://facebook.com/home\nhttps://sub.domain.com/special";
-  document.getElementById("list2").value = "https://google.com/maps\nhttps://facebook.com/login\nhttps://youtube.com/watch\nhttps://example.com/other\nhttp://domain.com/another";
-}
-document.getElementById("example").addEventListener("click", loadExample);
-loadExample();
-</script>
+<script>(function(){function applyTheme(t){document.body.classList.toggle("light",t==="light");var b=document.getElementById("themeToggle");if(b)b.textContent=t==="light"?"☾ Dark mode":"☀ Light mode"}var param=null;try{param=new URLSearchParams(window.location.search).get("theme")}catch(e){}var stored=null;try{stored=localStorage.getItem("linkxcel-theme")}catch(e){}var theme=param==="light"||param==="dark"?param:stored==="light"||stored==="dark"?stored:"dark";applyTheme(theme);var btn=document.getElementById("themeToggle");if(btn)btn.addEventListener("click",function(){var next=document.body.classList.contains("light")?"dark":"light";try{localStorage.setItem("linkxcel-theme",next)}catch(e){}applyTheme(next)})})();</script>
+<script>function splitLines(text){return text.split(/\r?\n/).map(function(s){return s.trim()}).filter(Boolean)}function extractDomain(url){try{var withScheme=/^(https?:)?\/\//i.test(url)?url:"http://"+url;var host=new URL(withScheme).hostname||"";if(host.toLowerCase().indexOf("www.")===0)host=host.slice(4);return host.toLowerCase()}catch(e){return null}}function buildMatched(list1,list2){var map1=new Map,map2=new Map;list1.forEach(function(u){var d=extractDomain(u);if(!d)return;if(!map1.has(d))map1.set(d,[]);map1.get(d).push(u)});list2.forEach(function(u){var d=extractDomain(u);if(!d)return;if(!map2.has(d))map2.set(d,[]);map2.get(d).push(u)});var rows=[],unmatched=[];map1.forEach(function(arr1,domain){if(map2.has(domain))map2.get(domain).forEach(function(a2){arr1.forEach(function(a1){rows.push({a1:a1,a2:a2,domain:domain})})})});map2.forEach(function(arr2,domain){if(!map1.has(domain))arr2.forEach(function(a2){unmatched.push({a2:a2,domain:domain})})});return{rows:rows,unmatched:unmatched}}function esc(s){var d=document.createElement("div");d.textContent=String(s);return d.innerHTML}function renderTable(area,headers,rows,fields){if(!rows.length){area.innerHTML="<p>No rows.</p>";return}var html='<div class="tblwrap"><table><thead><tr>'+headers.map(function(h){return"<th>"+h+"</th>"}).join("")+"</tr></thead><tbody>";rows.forEach(function(r){html+="<tr>"+fields.map(function(f){return"<td>"+esc(r[f])+"</td>"}).join("")+"</tr>"});area.innerHTML=html+"</tbody></table></div>"}function toCSV(rows,headers){function cell(s){return'"'+String(s===undefined||s===null?"":s).replace(/"/g,'""')+'"'}var lines=[headers.map(cell).join(",")];rows.forEach(function(r){lines.push(headers.map(function(h){return cell(r[h])}).join(","))});return lines.join("\r\n")}function downloadFile(filename,content){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type:"text/csv;charset=utf-8;"}));a.download=filename;document.body.appendChild(a);a.click();a.remove()}var latest=null;document.getElementById("run").addEventListener("click",function(){var list1=splitLines(document.getElementById("list1").value);var list2=splitLines(document.getElementById("list2").value);var res=buildMatched(list1,list2);latest=res;renderTable(document.getElementById("matchedArea"),["List 1","List 2","Domain"],res.rows,["a1","a2","domain"]);if(!res.rows.length)document.getElementById("matchedArea").innerHTML="<p>No matched links found.</p>";renderTable(document.getElementById("unmatchedArea"),["List 2","Domain"],res.unmatched,["a2","domain"]);if(!res.unmatched.length)document.getElementById("unmatchedArea").innerHTML="<p>All links from List 2 matched domains in List 1.</p>";document.getElementById("summary").textContent="List 1: "+list1.length+" links — List 2: "+list2.length+" links — Matches: "+res.rows.length+" pairs — Unmatched in List 2: "+res.unmatched.length});document.getElementById("downloadMatched").addEventListener("click",function(){if(!latest){alert("Run the matcher first");return}downloadFile("matched_links.csv",toCSV(latest.rows.map(function(r){return{input1:r.a1,input2:r.a2,domain:r.domain}}),["input1","input2","domain"]))});document.getElementById("downloadUnmatched").addEventListener("click",function(){if(!latest){alert("Run the matcher first");return}downloadFile("unmatched_list2.csv",toCSV(latest.unmatched.map(function(r){return{input2:r.a2,domain:r.domain}}),["input2","domain"]))});document.getElementById("clear").addEventListener("click",function(){document.getElementById("list1").value="";document.getElementById("list2").value="";document.getElementById("matchedArea").innerHTML="";document.getElementById("unmatchedArea").innerHTML="";document.getElementById("summary").textContent="";latest=null});function loadExample(){document.getElementById("list1").value="https://example.com/page1\nhttps://google.com/search\nhttps://facebook.com/home\nhttps://sub.domain.com/special";document.getElementById("list2").value="https://google.com/maps\nhttps://facebook.com/login\nhttps://youtube.com/watch\nhttps://example.com/other\nhttp://domain.com/another"}document.getElementById("example").addEventListener("click",loadExample);loadExample();</script>
 </body>
 </html>

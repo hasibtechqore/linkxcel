@@ -8,18 +8,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 <style>
-.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#111;border:1px solid #262626;border-radius:14px;color:#e2e8f0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
 .tool-body *{box-sizing:border-box}
-.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
-.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
-.tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
-.tool-body h3{margin:16px 0 8px;font-size:16px;color:#0f172a}
-.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#0f172a}
-.tool-body .desc{color:#334155;margin:0 0 12px}
-.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
-.tool-body .warn{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;color:#991b1b;margin:12px 0}
-.tool-body .ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;color:#166534;margin:12px 0}
-.tool-body textarea,.tool-body input[type="text"],.tool-body input[type="number"],.tool-body select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#7dd3fc;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#e2e8f0}
+.tool-body h2{margin:24px 0 8px;font-size:19px;color:#e2e8f0}
+.tool-body h3{margin:16px 0 8px;font-size:16px;color:#e2e8f0}
+.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#e2e8f0}
+.tool-body .desc{color:#cbd5e1;margin:0 0 12px}
+.tool-body .note{background:#292524;border:1px solid #78350f;border-radius:8px;padding:10px 12px;color:#fde68a;margin:12px 0}
+.tool-body .warn{background:#450a0a;border:1px solid #7f1d1d;border-radius:8px;padding:10px 12px;color:#fca5a5;margin:12px 0}
+.tool-body .ok{background:#052e16;border:1px solid #166534;border-radius:8px;padding:10px 12px;color:#86efac;margin:12px 0}
+.tool-body textarea,.tool-body input[type="text"],.tool-body input[type="number"],.tool-body select{width:100%;padding:10px;border:1px solid #262626;border-radius:8px;font-size:15px;background:#1a1a1a;color:#e2e8f0}
 .tool-body textarea{min-height:150px;resize:vertical}
 .tool-body input[type="file"]{width:100%;padding:8px}
 .tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
@@ -27,25 +27,87 @@
 .tool-body .row .narrow{flex:0 1 140px}
 .tool-body button,.tool-body .btn{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#7c3aed}
 .tool-body button:hover,.tool-body .btn:hover{filter:brightness(1.08)}
-.tool-body .btn-sec{background:#fff;color:#0f172a;border:1px solid #cbd5e1}
-.tool-body .btn-sec:hover{background:#f1f5f9}
+.tool-body .btn-sec{background:#1a1a1a;color:#e2e8f0;border:1px solid #262626}
+.tool-body .btn-sec:hover{background:#262626}
 .tool-body .tblwrap{overflow-x:auto;margin-top:16px}
 .tool-body table{width:100%;border-collapse:collapse;min-width:480px}
-.tool-body th,.tool-body td{border:1px solid #e2e8f0;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
-.tool-body th{background:#f1f5f9}
-.tool-body tr.found,.tool-body tr.pass{background:#dcfce7}
-.tool-body tr.notfound,.tool-body tr.fail{background:#fee2e2}
-.tool-body .highlight{background:#dcfce7;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
-.tool-body .diff{background:#fee2e2;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body th,.tool-body td{border:1px solid #262626;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
+.tool-body th{background:#1a1a1a}
+.tool-body tr.found,.tool-body tr.pass{background:#14532d}
+.tool-body tr.notfound,.tool-body tr.fail{background:#450a0a}
+.tool-body .highlight{background:#14532d;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .diff{background:#450a0a;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
 .tool-body .stats{font-weight:700;margin:12px 0}
-.tool-body canvas{max-width:100%;border:1px solid #e2e8f0;border-radius:8px}
+.tool-body canvas{max-width:100%;border:1px solid #262626;border-radius:8px}
 .tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
 .tool-body .two-col>*{flex:1 1 320px}
 @media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
+body{background:#050505}
+body.light{background:#f1f5f9}
+.tool-body .theme-toggle{float:right;background:#262626;color:#e2e8f0;padding:8px 14px;font-size:14px}
+body.light .tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+body.light .tool-body *{box-sizing:border-box}
+body.light .tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+body.light .tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+body.light .tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
+body.light .tool-body h3{margin:16px 0 8px;font-size:16px;color:#0f172a}
+body.light .tool-body p,body.light .tool-body label,body.light .tool-body li,body.light .tool-body td,body.light .tool-body th{color:#0f172a}
+body.light .tool-body .desc{color:#334155;margin:0 0 12px}
+body.light .tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+body.light .tool-body .warn{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;color:#991b1b;margin:12px 0}
+body.light .tool-body .ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;color:#166534;margin:12px 0}
+body.light .tool-body textarea,body.light .tool-body input[type="text"],body.light .tool-body input[type="number"],body.light .tool-body select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+body.light .tool-body textarea{min-height:150px;resize:vertical}
+body.light .tool-body input[type="file"]{width:100%;padding:8px}
+body.light .tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+body.light .tool-body .row>*{flex:1 1 200px}
+body.light .tool-body .row .narrow{flex:0 1 140px}
+body.light .tool-body button,body.light .tool-body .btn{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#7c3aed}
+body.light .tool-body button:hover,body.light .tool-body .btn:hover{filter:brightness(1.08)}
+body.light .tool-body .btn-sec{background:#fff;color:#0f172a;border:1px solid #cbd5e1}
+body.light .tool-body .btn-sec:hover{background:#f1f5f9}
+body.light .tool-body .tblwrap{overflow-x:auto;margin-top:16px}
+body.light .tool-body table{width:100%;border-collapse:collapse;min-width:480px}
+body.light .tool-body th,body.light .tool-body td{border:1px solid #e2e8f0;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
+body.light .tool-body th{background:#f1f5f9}
+body.light .tool-body tr.found,body.light .tool-body tr.pass{background:#dcfce7}
+body.light .tool-body tr.notfound,body.light .tool-body tr.fail{background:#fee2e2}
+body.light .tool-body .highlight{background:#dcfce7;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+body.light .tool-body .diff{background:#fee2e2;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+body.light .tool-body .stats{font-weight:700;margin:12px 0}
+body.light .tool-body canvas{max-width:100%;border:1px solid #e2e8f0;border-radius:8px}
+body.light .tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
+body.light .tool-body .two-col>*{flex:1 1 320px}
+@media (max-width:600px){body.light .tool-body{margin:12px;padding:16px}body.light .tool-body h1{font-size:22px}}
+body.light .tool-body .theme-toggle{background:#e2e8f0;color:#0f172a}
+
+/* LinkXcel motion typography — gradient H1, staggered entrances, hover lift + glow, smooth theme switching. Transform/opacity only; no external resources. */
+.tool-body{position:relative}
+.tool-body::before{content:"";position:absolute;top:0;left:20px;right:20px;height:3px;border-radius:3px;background:linear-gradient(90deg,#38bdf8,#a78bfa,#f472b6,#38bdf8)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+.tool-body h1{background:linear-gradient(90deg,#7dd3fc,#a78bfa,#f472b6,#7dd3fc);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .tool-body h1{background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777,#2563eb);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .tool-body::before{background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777,#2563eb)}
+}
+@media (prefers-reduced-motion: no-preference){
+@keyframes linkxcelFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes linkxcelGradient{from{background-position:0% center}to{background-position:200% center}}
+.tool-body{animation:linkxcelFadeUp .5s ease both}
+.tool-body h1{animation:linkxcelFadeUp .5s .05s ease both,linkxcelGradient 8s linear infinite}
+.tool-body .desc{animation:linkxcelFadeUp .5s .12s ease both}
+.tool-body button{transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}
+.tool-body button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+body.light .tool-body button:hover{box-shadow:0 8px 20px rgba(15,23,42,.18)}
+.tool-body .theme-toggle{transition:background-color .3s ease,color .3s ease,transform .2s ease}
+body,.tool-body{transition:background-color .3s ease,border-color .3s ease}
+}
+.tool-body .footline{margin:24px 0 0;text-align:center;font-size:13px;color:#94a3b8}
+body.light .tool-body .footline{color:#64748b}
 </style>
 </head>
-<body style="margin:0;background:#f1f5f9">
+<body style="margin:0">
 <div class="tool-body">
+<button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark theme">☀ Light mode</button>
 <a class="backlink" href="../index.html">&larr; All Tools</a>
 <h1>Bulk Domain Rating Checker</h1>
 <p class="desc">Upload your own CSV or Excel domain-to-DR dataset once, then bulk-search domains against it. Missing domains get a placeholder default DR.</p>
@@ -59,154 +121,9 @@
 <div class="row"><button type="button" id="searchBtn">Search Bulk DR</button><button type="button" id="exportMatches" class="btn-sec" disabled>Export Results (.xlsx)</button><button type="button" id="exportAll" class="btn-sec" disabled>Export All Stored (.xlsx)</button><button type="button" id="showAll" class="btn-sec">Show All Stored (first 500)</button></div>
 <p id="status">Status: ready.</p>
 <div id="tableContainer"></div>
+<p class="footline">© LinkXcel — All rights reserved.</p>
 </div>
-<script>
-(function () {
-  var STORAGE_KEY = "persistent_domain_dr_dataset_v1";
-  var datasetMap = null, lastResults = [];
-  if (typeof XLSX === "undefined" || typeof Papa === "undefined") {
-    document.getElementById("libwarn").style.display = "block";
-  }
-  function normalizeDomain(d) {
-    if (d === undefined || d === null) return "";
-    var s = String(d).trim().toLowerCase();
-    s = s.replace(/^(https?:\/\/)/, "").replace(/^www\./, "");
-    s = s.split("/")[0].split("?")[0].split("#")[0].split(":")[0];
-    return s;
-  }
-  function setStatus(m, err) { var el = document.getElementById("status"); el.textContent = "Status: " + m; el.style.color = err ? "#991b1b" : "#0f172a"; }
-  function setStorageInfo(m) { document.getElementById("storageInfo").textContent = m; }
-  function saveDataset(map) {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
-      datasetMap = map;
-      setStorageInfo("Dataset saved locally (" + Object.keys(map).length + " domains).");
-      document.getElementById("exportAll").disabled = false;
-      setStatus("Dataset loaded and stored locally.");
-    } catch (e) { setStatus("Failed to save dataset locally: " + e.message, true); }
-  }
-  function loadStored() {
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) { setStorageInfo("No stored dataset found in this browser."); document.getElementById("exportAll").disabled = true; return null; }
-      datasetMap = JSON.parse(raw);
-      setStorageInfo("Loaded stored dataset (" + Object.keys(datasetMap).length + " domains).");
-      document.getElementById("exportAll").disabled = false;
-      return datasetMap;
-    } catch (e) { setStatus("Error loading stored dataset: " + e.message, true); return null; }
-  }
-  function rowsToMap(rows) {
-    if (!rows || !rows.length) return {};
-    var keys = Object.keys(rows[0]);
-    var norm = keys.map(function (k) { return k.toLowerCase().trim(); });
-    var domC = ["domain", "site", "url", "website", "host", "hostname", "domainname"];
-    var drC = ["dr", "domain_rating", "domain rating", "domainrating", "rating", "authority", "da", "score", "domain_authority", "domain authority"];
-    var domainKey = null, drKey = null;
-    norm.forEach(function (n, i) {
-      if (!domainKey && domC.some(function (c) { return n === c || n.indexOf(c) !== -1; })) domainKey = keys[i];
-      if (!drKey && drC.some(function (c) { return n === c || n.indexOf(c) !== -1; })) drKey = keys[i];
-    });
-    if (!domainKey) domainKey = keys[0];
-    if (!drKey) drKey = keys[1] || keys[0];
-    var map = {};
-    rows.forEach(function (r) {
-      var raw = r[domainKey];
-      if (raw === undefined || raw === null || String(raw).trim() === "") return;
-      var domain = normalizeDomain(raw);
-      var v = r[drKey];
-      if (v === undefined || v === null || String(v).trim() === "") { map[domain] = ""; return; }
-      var num = Number(String(v).replace(/[^0-9.\-]/g, ""));
-      map[domain] = isNaN(num) ? String(v) : num;
-    });
-    return map;
-  }
-  function parseFile(file) {
-    return new Promise(function (resolve, reject) {
-      var name = (file.name || "").toLowerCase(), ext = name.split(".").pop();
-      if (ext === "csv") {
-        if (typeof Papa === "undefined") return reject(new Error("CSV library (PapaParse) did not load."));
-        Papa.parse(file, { header: true, skipEmptyLines: true, complete: function (res) { resolve(rowsToMap(res.data)); }, error: reject });
-      } else if (ext === "xlsx" || ext === "xls") {
-        if (typeof XLSX === "undefined") return reject(new Error("Excel library (SheetJS) did not load."));
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          try {
-            var wb = XLSX.read(new Uint8Array(e.target.result), { type: "array" });
-            resolve(rowsToMap(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: "" })));
-          } catch (err) { reject(err); }
-        };
-        reader.readAsArrayBuffer(file);
-      } else { reject(new Error("Unsupported file type. Use CSV or Excel.")); }
-    });
-  }
-  function esc(s) { var d = document.createElement("div"); d.textContent = String(s); return d.innerHTML; }
-  function renderTable(rows) {
-    var c = document.getElementById("tableContainer");
-    if (!rows || !rows.length) { c.innerHTML = "<p>No results to display.</p>"; return; }
-    var html = "<div class=\"tblwrap\"><table><thead><tr><th>Domain</th><th>DR</th></tr></thead><tbody>";
-    rows.forEach(function (r) { html += "<tr><td>" + esc(r.domain) + "</td><td>" + esc(String(r.dr)) + "</td></tr>"; });
-    c.innerHTML = html + "</tbody></table></div>";
-  }
-  function exportToExcel(rows, filename) {
-    if (!rows || !rows.length) { alert("No rows to export."); return; }
-    if (typeof XLSX === "undefined") { alert("The Excel library did not load. Reload the page and try again."); return; }
-    var ws = XLSX.utils.json_to_sheet(rows);
-    var wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Results");
-    XLSX.writeFile(wb, filename);
-  }
-  document.getElementById("loadBtn").addEventListener("click", function () {
-    var f = document.getElementById("fileInput").files[0];
-    if (!f) { alert("Choose a CSV or Excel file first."); return; }
-    setStatus("Parsing file...");
-    parseFile(f).then(function (map) {
-      saveDataset(map);
-      setStatus("Loaded and stored " + Object.keys(map).length + " domains.");
-    }).catch(function (err) { setStatus("Error parsing file: " + err.message, true); });
-  });
-  document.getElementById("clearStorage").addEventListener("click", function () {
-    if (!confirm("Clear stored dataset from this browser? This cannot be undone.")) return;
-    localStorage.removeItem(STORAGE_KEY); datasetMap = null; lastResults = [];
-    document.getElementById("exportAll").disabled = true;
-    setStorageInfo("Stored dataset cleared."); setStatus("Stored dataset removed.");
-  });
-  document.getElementById("exportAll").addEventListener("click", function () {
-    if (!datasetMap) { alert("No stored dataset to export."); return; }
-    exportToExcel(Object.keys(datasetMap).map(function (k) { return { domain: k, dr: datasetMap[k] }; }), "stored_dataset.xlsx");
-  });
-  document.getElementById("showAll").addEventListener("click", function () {
-    if (!datasetMap) { alert("No stored dataset. Load one first."); return; }
-    var arr = Object.keys(datasetMap).slice(0, 500).map(function (k) { return { domain: k, dr: datasetMap[k] }; });
-    renderTable(arr);
-    setStatus("Showing first " + arr.length + " stored domains (of " + Object.keys(datasetMap).length + ").");
-  });
-  document.getElementById("searchBtn").addEventListener("click", function () {
-    var raw = document.getElementById("bulkInput").value.trim();
-    if (!raw) { alert("Paste domains to search (one per line or separated by commas/spaces)."); return; }
-    if (!datasetMap) { alert("No stored dataset found. Please upload your dataset once first."); return; }
-    var defaultDr = Number(document.getElementById("defaultDr").value) || 70;
-    var seen = new Set(), queries = [];
-    raw.split(/[\r\n,\s]+/).filter(Boolean).forEach(function (tok) {
-      var n = normalizeDomain(tok);
-      if (n && !seen.has(n)) { seen.add(n); queries.push(n); }
-    });
-    var out = queries.map(function (q) {
-      var v = datasetMap[q];
-      return { domain: q, dr: (v !== undefined && v !== null && String(v).trim() !== "") ? v : defaultDr };
-    });
-    lastResults = out;
-    renderTable(out);
-    document.getElementById("exportMatches").disabled = out.length === 0;
-    setStatus("Found " + out.filter(function (r) { return r.dr !== defaultDr; }).length + " matches (others set to placeholder " + defaultDr + "). Processed " + out.length + " queries.");
-  });
-  document.getElementById("exportMatches").addEventListener("click", function () {
-    if (!lastResults || !lastResults.length) { alert("Run a search first."); return; }
-    exportToExcel(lastResults, "search_results.xlsx");
-  });
-  var loaded = loadStored();
-  if (loaded) setStatus("Loaded " + Object.keys(loaded).length + " stored domains. Ready to search.");
-  else setStatus("No stored dataset. Upload your CSV/Excel once using Load Dataset.");
-})();
-</script>
+<script>(function(){function applyTheme(t){document.body.classList.toggle("light",t==="light");var b=document.getElementById("themeToggle");if(b)b.textContent=t==="light"?"☾ Dark mode":"☀ Light mode"}var param=null;try{param=new URLSearchParams(window.location.search).get("theme")}catch(e){}var stored=null;try{stored=localStorage.getItem("linkxcel-theme")}catch(e){}var theme=param==="light"||param==="dark"?param:stored==="light"||stored==="dark"?stored:"dark";applyTheme(theme);var btn=document.getElementById("themeToggle");if(btn)btn.addEventListener("click",function(){var next=document.body.classList.contains("light")?"dark":"light";try{localStorage.setItem("linkxcel-theme",next)}catch(e){}applyTheme(next)})})();</script>
+<script>(function(){var STORAGE_KEY="persistent_domain_dr_dataset_v1";var datasetMap=null,lastResults=[];if(typeof XLSX==="undefined"||typeof Papa==="undefined"){document.getElementById("libwarn").style.display="block"}function normalizeDomain(d){if(d===undefined||d===null)return"";var s=String(d).trim().toLowerCase();s=s.replace(/^(https?:\/\/)/,"").replace(/^www\./,"");s=s.split("/")[0].split("?")[0].split("#")[0].split(":")[0];return s}function setStatus(m,err){var el=document.getElementById("status");el.textContent="Status: "+m;el.style.color=err?"#991b1b":"#0f172a"}function setStorageInfo(m){document.getElementById("storageInfo").textContent=m}function saveDataset(map){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(map));datasetMap=map;setStorageInfo("Dataset saved locally ("+Object.keys(map).length+" domains).");document.getElementById("exportAll").disabled=false;setStatus("Dataset loaded and stored locally.")}catch(e){setStatus("Failed to save dataset locally: "+e.message,true)}}function loadStored(){try{var raw=localStorage.getItem(STORAGE_KEY);if(!raw){setStorageInfo("No stored dataset found in this browser.");document.getElementById("exportAll").disabled=true;return null}datasetMap=JSON.parse(raw);setStorageInfo("Loaded stored dataset ("+Object.keys(datasetMap).length+" domains).");document.getElementById("exportAll").disabled=false;return datasetMap}catch(e){setStatus("Error loading stored dataset: "+e.message,true);return null}}function rowsToMap(rows){if(!rows||!rows.length)return{};var keys=Object.keys(rows[0]);var norm=keys.map(function(k){return k.toLowerCase().trim()});var domC=["domain","site","url","website","host","hostname","domainname"];var drC=["dr","domain_rating","domain rating","domainrating","rating","authority","da","score","domain_authority","domain authority"];var domainKey=null,drKey=null;norm.forEach(function(n,i){if(!domainKey&&domC.some(function(c){return n===c||n.indexOf(c)!==-1}))domainKey=keys[i];if(!drKey&&drC.some(function(c){return n===c||n.indexOf(c)!==-1}))drKey=keys[i]});if(!domainKey)domainKey=keys[0];if(!drKey)drKey=keys[1]||keys[0];var map={};rows.forEach(function(r){var raw=r[domainKey];if(raw===undefined||raw===null||String(raw).trim()==="")return;var domain=normalizeDomain(raw);var v=r[drKey];if(v===undefined||v===null||String(v).trim()===""){map[domain]="";return}var num=Number(String(v).replace(/[^0-9.\-]/g,""));map[domain]=isNaN(num)?String(v):num});return map}function parseFile(file){return new Promise(function(resolve,reject){var name=(file.name||"").toLowerCase(),ext=name.split(".").pop();if(ext==="csv"){if(typeof Papa==="undefined")return reject(new Error("CSV library (PapaParse) did not load."));Papa.parse(file,{header:true,skipEmptyLines:true,complete:function(res){resolve(rowsToMap(res.data))},error:reject})}else if(ext==="xlsx"||ext==="xls"){if(typeof XLSX==="undefined")return reject(new Error("Excel library (SheetJS) did not load."));var reader=new FileReader;reader.onload=function(e){try{var wb=XLSX.read(new Uint8Array(e.target.result),{type:"array"});resolve(rowsToMap(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:""})))}catch(err){reject(err)}};reader.readAsArrayBuffer(file)}else{reject(new Error("Unsupported file type. Use CSV or Excel."))}})}function esc(s){var d=document.createElement("div");d.textContent=String(s);return d.innerHTML}function renderTable(rows){var c=document.getElementById("tableContainer");if(!rows||!rows.length){c.innerHTML="<p>No results to display.</p>";return}var html='<div class="tblwrap"><table><thead><tr><th>Domain</th><th>DR</th></tr></thead><tbody>';rows.forEach(function(r){html+="<tr><td>"+esc(r.domain)+"</td><td>"+esc(String(r.dr))+"</td></tr>"});c.innerHTML=html+"</tbody></table></div>"}function exportToExcel(rows,filename){if(!rows||!rows.length){alert("No rows to export.");return}if(typeof XLSX==="undefined"){alert("The Excel library did not load. Reload the page and try again.");return}var ws=XLSX.utils.json_to_sheet(rows);var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Results");XLSX.writeFile(wb,filename)}document.getElementById("loadBtn").addEventListener("click",function(){var f=document.getElementById("fileInput").files[0];if(!f){alert("Choose a CSV or Excel file first.");return}setStatus("Parsing file...");parseFile(f).then(function(map){saveDataset(map);setStatus("Loaded and stored "+Object.keys(map).length+" domains.")}).catch(function(err){setStatus("Error parsing file: "+err.message,true)})});document.getElementById("clearStorage").addEventListener("click",function(){if(!confirm("Clear stored dataset from this browser? This cannot be undone."))return;localStorage.removeItem(STORAGE_KEY);datasetMap=null;lastResults=[];document.getElementById("exportAll").disabled=true;setStorageInfo("Stored dataset cleared.");setStatus("Stored dataset removed.")});document.getElementById("exportAll").addEventListener("click",function(){if(!datasetMap){alert("No stored dataset to export.");return}exportToExcel(Object.keys(datasetMap).map(function(k){return{domain:k,dr:datasetMap[k]}}),"stored_dataset.xlsx")});document.getElementById("showAll").addEventListener("click",function(){if(!datasetMap){alert("No stored dataset. Load one first.");return}var arr=Object.keys(datasetMap).slice(0,500).map(function(k){return{domain:k,dr:datasetMap[k]}});renderTable(arr);setStatus("Showing first "+arr.length+" stored domains (of "+Object.keys(datasetMap).length+").")});document.getElementById("searchBtn").addEventListener("click",function(){var raw=document.getElementById("bulkInput").value.trim();if(!raw){alert("Paste domains to search (one per line or separated by commas/spaces).");return}if(!datasetMap){alert("No stored dataset found. Please upload your dataset once first.");return}var defaultDr=Number(document.getElementById("defaultDr").value)||70;var seen=new Set,queries=[];raw.split(/[\r\n,\s]+/).filter(Boolean).forEach(function(tok){var n=normalizeDomain(tok);if(n&&!seen.has(n)){seen.add(n);queries.push(n)}});var out=queries.map(function(q){var v=datasetMap[q];return{domain:q,dr:v!==undefined&&v!==null&&String(v).trim()!==""?v:defaultDr}});lastResults=out;renderTable(out);document.getElementById("exportMatches").disabled=out.length===0;setStatus("Found "+out.filter(function(r){return r.dr!==defaultDr}).length+" matches (others set to placeholder "+defaultDr+"). Processed "+out.length+" queries.")});document.getElementById("exportMatches").addEventListener("click",function(){if(!lastResults||!lastResults.length){alert("Run a search first.");return}exportToExcel(lastResults,"search_results.xlsx")});var loaded=loadStored();if(loaded)setStatus("Loaded "+Object.keys(loaded).length+" stored domains. Ready to search.");else setStatus("No stored dataset. Upload your CSV/Excel once using Load Dataset.")})();</script>
 </body>
 </html>

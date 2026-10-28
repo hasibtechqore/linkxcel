@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JSON Flattener | LinkXcel — Free JSON Flatten &amp; Unflatten Tool</title>
+<meta name="description" content="Flatten nested JSON into flat key-value pairs with dot, bracket, or underscore notation, and unflatten it back, entirely in your browser.">
+<style>
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#111;border:1px solid #262626;border-radius:14px;color:#e2e8f0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#7dd3fc;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#ffffff}
+.tool-body p,.tool-body label{color:#cbd5e1}
+.tool-body .desc{color:#9ca3af;margin:0 0 12px}
+.tool-body .note{background:#292524;border:1px solid #78350f;border-radius:8px;padding:10px 12px;color:#fde68a;margin:12px 0}
+.tool-body .error{background:#450a0a;border:1px solid #7f1d1d;border-radius:8px;padding:10px 12px;color:#fca5a5;margin:12px 0;display:none}
+.tool-body textarea{width:100%;padding:10px;border:1px solid #262626;border-radius:8px;font-size:14px;background:#1a1a1a;color:#e2e8f0;min-height:150px;resize:vertical;font-family:ui-monospace,Consolas,monospace}
+.tool-body select{padding:10px;border:1px solid #262626;border-radius:8px;font-size:15px;background:#1a1a1a;color:#e2e8f0}
+.tool-body pre{overflow-x:auto;background:#1a1a1a;border:1px solid #262626;border-radius:8px;padding:12px;white-space:pre-wrap;word-break:break-all;color:#e2e8f0}
+.tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body button{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#2563eb}
+.tool-body button:hover{filter:brightness(1.08)}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
+
+body{background:#050505}
+body.light{background:#f1f5f9}
+.tool-body .theme-toggle{float:right;background:#262626;color:#e2e8f0;padding:8px 14px;font-size:14px}
+body.light .tool-body{background:#fff;border-color:#e2e8f0;color:#0f172a}
+body.light .tool-body h1{color:#0f172a}
+body.light .tool-body p,body.light .tool-body label{color:#0f172a}
+body.light .tool-body .desc{color:#334155}
+body.light .tool-body .note{background:#fffbeb;border-color:#fde68a;color:#92400e}
+body.light .tool-body .error,body.light .tool-body .warn{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+body.light .tool-body .ok{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
+body.light .tool-body textarea,body.light .tool-body input[type="text"],body.light .tool-body input[type="number"],body.light .tool-body input[type="datetime-local"],body.light .tool-body select{background:#fff;color:#0f172a;border-color:#cbd5e1}
+body.light .tool-body pre,body.light .tool-body .outbox{background:#f1f5f9;border-color:#e2e8f0;color:#0f172a}
+body.light .tool-body th{background:#f1f5f9;color:#0f172a}
+body.light .tool-body th,body.light .tool-body td{border-color:#e2e8f0;color:#0f172a}
+body.light .tool-body .backlink{color:#2563eb}
+body.light .tool-body .swatch{border-color:#cbd5e1}
+body.light .tool-body .theme-toggle{background:#e2e8f0;color:#0f172a}
+body.light .tool-body .added{color:#16a34a}
+body.light .tool-body .removed{color:#dc2626}
+body.light .tool-body .changed{color:#a16207}
+/* LinkXcel motion typography — gradient H1, staggered entrances, hover lift + glow, smooth theme switching. Transform/opacity only; no external resources. */
+.tool-body{position:relative}
+.tool-body::before{content:"";position:absolute;top:0;left:20px;right:20px;height:3px;border-radius:3px;background:linear-gradient(90deg,#38bdf8,#a78bfa,#f472b6,#38bdf8)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+.tool-body h1{background:linear-gradient(90deg,#7dd3fc,#a78bfa,#f472b6,#7dd3fc);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .tool-body h1{background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777,#2563eb);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .tool-body::before{background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777,#2563eb)}
+}
+@media (prefers-reduced-motion: no-preference){
+@keyframes linkxcelFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes linkxcelGradient{from{background-position:0% center}to{background-position:200% center}}
+.tool-body{animation:linkxcelFadeUp .5s ease both}
+.tool-body h1{animation:linkxcelFadeUp .5s .05s ease both,linkxcelGradient 8s linear infinite}
+.tool-body .desc{animation:linkxcelFadeUp .5s .12s ease both}
+.tool-body button{transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}
+.tool-body button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+body.light .tool-body button:hover{box-shadow:0 8px 20px rgba(15,23,42,.18)}
+.tool-body .theme-toggle{transition:background-color .3s ease,color .3s ease,transform .2s ease}
+body,.tool-body{transition:background-color .3s ease,border-color .3s ease}
+}
+.tool-body .footline{margin:24px 0 0;text-align:center;font-size:13px;color:#94a3b8}
+body.light .tool-body .footline{color:#64748b}
+</style>
+</head>
+<body style="margin:0">
+<div class="tool-body">
+<button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark theme">☀ Light mode</button>
+<a class="backlink" href="../index.html">&larr; All Tools</a>
+<h1>JSON Flattener</h1>
+<p class="desc">Turn nested JSON into flat key-value pairs — or rebuild nested JSON from flat keys.</p>
+<p class="note">Runs entirely in your browser — nothing is uploaded. Dot notation: user.name, user.tags[0]. Bracket notation: user[name], user[tags][0]. Underscore notation: user_name (note: keys that already contain underscores cannot be round-tripped reliably with underscore mode). Invalid JSON shows an error instead of partial output.</p>
+<label for="input">JSON input</label>
+<textarea id="input" placeholder='{"user":{"name":"A","tags":["x","y"]}}'></textarea>
+<div class="row"><label for="notation">Notation:</label>
+<select id="notation"><option value="dot">Dot (a.b[0])</option><option value="bracket">Bracket (a[b][0])</option><option value="underscore">Underscore (a_b_0)</option></select>
+<button type="button" id="flatBtn">Flatten</button><button type="button" id="unflatBtn">Unflatten</button><button type="button" id="copyBtn">Copy Output</button></div>
+<div class="error" id="errBox"></div>
+<label>Output</label>
+<pre id="out">Your result will appear here.</pre>
+<p class="footline">© LinkXcel — All rights reserved.</p>
+</div>
+<script>(function(){function applyTheme(t){document.body.classList.toggle("light",t==="light");var b=document.getElementById("themeToggle");if(b)b.textContent=t==="light"?"☾ Dark mode":"☀ Light mode"}var param=null;try{param=new URLSearchParams(window.location.search).get("theme")}catch(e){}var stored=null;try{stored=localStorage.getItem("linkxcel-theme")}catch(e){}var theme=param==="light"||param==="dark"?param:stored==="light"||stored==="dark"?stored:"dark";applyTheme(theme);var btn=document.getElementById("themeToggle");if(btn)btn.addEventListener("click",function(){var next=document.body.classList.contains("light")?"dark":"light";try{localStorage.setItem("linkxcel-theme",next)}catch(e){}applyTheme(next)})})();function showErr(msg){var b=document.getElementById("errBox");b.textContent=msg;b.style.display="block"}function hideErr(){var b=document.getElementById("errBox");b.style.display="none";b.textContent=""}function isObj(v){return v!==null&&typeof v==="object"&&!Array.isArray(v)}function joinKey(base,key,notation){if(!base)return String(key);if(notation==="dot")return/^\d+$/.test(String(key))?base+"["+key+"]":base+"."+key;if(notation==="bracket")return base+"["+key+"]";return base+"_"+key}function flatten(v,base,notation,out){if(isObj(v)){Object.keys(v).forEach(function(k){flatten(v[k],joinKey(base,k,notation),notation,out)})}else if(Array.isArray(v)){if(v.length===0)out[base]=[];else v.forEach(function(item,i){flatten(item,joinKey(base,i,notation),notation,out)})}else out[base]=v;return out}function splitKey(key,notation){if(notation==="dot"){var parts=[];key.replace(/([^\.\[\]]+)|\[(\d+)\]/g,function(m,name,idx){parts.push(name!==undefined?name:idx)});return parts}if(notation==="bracket"){var parts=[];key.replace(/([^\[\]]+)|\[(\d+)\]/g,function(m,name,idx){parts.push(name!==undefined?name:idx)});return parts}return key.split("_")}function unflatten(flat,notation){var root={};var isArrayRoot=false;Object.keys(flat).forEach(function(key){var parts=splitKey(key,notation);var node=root;for(var i=0;i<parts.length;i++){var part=parts[i];var last=i===parts.length-1;var next=parts[i+1];var nextIsIndex=next!==undefined&&/^\d+$/.test(next);if(last){node[part]=flat[key]}else{if(node[part]===undefined||typeof node[part]!=="object")node[part]=nextIsIndex?[]:{};node=node[part]}}if(/^\d+$/.test(parts[0]))isArrayRoot=true});if(isArrayRoot){var arr=[];Object.keys(root).forEach(function(k){arr[parseInt(k,10)]=root[k]});return arr}return root}function getJson(){var t=document.getElementById("input").value.trim();if(!t){alert("Paste JSON first.");return null}try{return JSON.parse(t)}catch(e){showErr("Invalid JSON: "+e.message);return undefined}}function copyText(text,okMsg){function done(ok){alert(ok?okMsg:"Copy failed — please copy the output manually.")}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){done(true)},function(){done(false)})}else{var ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{done(document.execCommand("copy"))}catch(e){done(false)}document.body.removeChild(ta)}}document.getElementById("flatBtn").addEventListener("click",function(){var v=getJson();if(v===null||v===undefined)return;hideErr();document.getElementById("out").textContent=JSON.stringify(flatten(v,"",document.getElementById("notation").value,{}),null,2)});document.getElementById("unflatBtn").addEventListener("click",function(){var v=getJson();if(v===null||v===undefined)return;if(!isObj(v)&&!Array.isArray(v)){showErr("Unflatten needs a flat JSON object (key-value pairs).");return}hideErr();document.getElementById("out").textContent=JSON.stringify(unflatten(v,document.getElementById("notation").value),null,2)});document.getElementById("copyBtn").addEventListener("click",function(){var t=document.getElementById("out").textContent;if(!t||t==="Your result will appear here."){alert("Generate a result first, then copy it.");return}copyText(t,"Copied!")});</script>
+</body>
+</html>

@@ -6,14 +6,14 @@
 <title>Remove Duplicate Lines | LinkXcel — Free Duplicate Line Remover</title>
 <meta name="description" content="Remove duplicate lines from pasted text while preserving the original order, with counts and copy or download options, entirely in your browser.">
 <style>
-.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#111;border:1px solid #262626;border-radius:14px;color:#e2e8f0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
 .tool-body *{box-sizing:border-box}
-.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
-.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
-.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#0f172a}
-.tool-body .desc{color:#334155;margin:0 0 12px}
-.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
-.tool-body textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a;min-height:150px;resize:vertical}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#7dd3fc;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#e2e8f0}
+.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#e2e8f0}
+.tool-body .desc{color:#cbd5e1;margin:0 0 12px}
+.tool-body .note{background:#292524;border:1px solid #78350f;border-radius:8px;padding:10px 12px;color:#fde68a;margin:12px 0}
+.tool-body textarea{width:100%;padding:10px;border:1px solid #262626;border-radius:8px;font-size:15px;background:#1a1a1a;color:#e2e8f0;min-height:150px;resize:vertical}
 .tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
 .tool-body button{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#dc2626}
 .tool-body button:hover{filter:brightness(1.08)}
@@ -23,10 +23,55 @@
 .tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
 .tool-body .two-col>*{flex:1 1 320px}
 @media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
+body{background:#050505}
+body.light{background:#f1f5f9}
+.tool-body .theme-toggle{float:right;background:#262626;color:#e2e8f0;padding:8px 14px;font-size:14px}
+body.light .tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+body.light .tool-body *{box-sizing:border-box}
+body.light .tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+body.light .tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+body.light .tool-body p,body.light .tool-body label,body.light .tool-body li,body.light .tool-body td,body.light .tool-body th{color:#0f172a}
+body.light .tool-body .desc{color:#334155;margin:0 0 12px}
+body.light .tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+body.light .tool-body textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a;min-height:150px;resize:vertical}
+body.light .tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+body.light .tool-body button{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#dc2626}
+body.light .tool-body button:hover{filter:brightness(1.08)}
+body.light .tool-body .checkline{display:flex;gap:8px;align-items:center;margin:12px 0}
+body.light .tool-body .checkline input{width:auto}
+body.light .tool-body .stats{font-weight:700;margin:12px 0}
+body.light .tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
+body.light .tool-body .two-col>*{flex:1 1 320px}
+@media (max-width:600px){body.light .tool-body{margin:12px;padding:16px}body.light .tool-body h1{font-size:22px}}
+body.light .tool-body .theme-toggle{background:#e2e8f0;color:#0f172a}
+
+/* LinkXcel motion typography — gradient H1, staggered entrances, hover lift + glow, smooth theme switching. Transform/opacity only; no external resources. */
+.tool-body{position:relative}
+.tool-body::before{content:"";position:absolute;top:0;left:20px;right:20px;height:3px;border-radius:3px;background:linear-gradient(90deg,#38bdf8,#a78bfa,#f472b6,#38bdf8)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+.tool-body h1{background:linear-gradient(90deg,#7dd3fc,#a78bfa,#f472b6,#7dd3fc);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .tool-body h1{background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777,#2563eb);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .tool-body::before{background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777,#2563eb)}
+}
+@media (prefers-reduced-motion: no-preference){
+@keyframes linkxcelFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes linkxcelGradient{from{background-position:0% center}to{background-position:200% center}}
+.tool-body{animation:linkxcelFadeUp .5s ease both}
+.tool-body h1{animation:linkxcelFadeUp .5s .05s ease both,linkxcelGradient 8s linear infinite}
+.tool-body .desc{animation:linkxcelFadeUp .5s .12s ease both}
+.tool-body button{transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}
+.tool-body button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+body.light .tool-body button:hover{box-shadow:0 8px 20px rgba(15,23,42,.18)}
+.tool-body .theme-toggle{transition:background-color .3s ease,color .3s ease,transform .2s ease}
+body,.tool-body{transition:background-color .3s ease,border-color .3s ease}
+}
+.tool-body .footline{margin:24px 0 0;text-align:center;font-size:13px;color:#94a3b8}
+body.light .tool-body .footline{color:#64748b}
 </style>
 </head>
-<body style="margin:0;background:#f1f5f9">
+<body style="margin:0">
 <div class="tool-body">
+<button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark theme">☀ Light mode</button>
 <a class="backlink" href="../index.html">&larr; All Tools</a>
 <h1>Remove Duplicate Lines</h1>
 <p class="desc">Paste lines of text and keep only the first occurrence of each line, in the original order.</p>
@@ -36,52 +81,9 @@
 <div class="checkline"><input type="checkbox" id="ignoreBlank" checked><label for="ignoreBlank">Ignore blank lines</label></div>
 <div class="row"><button type="button" id="runBtn">Remove Duplicates</button><button type="button" id="copyBtn">Copy Result</button><button type="button" id="dlBtn">Download .txt</button></div>
 <p class="stats" id="stats">Total lines: 0 | Unique lines: 0 | Duplicates removed: 0</p>
+<p class="footline">© LinkXcel — All rights reserved.</p>
 </div>
-<script>
-function dedupe(lines, caseSensitive, ignoreBlank) {
-  var seen = {};
-  var out = [];
-  var total = 0;
-  lines.forEach(function (raw) {
-    var line = raw.trim();
-    if (line === "" && ignoreBlank) return;
-    total++;
-    var key = caseSensitive ? line : line.toLowerCase();
-    if (!Object.prototype.hasOwnProperty.call(seen, key)) { seen[key] = true; out.push(line); }
-  });
-  return { unique: out, total: total, removed: total - out.length };
-}
-function copyText(text, okMsg) {
-  function done(ok) { alert(ok ? okMsg : "Copy failed — please select the text and copy it manually."); }
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
-  } else {
-    var ta = document.getElementById("output");
-    ta.focus(); ta.select();
-    try { done(document.execCommand("copy")); } catch (e) { done(false); }
-  }
-}
-document.getElementById("runBtn").addEventListener("click", function () {
-  var v = document.getElementById("input").value;
-  if (!v.trim()) { alert("Paste some lines first."); return; }
-  var r = dedupe(v.split("\n"), document.getElementById("caseSensitive").checked, document.getElementById("ignoreBlank").checked);
-  document.getElementById("output").value = r.unique.join("\n");
-  document.getElementById("stats").textContent = "Total lines: " + r.total + " | Unique lines: " + r.unique.length + " | Duplicates removed: " + r.removed;
-});
-document.getElementById("copyBtn").addEventListener("click", function () {
-  var v = document.getElementById("output").value;
-  if (!v) { alert("Run the remover first, then copy the result."); return; }
-  copyText(v, "Copied!");
-});
-document.getElementById("dlBtn").addEventListener("click", function () {
-  var v = document.getElementById("output").value;
-  if (!v) { alert("Run the remover first, then download the result."); return; }
-  var blob = new Blob([v], { type: "text/plain" });
-  var a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "unique-lines.txt";
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-});
-</script>
+<script>(function(){function applyTheme(t){document.body.classList.toggle("light",t==="light");var b=document.getElementById("themeToggle");if(b)b.textContent=t==="light"?"☾ Dark mode":"☀ Light mode"}var param=null;try{param=new URLSearchParams(window.location.search).get("theme")}catch(e){}var stored=null;try{stored=localStorage.getItem("linkxcel-theme")}catch(e){}var theme=param==="light"||param==="dark"?param:stored==="light"||stored==="dark"?stored:"dark";applyTheme(theme);var btn=document.getElementById("themeToggle");if(btn)btn.addEventListener("click",function(){var next=document.body.classList.contains("light")?"dark":"light";try{localStorage.setItem("linkxcel-theme",next)}catch(e){}applyTheme(next)})})();</script>
+<script>function dedupe(lines,caseSensitive,ignoreBlank){var seen={};var out=[];var total=0;lines.forEach(function(raw){var line=raw.trim();if(line===""&&ignoreBlank)return;total++;var key=caseSensitive?line:line.toLowerCase();if(!Object.prototype.hasOwnProperty.call(seen,key)){seen[key]=true;out.push(line)}});return{unique:out,total:total,removed:total-out.length}}function copyText(text,okMsg){function done(ok){alert(ok?okMsg:"Copy failed — please select the text and copy it manually.")}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){done(true)},function(){done(false)})}else{var ta=document.getElementById("output");ta.focus();ta.select();try{done(document.execCommand("copy"))}catch(e){done(false)}}}document.getElementById("runBtn").addEventListener("click",function(){var v=document.getElementById("input").value;if(!v.trim()){alert("Paste some lines first.");return}var r=dedupe(v.split("\n"),document.getElementById("caseSensitive").checked,document.getElementById("ignoreBlank").checked);document.getElementById("output").value=r.unique.join("\n");document.getElementById("stats").textContent="Total lines: "+r.total+" | Unique lines: "+r.unique.length+" | Duplicates removed: "+r.removed});document.getElementById("copyBtn").addEventListener("click",function(){var v=document.getElementById("output").value;if(!v){alert("Run the remover first, then copy the result.");return}copyText(v,"Copied!")});document.getElementById("dlBtn").addEventListener("click",function(){var v=document.getElementById("output").value;if(!v){alert("Run the remover first, then download the result.");return}var blob=new Blob([v],{type:"text/plain"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="unique-lines.txt";document.body.appendChild(a);a.click();document.body.removeChild(a)});</script>
 </body>
 </html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UUID Generator | LinkXcel — Free UUID v4 Generator</title>
+<meta name="description" content="Generate random UUID version 4 identifiers in bulk, in lowercase or uppercase, entirely in your browser.">
+<style>
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#111;border:1px solid #262626;border-radius:14px;color:#e2e8f0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#7dd3fc;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#ffffff}
+.tool-body p,.tool-body label{color:#cbd5e1}
+.tool-body .desc{color:#9ca3af;margin:0 0 12px}
+.tool-body .note{background:#292524;border:1px solid #78350f;border-radius:8px;padding:10px 12px;color:#fde68a;margin:12px 0}
+.tool-body input[type="number"]{padding:10px;border:1px solid #262626;border-radius:8px;font-size:15px;background:#1a1a1a;color:#e2e8f0;width:120px}
+.tool-body pre{overflow-x:auto;background:#1a1a1a;border:1px solid #262626;border-radius:8px;padding:12px;white-space:pre-wrap;word-break:break-all;color:#e2e8f0;font-family:ui-monospace,Consolas,monospace}
+.tool-body .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body button{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#2563eb}
+.tool-body button:hover{filter:brightness(1.08)}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
+
+body{background:#050505}
+body.light{background:#f1f5f9}
+.tool-body .theme-toggle{float:right;background:#262626;color:#e2e8f0;padding:8px 14px;font-size:14px}
+body.light .tool-body{background:#fff;border-color:#e2e8f0;color:#0f172a}
+body.light .tool-body h1{color:#0f172a}
+body.light .tool-body p,body.light .tool-body label{color:#0f172a}
+body.light .tool-body .desc{color:#334155}
+body.light .tool-body .note{background:#fffbeb;border-color:#fde68a;color:#92400e}
+body.light .tool-body .error,body.light .tool-body .warn{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+body.light .tool-body .ok{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
+body.light .tool-body textarea,body.light .tool-body input[type="text"],body.light .tool-body input[type="number"],body.light .tool-body input[type="datetime-local"],body.light .tool-body select{background:#fff;color:#0f172a;border-color:#cbd5e1}
+body.light .tool-body pre,body.light .tool-body .outbox{background:#f1f5f9;border-color:#e2e8f0;color:#0f172a}
+body.light .tool-body th{background:#f1f5f9;color:#0f172a}
+body.light .tool-body th,body.light .tool-body td{border-color:#e2e8f0;color:#0f172a}
+body.light .tool-body .backlink{color:#2563eb}
+body.light .tool-body .swatch{border-color:#cbd5e1}
+body.light .tool-body .theme-toggle{background:#e2e8f0;color:#0f172a}
+body.light .tool-body .added{color:#16a34a}
+body.light .tool-body .removed{color:#dc2626}
+body.light .tool-body .changed{color:#a16207}
+/* LinkXcel motion typography — gradient H1, staggered entrances, hover lift + glow, smooth theme switching. Transform/opacity only; no external resources. */
+.tool-body{position:relative}
+.tool-body::before{content:"";position:absolute;top:0;left:20px;right:20px;height:3px;border-radius:3px;background:linear-gradient(90deg,#38bdf8,#a78bfa,#f472b6,#38bdf8)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+.tool-body h1{background:linear-gradient(90deg,#7dd3fc,#a78bfa,#f472b6,#7dd3fc);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .tool-body h1{background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777,#2563eb);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .tool-body::before{background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777,#2563eb)}
+}
+@media (prefers-reduced-motion: no-preference){
+@keyframes linkxcelFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes linkxcelGradient{from{background-position:0% center}to{background-position:200% center}}
+.tool-body{animation:linkxcelFadeUp .5s ease both}
+.tool-body h1{animation:linkxcelFadeUp .5s .05s ease both,linkxcelGradient 8s linear infinite}
+.tool-body .desc{animation:linkxcelFadeUp .5s .12s ease both}
+.tool-body button{transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}
+.tool-body button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+body.light .tool-body button:hover{box-shadow:0 8px 20px rgba(15,23,42,.18)}
+.tool-body .theme-toggle{transition:background-color .3s ease,color .3s ease,transform .2s ease}
+body,.tool-body{transition:background-color .3s ease,border-color .3s ease}
+}
+.tool-body .footline{margin:24px 0 0;text-align:center;font-size:13px;color:#94a3b8}
+body.light .tool-body .footline{color:#64748b}
+</style>
+</head>
+<body style="margin:0">
+<div class="tool-body">
+<button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark theme">☀ Light mode</button>
+<a class="backlink" href="../index.html">&larr; All Tools</a>
+<h1>UUID Generator</h1>
+<p class="desc">Generate random UUID version 4 identifiers — one, or a whole list at once.</p>
+<p class="note">Runs entirely in your browser — nothing is uploaded. UUIDs are random version 4 values (the third group starts with 4, the fourth starts with 8, 9, a, or b). Random v4 UUIDs are designed so collisions are extremely unlikely, but this tool does not check them against any database, so it cannot promise any value has never been used before.</p>
+<div class="row"><label for="count">How many (1–100):</label><input type="number" id="count" value="5" min="1" max="100">
+<label><input type="radio" name="casing" id="lower" checked> lowercase</label>
+<label><input type="radio" name="casing" id="upper"> UPPERCASE</label></div>
+<div class="row"><button type="button" id="genBtn">Generate UUIDs</button><button type="button" id="copyBtn">Copy All</button><button type="button" id="dlBtn">Download .txt</button></div>
+<label>Generated UUIDs</label>
+<pre id="out">Your UUIDs will appear here.</pre>
+<p class="footline">© LinkXcel — All rights reserved.</p>
+</div>
+<script>(function(){function applyTheme(t){document.body.classList.toggle("light",t==="light");var b=document.getElementById("themeToggle");if(b)b.textContent=t==="light"?"☾ Dark mode":"☀ Light mode"}var param=null;try{param=new URLSearchParams(window.location.search).get("theme")}catch(e){}var stored=null;try{stored=localStorage.getItem("linkxcel-theme")}catch(e){}var theme=param==="light"||param==="dark"?param:stored==="light"||stored==="dark"?stored:"dark";applyTheme(theme);var btn=document.getElementById("themeToggle");if(btn)btn.addEventListener("click",function(){var next=document.body.classList.contains("light")?"dark":"light";try{localStorage.setItem("linkxcel-theme",next)}catch(e){}applyTheme(next)})})();function makeUuid(){if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();var bytes=new Uint8Array(16);if(window.crypto&&crypto.getRandomValues)crypto.getRandomValues(bytes);else for(var i=0;i<16;i++)bytes[i]=Math.floor(Math.random()*256);bytes[6]=bytes[6]&15|64;bytes[8]=bytes[8]&63|128;function hx(n){var s=n.toString(16);return s.length===1?"0"+s:s}var h=Array.prototype.map.call(bytes,hx).join("");return h.slice(0,8)+"-"+h.slice(8,12)+"-"+h.slice(12,16)+"-"+h.slice(16,20)+"-"+h.slice(20)}function copyText(text,okMsg){function done(ok){alert(ok?okMsg:"Copy failed — please copy the UUIDs manually.")}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){done(true)},function(){done(false)})}else{var ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{done(document.execCommand("copy"))}catch(e){done(false)}document.body.removeChild(ta)}}function download(name,text){var blob=new Blob([text],{type:"text/plain"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(a.href)},0)}document.getElementById("genBtn").addEventListener("click",function(){var n=parseInt(document.getElementById("count").value,10);if(isNaN(n)){alert("Enter a count between 1 and 100.");return}n=Math.min(100,Math.max(1,n));document.getElementById("count").value=n;var upper=document.getElementById("upper").checked;var list=[];for(var i=0;i<n;i++){var u=makeUuid();list.push(upper?u.toUpperCase():u)}document.getElementById("out").textContent=list.join("\n")});document.getElementById("copyBtn").addEventListener("click",function(){var t=document.getElementById("out").textContent;if(!t||t==="Your UUIDs will appear here."){alert("Generate UUIDs first, then copy them.");return}copyText(t,"Copied!")});document.getElementById("dlBtn").addEventListener("click",function(){var t=document.getElementById("out").textContent;if(!t||t==="Your UUIDs will appear here."){alert("Generate UUIDs first, then download them.");return}download("uuids.txt",t+"\n")});</script>
+</body>
+</html>

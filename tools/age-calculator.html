@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Age Calculator | LinkXcel — Free Exact Age Calculator</title>
+<meta name="description" content="Calculate your exact age in years, months, weeks and days from your date of birth, entirely in your browser.">
+<style>
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#111;border:1px solid #262626;border-radius:14px;color:#e2e8f0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#7dd3fc;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#ffffff}
+.tool-body p,.tool-body label{color:#cbd5e1}
+.tool-body .desc{color:#9ca3af;margin:0 0 12px}
+.tool-body .note{background:#292524;border:1px solid #78350f;border-radius:8px;padding:10px 12px;color:#fde68a;margin:12px 0}
+.tool-body .err{background:#450a0a;border:1px solid #7f1d1d;border-radius:8px;padding:10px 12px;color:#fecaca;margin:12px 0}
+.tool-body input[type="date"]{padding:10px;border:1px solid #262626;border-radius:8px;font-size:15px;background:#1a1a1a;color:#e2e8f0}
+.tool-body .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body button{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#2563eb}
+.tool-body button:hover{filter:brightness(1.08)}
+.tool-body table{border-collapse:collapse;width:100%;margin:12px 0}
+.tool-body th,.tool-body td{border:1px solid #262626;padding:8px 10px;text-align:left;color:#e2e8f0}
+.tool-body th{background:#1a1a1a}
+.tool-body .result{font-size:20px;font-weight:700;color:#fff}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
+body{background:#050505}
+body.light{background:#f1f5f9}
+.tool-body .theme-toggle{float:right;background:#262626;color:#e2e8f0;padding:8px 14px;font-size:14px}
+body.light .tool-body{background:#fff;border-color:#e2e8f0;color:#0f172a}
+body.light .tool-body h1{color:#0f172a}
+body.light .tool-body p,body.light .tool-body label{color:#0f172a}
+body.light .tool-body .desc{color:#334155}
+body.light .tool-body .note{background:#fffbeb;border-color:#fde68a;color:#92400e}
+body.light .tool-body .err{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+body.light .tool-body input[type="date"]{background:#fff;color:#0f172a;border-color:#cbd5e1}
+body.light .tool-body th{background:#f1f5f9;color:#0f172a}
+body.light .tool-body th,body.light .tool-body td{border-color:#e2e8f0;color:#0f172a}
+body.light .tool-body .backlink{color:#2563eb}
+body.light .tool-body .theme-toggle{background:#e2e8f0;color:#0f172a}
+body.light .tool-body .result{color:#0f172a}
+.tool-body{position:relative}
+.tool-body::before{content:"";position:absolute;top:0;left:20px;right:20px;height:3px;border-radius:3px;background:linear-gradient(90deg,#38bdf8,#a78bfa,#f472b6,#38bdf8)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+.tool-body h1{background:linear-gradient(90deg,#7dd3fc,#a78bfa,#f472b6,#7dd3fc);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .tool-body h1{background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777,#2563eb);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.light .tool-body::before{background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777,#2563eb)}
+}
+@media (prefers-reduced-motion: no-preference){
+@keyframes linkxcelFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes linkxcelGradient{from{background-position:0% center}to{background-position:200% center}}
+.tool-body{animation:linkxcelFadeUp .5s ease both}
+.tool-body h1{animation:linkxcelFadeUp .5s .05s ease both,linkxcelGradient 8s linear infinite}
+.tool-body .desc{animation:linkxcelFadeUp .5s .12s ease both}
+.tool-body button{transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}
+.tool-body button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+body.light .tool-body button:hover{box-shadow:0 8px 20px rgba(15,23,42,.18)}
+.tool-body .theme-toggle{transition:background-color .3s ease,color .3s ease,transform .2s ease}
+body,.tool-body{transition:background-color .3s ease,border-color .3s ease}
+}
+.tool-body .footline{margin:24px 0 0;text-align:center;font-size:13px;color:#94a3b8}
+body.light .tool-body .footline{color:#64748b}
+</style>
+</head>
+<body style="margin:0">
+<div class="tool-body">
+<button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark theme">☀ Light mode</button>
+<a class="backlink" href="../index.html">&larr; All Tools</a>
+<h1>Age Calculator</h1>
+<p class="desc">Find your exact age in years, months, weeks and days from your date of birth.</p>
+<p class="note">Runs entirely in your browser — nothing is uploaded. Ages use real calendar math, so leap years and months of different lengths are handled correctly. Leave "As of" empty to use today.</p>
+<div class="row"><label for="dob">Date of birth:</label><input type="date" id="dob">
+<label for="asof">As of (optional):</label><input type="date" id="asof"></div>
+<div class="row"><button type="button" id="calcBtn">Calculate Age</button></div>
+<p class="err" id="err" hidden></p>
+<p class="result" id="headline"></p>
+<table id="resultTable" hidden>
+<tr><th>Measure</th><th>Value</th></tr>
+<tr><td>Years, months, days</td><td id="ymd"></td></tr>
+<tr><td>Total months</td><td id="totalMonths"></td></tr>
+<tr><td>Total weeks</td><td id="totalWeeks"></td></tr>
+<tr><td>Total days</td><td id="totalDays"></td></tr>
+</table>
+<p class="footline">© LinkXcel — All rights reserved.</p>
+</div>
+<script>(function(){function applyTheme(t){document.body.classList.toggle("light",t==="light");var b=document.getElementById("themeToggle");if(b)b.textContent=t==="light"?"☾ Dark mode":"☀ Light mode"}var param=null;try{param=new URLSearchParams(window.location.search).get("theme")}catch(e){}var stored=null;try{stored=localStorage.getItem("linkxcel-theme")}catch(e){}var theme=param==="light"||param==="dark"?param:stored==="light"||stored==="dark"?stored:"dark";applyTheme(theme);var btn=document.getElementById("themeToggle");if(btn)btn.addEventListener("click",function(){var next=document.body.classList.contains("light")?"dark":"light";try{localStorage.setItem("linkxcel-theme",next)}catch(e){}applyTheme(next)})})();function parseDate(str){var parts=str.split("-");if(parts.length!==3)return null;var y=parseInt(parts[0],10);var m=parseInt(parts[1],10)-1;var d=parseInt(parts[2],10);if(isNaN(y)||isNaN(m)||isNaN(d))return null;var dt=new Date(Date.UTC(y,m,d));if(dt.getUTCFullYear()!==y||dt.getUTCMonth()!==m||dt.getUTCDate()!==d)return null;return dt}function calcAge(dobStr,refStr){var dob=parseDate(dobStr);if(!dob)return{error:"Enter a valid date of birth."};var ref=refStr?parseDate(refStr):null;if(refStr&&!ref)return{error:"Enter a valid 'As of' date."};if(!ref){var now=new Date();ref=new Date(Date.UTC(now.getFullYear(),now.getMonth(),now.getDate()))}if(ref<dob)return{error:"The 'As of' date cannot be before the date of birth."};var years=ref.getUTCFullYear()-dob.getUTCFullYear();var months=ref.getUTCMonth()-dob.getUTCMonth();var days=ref.getUTCDate()-dob.getUTCDate();if(days<0){months-=1;var prev=new Date(Date.UTC(ref.getUTCFullYear(),ref.getUTCMonth(),0));days+=prev.getUTCDate()}if(months<0){years-=1;months+=12}var totalDays=Math.floor((ref.getTime()-dob.getTime())/86400000);var totalMonths=years*12+months;return{years:years,months:months,days:days,totalDays:totalDays,totalWeeks:Math.floor(totalDays/7),totalMonths:totalMonths}}function showErr(msg){var el=document.getElementById("err");el.textContent=msg;el.hidden=false;document.getElementById("resultTable").hidden=true;document.getElementById("headline").textContent=""}document.getElementById("calcBtn").addEventListener("click",function(){var dob=document.getElementById("dob").value;var asof=document.getElementById("asof").value;if(!dob){showErr("Enter your date of birth first.");return}var r=calcAge(dob,asof);if(r.error){showErr(r.error);return}document.getElementById("err").hidden=true;document.getElementById("headline").textContent="You are "+r.years+" years, "+r.months+" months and "+r.days+" days old.";document.getElementById("ymd").textContent=r.years+" years, "+r.months+" months, "+r.days+" days";document.getElementById("totalMonths").textContent=r.totalMonths+" months";document.getElementById("totalWeeks").textContent=r.totalWeeks+" weeks";document.getElementById("totalDays").textContent=r.totalDays+" days";document.getElementById("resultTable").hidden=false});</script>
+</body>
+</html>

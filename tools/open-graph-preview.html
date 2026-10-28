@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open Graph Preview | LinkXcel — Free SEO Tools</title>
+<meta name="description" content="Enter an Open Graph title, description, image and page URL, and preview how the page could look when shared on social media.">
+<style>
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+.tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
+.tool-body p,.tool-body label,.tool-body li{color:#0f172a}
+.tool-body .desc{color:#334155;margin:0 0 12px}
+.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+.tool-body textarea,.tool-body input[type="text"],.tool-body select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+.tool-body textarea{min-height:80px;resize:vertical}
+.tool-body .field{margin:0 0 12px}
+.tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body .row>*{flex:1 1 200px}
+.tool-body button{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#db2777}
+.tool-body button:hover{filter:brightness(1.08)}
+.tool-body pre{white-space:pre-wrap;word-break:break-all;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;font-size:13px;color:#0f172a}
+.tool-body .ogcard{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;max-width:520px}
+.tool-body .ogcard img{width:100%;display:block;max-height:280px;object-fit:cover}
+.tool-body .ogplaceholder{background:#f1f5f9;color:#64748b;text-align:center;padding:60px 16px;font-size:14px}
+.tool-body .ogbody{padding:14px 16px}
+.tool-body .ogdomain{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#64748b;margin:0 0 4px}
+.tool-body .ogtitle{font-size:18px;font-weight:700;color:#0f172a;margin:0 0 4px;word-break:break-word}
+.tool-body .ogdesc{font-size:14px;color:#475569;margin:0;word-break:break-word}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
+</style>
+</head>
+<body style="margin:0;background:#f1f5f9">
+<main class="tool-body">
+<a class="backlink" href="../index.html">&larr; All LinkXcel Tools</a>
+<h1>Open Graph Preview</h1>
+<p class="desc">Enter your Open Graph details and preview a social share card, plus the OG meta tags to add to your page.</p>
+<p class="note">Honest note: this preview is a generic social-card mock-up. Facebook, X, LinkedIn and other platforms each render cards slightly differently and may cache older versions of your tags.</p>
+<h2>Open Graph details</h2>
+<div class="field"><label for="ogTitle">OG title</label><input type="text" id="ogTitle" placeholder="Your page title"></div>
+<div class="field"><label for="ogDesc">OG description</label><textarea id="ogDesc" placeholder="A short summary for social shares"></textarea></div>
+<div class="field"><label for="ogImage">Image URL (optional)</label><input type="text" id="ogImage" placeholder="https://example.com/share-image.jpg"></div>
+<div class="field"><label for="ogUrl">Page URL</label><input type="text" id="ogUrl" placeholder="https://example.com/page"></div>
+<div class="field"><label for="ogType">Type</label>
+<select id="ogType">
+<option value="website">website</option>
+<option value="article">article</option>
+<option value="product">product</option>
+<option value="profile">profile</option>
+<option value="book">book</option>
+</select></div>
+<h2>Share card preview</h2>
+<div class="ogcard" aria-label="Simulated social share card preview">
+<div id="ogImgWrap"><div class="ogplaceholder">No image URL yet — add an image URL above to preview it here.</div></div>
+<div class="ogbody">
+<p class="ogdomain" id="ogDomain">yourdomain.com</p>
+<p class="ogtitle" id="ogPrevTitle">Your OG title will appear here</p>
+<p class="ogdesc" id="ogPrevDesc">Your OG description will appear here.</p>
+</div>
+</div>
+<h2>Generated OG tags</h2>
+<pre id="ogOut">Fill in the fields above to generate OG tags.</pre>
+<div class="row"><button type="button" id="ogCopy">Copy OG Tags</button></div>
+</main>
+<script>
+function escAttr(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function domainOf(url){
+  try{
+    var u = String(url||"").trim();
+    if(!u) return "yourdomain.com";
+    if(u.indexOf("http")!==0) u = "https://"+u;
+    return new URL(u).hostname;
+  }catch(e){ return "yourdomain.com"; }
+}
+function buildOgTags(d){
+  var lines = [];
+  if(d.title) lines.push("<meta property=\"og:title\" content=\""+escAttr(d.title)+"\">");
+  if(d.desc) lines.push("<meta property=\"og:description\" content=\""+escAttr(d.desc)+"\">");
+  if(d.image) lines.push("<meta property=\"og:image\" content=\""+escAttr(d.image)+"\">");
+  if(d.url) lines.push("<meta property=\"og:url\" content=\""+escAttr(d.url)+"\">");
+  if(d.type) lines.push("<meta property=\"og:type\" content=\""+escAttr(d.type)+"\">");
+  return lines.join("\n");
+}
+function copyText(text, okMsg){
+  if(!text || !text.trim()){ alert("Nothing to copy yet — fill in the fields first."); return; }
+  function done(ok){ if(ok){ alert(okMsg); } else { alert("Copy failed. Please select the text and copy it manually."); } }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ fallbackCopy(text, done); });
+  } else { fallbackCopy(text, done); }
+}
+function fallbackCopy(text, done){
+  try{
+    var ta=document.createElement("textarea");
+    ta.value=text; ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.select();
+    var ok=document.execCommand("copy");
+    document.body.removeChild(ta); done(ok);
+  }catch(e){ done(false); }
+}
+function updateOg(){
+  var d = {
+    title: document.getElementById("ogTitle").value.trim(),
+    desc: document.getElementById("ogDesc").value.trim(),
+    image: document.getElementById("ogImage").value.trim(),
+    url: document.getElementById("ogUrl").value.trim(),
+    type: document.getElementById("ogType").value
+  };
+  document.getElementById("ogPrevTitle").textContent = d.title || "Your OG title will appear here";
+  document.getElementById("ogPrevDesc").textContent = d.desc || "Your OG description will appear here.";
+  document.getElementById("ogDomain").textContent = domainOf(d.url);
+  var wrap = document.getElementById("ogImgWrap");
+  if(d.image){
+    var img = document.createElement("img");
+    img.src = d.image;
+    img.alt = "OG preview image from the URL you entered";
+    img.onerror = function(){ wrap.innerHTML = ""; var ph=document.createElement("div"); ph.className="ogplaceholder"; ph.textContent="Image could not be loaded from that URL. Check the image URL and try again."; wrap.appendChild(ph); };
+    wrap.innerHTML = "";
+    wrap.appendChild(img);
+  } else {
+    wrap.innerHTML = "";
+    var ph2=document.createElement("div"); ph2.className="ogplaceholder"; ph2.textContent="No image URL yet — add an image URL above to preview it here.";
+    wrap.appendChild(ph2);
+  }
+  var out = buildOgTags(d);
+  document.getElementById("ogOut").textContent = out || "Fill in the fields above to generate OG tags.";
+}
+["ogTitle","ogDesc","ogImage","ogUrl","ogType"].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el) el.addEventListener("input", updateOg);
+});
+var _c=document.getElementById("ogCopy"); if(_c) _c.addEventListener("click", function(){
+  updateOg();
+  var txt = document.getElementById("ogOut").textContent;
+  if(txt.indexOf("Fill in the fields")===0){ alert("Nothing to copy yet — fill in at least one field first."); return; }
+  copyText(txt, "OG tags copied.");
+});
+updateOg();
+</script>
+</body>
+</html>

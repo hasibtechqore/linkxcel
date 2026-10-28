@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keyword Density Checker | LinkXcel — Free SEO Tools</title>
+<meta name="description" content="Paste any text and check its word count, unique words, and keyword density, with a table of the most frequent keywords.">
+<style>
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+.tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
+.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#0f172a}
+.tool-body .desc{color:#334155;margin:0 0 12px}
+.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+.tool-body textarea,.tool-body input[type="text"]{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+.tool-body textarea{min-height:200px;resize:vertical}
+.tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body .row>*{flex:1 1 200px}
+.tool-body button{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#16a34a}
+.tool-body button:hover{filter:brightness(1.08)}
+.tool-body .stats{font-weight:700;margin:12px 0}
+.tool-body .tblwrap{overflow-x:auto;margin-top:16px}
+.tool-body table{width:100%;border-collapse:collapse;min-width:480px}
+.tool-body th,.tool-body td{border:1px solid #e2e8f0;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
+.tool-body th{background:#f1f5f9}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
+</style>
+</head>
+<body style="margin:0;background:#f1f5f9">
+<main class="tool-body">
+<a class="backlink" href="../index.html">&larr; All LinkXcel Tools</a>
+<h1>Keyword Density Checker</h1>
+<p class="desc">Paste text and, optionally, a target keyword. The tool counts words and shows how often each keyword appears.</p>
+<p class="note">Honest note: this counts words in the text you paste. It does NOT read your live web page, and density alone does not determine search rankings — there is no ideal density percentage.</p>
+<h2>Your text</h2>
+<label for="kdText">Text to analyse</label>
+<textarea id="kdText" placeholder="Paste your article or page text here..."></textarea>
+<label for="kdTarget">Target keyword (optional)</label>
+<input type="text" id="kdTarget" placeholder="e.g. backlink checker">
+<div class="row"><button type="button" id="kdBtn">Check Density</button></div>
+<h2>Results</h2>
+<p class="stats" id="kdStats">Enter text and click Check Density.</p>
+<div class="tblwrap"><table id="kdTable" aria-label="Top keywords table">
+<thead><tr><th>Keyword</th><th>Count</th><th>Density</th></tr></thead>
+<tbody id="kdRows"><tr><td colspan="3">No results yet.</td></tr></tbody>
+</table></div>
+<p class="desc">Stopword approach: a built-in list of common English words (a, an, the, and, or, but, if, then, when, of, to, in, on, for, with, by, at, from, as, is, are, was, were, be, been, it, its, this, that, these, those, he, she, they, we, you, i, his, her, their, our, your, not, no, yes, do, does, did, have, has, had, will, would, can, could, should, may, might, must, about, into, over, under, after, before, between, through, during, each, every, all, any, some, more, most, other, such, only, own, same, so, than, too, very, just, also) is excluded from the top-keywords table, so filler words do not crowd out real keywords. The target keyword is counted even if it is a stopword phrase.</p>
+</main>
+<script>
+var STOPWORDS = {};
+"a an the and or but if then else when of to in on for with by at from as is are was were be been it its this that these those he she they we you i his her their our your not no yes do does did have has had will would can could should may might must about into over under after before between through during each every all any some more most other such only own same so than too very just also".split(" ").forEach(function(w){ STOPWORDS[w]=true; });
+function tokenize(text){
+  var m = String(text||"").toLowerCase().match(/[\p{L}\p{N}]+(?:'[\p{L}]+)?/gu);
+  return m || [];
+}
+function analyzeText(text, target){
+  var tokens = tokenize(text);
+  var total = tokens.length;
+  var counts = {};
+  tokens.forEach(function(w){ counts[w]=(counts[w]||0)+1; });
+  var unique = Object.keys(counts).length;
+  var top = Object.keys(counts).filter(function(w){ return !STOPWORDS[w]; })
+    .map(function(w){ return {word:w, count:counts[w], density: total? (counts[w]/total*100):0}; })
+    .sort(function(a,b){ return b.count-a.count || (a.word<b.word?-1:1); })
+    .slice(0,20);
+  var t = String(target||"").trim().toLowerCase();
+  var tCount = 0, tDensity = 0;
+  if(t && total){
+    if(t.indexOf(" ")===-1){
+      tCount = counts[t]||0;
+    } else {
+      var low = String(text||"").toLowerCase();
+      var idx = 0;
+      while(true){ var f = low.indexOf(t, idx); if(f===-1) break; tCount++; idx = f + t.length; }
+    }
+    var tWords = t.split(/\s+/).length;
+    tDensity = (tCount*tWords/total*100);
+  }
+  return {total:total, unique:unique, top:top, target:t, targetCount:tCount, targetDensity:tDensity};
+}
+function runDensity(){
+  var text = document.getElementById("kdText").value;
+  var target = document.getElementById("kdTarget").value;
+  if(!text.trim()){ alert("Paste some text first."); return; }
+  var r = analyzeText(text, target);
+  var s = "Total words: "+r.total+" | Unique words: "+r.unique;
+  if(r.target){ s += " | Target \""+r.target+"\": "+r.targetCount+" times ("+r.targetDensity.toFixed(2)+"%)"; }
+  document.getElementById("kdStats").textContent = s;
+  var rows = document.getElementById("kdRows");
+  if(!r.top.length){ rows.innerHTML = "<tr><td colspan=\"3\">No keywords found (text contained only stopwords).</td></tr>"; return; }
+  var html = "";
+  r.top.forEach(function(k){
+    html += "<tr><td>"+k.word+"</td><td>"+k.count+"</td><td>"+k.density.toFixed(2)+"%</td></tr>";
+  });
+  rows.innerHTML = html;
+}
+var _b=document.getElementById("kdBtn"); if(_b) _b.addEventListener("click", runDensity);
+</script>
+</body>
+</html>

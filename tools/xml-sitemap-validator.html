@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XML Sitemap Validator | LinkXcel — Free SEO Tools</title>
+<meta name="description" content="Paste or upload an XML sitemap and check its structure, count its URLs, and review it against sitemap best practices.">
+<style>
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+.tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
+.tool-body h3{margin:16px 0 8px;font-size:16px;color:#0f172a}
+.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#0f172a}
+.tool-body .desc{color:#334155;margin:0 0 12px}
+.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+.tool-body .ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;color:#166534;margin:12px 0}
+.tool-body .bad{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;color:#991b1b;margin:12px 0}
+.tool-body textarea,.tool-body input[type="file"]{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+.tool-body textarea{min-height:240px;resize:vertical;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px}
+.tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body .row>*{flex:1 1 200px}
+.tool-body button{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#0d9488}
+.tool-body button:hover{filter:brightness(1.08)}
+.tool-body .stats{font-weight:700;margin:12px 0}
+.tool-body ul{margin:8px 0;padding-left:20px}
+.tool-body li{margin:4px 0;word-break:break-word}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
+</style>
+</head>
+<body style="margin:0;background:#f1f5f9">
+<main class="tool-body">
+<a class="backlink" href="../index.html">&larr; All LinkXcel Tools</a>
+<h1>XML Sitemap Validator</h1>
+<p class="desc">Paste your sitemap XML, or upload a .xml file, and check whether it parses and follows sitemap best practices.</p>
+<p class="note">Honest note: this checks the structure of the file you give it. It does NOT check whether Google has indexed your pages, and it does not fetch URLs from the internet — everything runs in your browser.</p>
+<h2>Your sitemap</h2>
+<label for="smText">Paste sitemap XML</label>
+<textarea id="smText" placeholder="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#10;&lt;urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;&#10;  &lt;url&gt;&lt;loc&gt;https://example.com/&lt;/loc&gt;&lt;/url&gt;&#10;&lt;/urlset&gt;"></textarea>
+<label for="smFile">Or upload a .xml file</label>
+<input type="file" id="smFile" accept=".xml,text/xml">
+<div class="row"><button type="button" id="smBtn">Validate Sitemap</button></div>
+<h2>Validation result</h2>
+<div id="smResult"><p class="desc">Paste or upload a sitemap and click Validate Sitemap.</p></div>
+<h3>Best-practice checklist</h3>
+<ul id="smChecks"><li>Not checked yet.</li></ul>
+<h3>Issues found</h3>
+<ul id="smIssues"><li>None yet.</li></ul>
+</main>
+<script>
+function validateSitemap(xml){
+  var issues = [];
+  var checks = [];
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(xml, "application/xml");
+  var err = doc.getElementsByTagName("parsererror");
+  if(err.length){
+    var msg = err[0].textContent || "XML parse error";
+    var lm = msg.match(/line\s+(\d+)/i);
+    issues.push("XML does not parse" + (lm ? " (around line "+lm[1]+")" : "") + ": " + msg);
+    return {valid:false, urlCount:0, checks:["XML parses: no"], issues:issues};
+  }
+  checks.push("XML parses: yes");
+  var hasDecl = xml.trim().indexOf("<?xml")===0;
+  checks.push("XML declaration present: " + (hasDecl ? "yes" : "no — add <?xml version=\"1.0\" encoding=\"UTF-8\"?> at the top"));
+  if(!hasDecl) issues.push("Missing XML declaration at the start of the file.");
+  var root = doc.documentElement;
+  var ns = root ? root.getAttribute("xmlns") : "";
+  var nsOk = ns === "http://www.sitemaps.org/schemas/sitemap/0.9";
+  checks.push("urlset namespace is http://www.sitemaps.org/schemas/sitemap/0.9: " + (nsOk ? "yes" : "no (found: "+(ns||"none")+")"));
+  if(!nsOk) issues.push("Root element namespace is not the sitemap namespace (expected http://www.sitemaps.org/schemas/sitemap/0.9).");
+  var urls = doc.getElementsByTagName("url");
+  var urlCount = urls.length;
+  checks.push("URL entries: " + urlCount);
+  if(urlCount===0) issues.push("No <url> entries found in the sitemap.");
+  if(urlCount>50000) issues.push("More than 50,000 URLs ("+urlCount+") — the sitemap guideline is a maximum of 50,000 URLs per file; split it into multiple sitemaps.");
+  var sizeBytes = 0;
+  try{ sizeBytes = new Blob([xml]).size; }catch(e){ sizeBytes = xml.length; }
+  checks.push("File size: about " + (sizeBytes/1024).toFixed(1) + " KB (guideline: under 50 MB uncompressed)");
+  if(sizeBytes>50*1024*1024) issues.push("File is over 50 MB — the sitemap guideline is a maximum of 50 MB uncompressed per file.");
+  var seenLocs = {};
+  var dupCount = 0;
+  var shown = 0;
+  for(var i=0;i<urls.length;i++){
+    var locEls = urls[i].getElementsByTagName("loc");
+    if(!locEls.length || !locEls[0].textContent.trim()){
+      if(shown<20) issues.push("URL entry #" + (i+1) + " has no <loc> or an empty <loc>.");
+      shown++;
+      continue;
+    }
+    var loc = locEls[0].textContent.trim();
+    if(seenLocs[loc]){ dupCount++; } else { seenLocs[loc]=true; }
+    try{ new URL(loc); }catch(e){
+      if(shown<20) issues.push("URL entry #" + (i+1) + " has an invalid URL in <loc>: " + loc);
+      shown++;
+    }
+    var lmEls = urls[i].getElementsByTagName("lastmod");
+    if(lmEls.length){
+      var lm = lmEls[0].textContent.trim();
+      if(!/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2})?(\.\d+)?(Z|[+-]\d{2}:\d{2})?)?$/.test(lm)){
+        if(shown<20) issues.push("URL entry #" + (i+1) + " has a lastmod that does not look like YYYY-MM-DD (or full ISO date-time): " + lm);
+        shown++;
+      }
+    }
+  }
+  if(dupCount) issues.push("Duplicate <loc> values found: " + dupCount + " repeated URL(s).");
+  return {valid:true, urlCount:urlCount, checks:checks, issues:issues};
+}
+function runValidation(){
+  var xml = document.getElementById("smText").value;
+  if(!xml.trim()){ alert("Paste sitemap XML or upload a .xml file first."); return; }
+  var r = validateSitemap(xml);
+  var res = document.getElementById("smResult");
+  if(!r.valid){
+    res.innerHTML = "";
+    var d=document.createElement("div"); d.className="bad"; d.textContent="Invalid sitemap — the XML does not parse. See Issues below.";
+    res.appendChild(d);
+  } else {
+    res.innerHTML = "";
+    var d2=document.createElement("div"); d2.className="ok"; d2.textContent="Valid XML sitemap structure — "+r.urlCount+" URL entr"+(r.urlCount===1?"y":"ies")+" found.";
+    res.appendChild(d2);
+    if(r.issues.length){
+      var d3=document.createElement("div"); d3.className="note"; d3.textContent="Structure is valid, but "+r.issues.length+" best-practice issue(s) were found below.";
+      res.appendChild(d3);
+    }
+  }
+  var cl = document.getElementById("smChecks");
+  cl.innerHTML = "";
+  r.checks.forEach(function(c){ var li=document.createElement("li"); li.textContent=c; cl.appendChild(li); });
+  var il = document.getElementById("smIssues");
+  il.innerHTML = "";
+  if(!r.issues.length){ var li0=document.createElement("li"); li0.textContent="No issues found."; il.appendChild(li0); }
+  else r.issues.forEach(function(s){ var li=document.createElement("li"); li.textContent=s; il.appendChild(li); });
+}
+var _b=document.getElementById("smBtn"); if(_b) _b.addEventListener("click", runValidation);
+var _f=document.getElementById("smFile"); if(_f) _f.addEventListener("change", function(){
+  var f = _f.files && _f.files[0];
+  if(!f) return;
+  var rd = new FileReader();
+  rd.onload = function(){ document.getElementById("smText").value = rd.result; };
+  rd.onerror = function(){ alert("Could not read that file. Try pasting the XML instead."); };
+  rd.readAsText(f);
+});
+</script>
+</body>
+</html>

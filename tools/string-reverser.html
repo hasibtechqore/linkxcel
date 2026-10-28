@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>String Reverser | LinkXcel — Free Text Reverser Tool</title>
+<meta name="description" content="Reverse an entire string or reverse each word in a sentence while keeping word order, entirely in your browser.">
+<style>
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#0f172a}
+.tool-body .desc{color:#334155;margin:0 0 12px}
+.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+.tool-body textarea,.tool-body select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+.tool-body textarea{min-height:130px;resize:vertical}
+.tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body button{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#7c3aed}
+.tool-body button:hover{filter:brightness(1.08)}
+.tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
+.tool-body .two-col>*{flex:1 1 320px}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
+</style>
+</head>
+<body style="margin:0;background:#f1f5f9">
+<div class="tool-body">
+<a class="backlink" href="../index.html">&larr; All Tools</a>
+<h1>String Reverser</h1>
+<p class="desc">Reverse a whole string, or reverse the letters of each word while keeping the words in the same order.</p>
+<p class="note">Runs entirely in your browser — your text never leaves your device. Reversal is character-by-character; it does not translate, decode, or fix spelling.</p>
+<div class="two-col"><div><label for="input">Input</label><textarea id="input" placeholder="Hello world"></textarea></div><div><label for="output">Output</label><textarea id="output" readonly placeholder="Reversed text will appear here."></textarea></div></div>
+<label for="mode">Mode</label>
+<select id="mode"><option value="whole">Reverse entire string</option><option value="words">Reverse each word (word order preserved)</option></select>
+<div class="row"><button type="button" id="runBtn">Reverse</button><button type="button" id="copyBtn">Copy Result</button></div>
+</div>
+<script>
+function reverseWhole(s) { return s.split("").reverse().join(""); }
+function reverseEachWord(s) {
+  return s.split(/(\s+)/).map(function (part) {
+    return /^\s+$/.test(part) ? part : part.split("").reverse().join("");
+  }).join("");
+}
+function copyText(text, okMsg) {
+  function done(ok) { alert(ok ? okMsg : "Copy failed — please select the text and copy it manually."); }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+  } else {
+    var ta = document.getElementById("output");
+    ta.focus(); ta.select();
+    try { done(document.execCommand("copy")); } catch (e) { done(false); }
+  }
+}
+document.getElementById("runBtn").addEventListener("click", function () {
+  var v = document.getElementById("input").value;
+  if (!v) { alert("Type some text first."); return; }
+  document.getElementById("output").value = document.getElementById("mode").value === "words" ? reverseEachWord(v) : reverseWhole(v);
+});
+document.getElementById("copyBtn").addEventListener("click", function () {
+  var v = document.getElementById("output").value;
+  if (!v) { alert("Reverse some text first, then copy it."); return; }
+  copyText(v, "Copied!");
+});
+</script>
+</body>
+</html>

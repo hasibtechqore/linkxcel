@@ -4,94 +4,107 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Links Shuffler | LinkXcel</title>
-<meta name="description" content="Upload an Excel or CSV file of links, shuffle them into random order or sort them A to Z, then download the result as links_shuffled.xlsx.">
-<link rel="icon" href="../assets/favicon.png">
-<link rel="stylesheet" href="../assets/site.css">
+<meta name="description" content="Upload an Excel or CSV file, shuffle its rows randomly or sort them A to Z, then download the result as an Excel file.">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
-
-    body { font-family: Arial; text-align: center; padding: 20px; }
-    button { padding: 10px 20px; margin: 10px; cursor: pointer; }
-    input { margin: 10px; }
-  
-</style>
-<style>
-/* LinkXcel header/footer guard (after the tool's own CSS): the tool's global rules must not restyle the site chrome. */
-.topbar{background:#000!important;color:#fff!important}.topbar a{color:#fff!important}.topbar small{color:#cbd5e1!important}
-.footer{background:#0f172a!important;color:#cbd5e1!important}.footer a{color:#fff!important}.footer b{color:#fff!important}
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+.tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
+.tool-body h3{margin:16px 0 8px;font-size:16px;color:#0f172a}
+.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#0f172a}
+.tool-body .desc{color:#334155;margin:0 0 12px}
+.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+.tool-body .warn{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;color:#991b1b;margin:12px 0}
+.tool-body .ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;color:#166534;margin:12px 0}
+.tool-body textarea,.tool-body input[type="text"],.tool-body input[type="number"],.tool-body select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+.tool-body textarea{min-height:150px;resize:vertical}
+.tool-body input[type="file"]{width:100%;padding:8px}
+.tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body .row>*{flex:1 1 200px}
+.tool-body .row .narrow{flex:0 1 140px}
+.tool-body button,.tool-body .btn{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#ea580c}
+.tool-body button:hover,.tool-body .btn:hover{filter:brightness(1.08)}
+.tool-body .btn-sec{background:#fff;color:#0f172a;border:1px solid #cbd5e1}
+.tool-body .btn-sec:hover{background:#f1f5f9}
+.tool-body .tblwrap{overflow-x:auto;margin-top:16px}
+.tool-body table{width:100%;border-collapse:collapse;min-width:480px}
+.tool-body th,.tool-body td{border:1px solid #e2e8f0;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
+.tool-body th{background:#f1f5f9}
+.tool-body tr.found,.tool-body tr.pass{background:#dcfce7}
+.tool-body tr.notfound,.tool-body tr.fail{background:#fee2e2}
+.tool-body .highlight{background:#dcfce7;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .diff{background:#fee2e2;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .stats{font-weight:700;margin:12px 0}
+.tool-body canvas{max-width:100%;border:1px solid #e2e8f0;border-radius:8px}
+.tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
+.tool-body .two-col>*{flex:1 1 320px}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
 </style>
 </head>
-<body>
-<header class="topbar"><div class="topbar-in"><a class="brand" href="../index.html"><img src="../assets/logo.png" alt="LinkXcel logo" onerror="this.style.display='none'"><span>LinkXcel<small>BY SEO ACADEMY &bull; FREE BACKLINK TOOLS</small></span></a><nav class="mainnav"><a href="../index.html#tools">Tools</a><a href="../blog.html">Blog</a><a href="../index.html#how">How It Works</a><a href="../index.html#faq">FAQ</a></nav></div></header>
-<main class="wrap">
-<a class="backlink" href="../index.html#tools">&larr; All Tools</a>
-<section class="tool-intro"><h1>Links Shuffler</h1><p>Upload an Excel or CSV file of links, shuffle them into random order or sort them A to Z, then download the result as links_shuffled.xlsx.</p><p class="note">Note: this tool is file-only. There is no paste box and no on-screen result preview — the result comes from the download.</p></section>
+<body style="margin:0;background:#f1f5f9">
 <div class="tool-body">
-<h2>🔗 Links Shuffler Tool</h2>
-
-<input type="file" id="upload" accept=".xlsx, .csv" />
-<br>
-
-<button onclick="shuffleData()">Shuffle Links</button> <button onclick="sortAZ()">Sort A → Z</button>
-
-<br><br> <button onclick="downloadFile()">Download Result</button>
-
-
-
+<a class="backlink" href="../index.html">&larr; All Tools</a>
+<h1>Links Shuffler</h1>
+<p class="desc">Upload an Excel or CSV file, shuffle its rows randomly or sort them A to Z, then download the result as an Excel file.</p>
+<p class="note">Honest note: this tool works on an uploaded file only — there is no paste box and no on-screen preview by design. The result is delivered by download.</p>
+<div id="libwarn" class="warn" style="display:none">The Excel library (SheetJS) did not load (check your connection and reload the page). File upload and download need it.</div>
+<label for="upload">Upload Excel or CSV file</label>
+<input type="file" id="upload" accept=".xlsx,.xls,.csv">
+<p id="fileStatus">No file loaded yet.</p>
+<div class="row"><button type="button" id="shuffleBtn">Shuffle Links</button><button type="button" id="sortBtn" class="btn-sec">Sort A to Z</button><button type="button" id="dlBtn" class="btn-sec">Download Result</button></div>
 </div>
 <script>
-
-let originalData = [];
-let processedData = [];
-
-document.getElementById('upload').addEventListener('change', function(e) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, {type: 'array'});
-        const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        originalData = XLSX.utils.sheet_to_json(sheet);
-        processedData = [...originalData];
-        alert("File loaded successfully!");
-    };
-    reader.readAsArrayBuffer(e.target.files[0]);
+var originalData = [], processedData = [], fileLoaded = false;
+if (typeof XLSX === "undefined") document.getElementById("libwarn").style.display = "block";
+function setStatus(m) { document.getElementById("fileStatus").textContent = m; }
+document.getElementById("upload").addEventListener("change", function (e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  if (typeof XLSX === "undefined") { alert("The Excel library did not load. Reload the page and try again."); return; }
+  var name = file.name.toLowerCase();
+  var reader = new FileReader();
+  reader.onload = function (ev) {
+    try {
+      var wb;
+      if (name.endsWith(".csv")) wb = XLSX.read(ev.target.result, { type: "string" });
+      else wb = XLSX.read(new Uint8Array(ev.target.result), { type: "array" });
+      originalData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+      processedData = originalData.slice();
+      fileLoaded = true;
+      setStatus("File loaded: " + originalData.length + " rows. Ready to shuffle or sort.");
+    } catch (err) { alert("Could not read that file: " + err.message); }
+  };
+  if (name.endsWith(".csv")) reader.readAsText(file); else reader.readAsArrayBuffer(file);
 });
-
-function shuffleData() {
-    processedData = [...originalData].sort(() => Math.random() - 0.5);
-    alert("Links shuffled!");
+function sortKey(row) {
+  if (row.Link !== undefined) return String(row.Link);
+  var vals = Object.values(row);
+  return vals.length ? String(vals[0]) : "";
 }
-
-function sortAZ() {
-    processedData = [...originalData].sort((a, b) => {
-        return (a.Link || "").localeCompare(b.Link || "");
-    });
-    alert("Sorted A → Z!");
-}
-
-function downloadFile() {
-    const worksheet = XLSX.utils.json_to_sheet(processedData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Shuffled Links");
-    XLSX.writeFile(workbook, "links_shuffled.xlsx");
-}
-
+document.getElementById("shuffleBtn").addEventListener("click", function () {
+  if (!fileLoaded) { alert("Please upload an Excel or CSV file first."); return; }
+  processedData = originalData.slice();
+  for (var i = processedData.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = processedData[i]; processedData[i] = processedData[j]; processedData[j] = tmp;
+  }
+  setStatus("Links shuffled! Click Download Result to save (" + processedData.length + " rows).");
+});
+document.getElementById("sortBtn").addEventListener("click", function () {
+  if (!fileLoaded) { alert("Please upload an Excel or CSV file first."); return; }
+  processedData = originalData.slice().sort(function (a, b) { return sortKey(a).localeCompare(sortKey(b)); });
+  setStatus("Sorted A to Z! Click Download Result to save (" + processedData.length + " rows).");
+});
+document.getElementById("dlBtn").addEventListener("click", function () {
+  if (!fileLoaded || !processedData.length) { alert("Nothing to download yet. Upload a file first."); return; }
+  if (typeof XLSX === "undefined") { alert("The Excel library did not load. Reload the page and try again."); return; }
+  var ws = XLSX.utils.json_to_sheet(processedData);
+  var wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Shuffled Links");
+  XLSX.writeFile(wb, "links_shuffled.xlsx");
+});
 </script>
-
-<script>
-// LinkXcel patch (2026-10-28): empty-data guards. Original functions are kept and called only when there is data.
-(function(){
-  if (typeof shuffleData !== 'undefined') { var _s = shuffleData; shuffleData = function(){ if (!originalData || !originalData.length) { alert('Please upload an Excel or CSV file first.'); return; } _s(); }; }
-  if (typeof sortAZ !== 'undefined') { var _z = sortAZ; sortAZ = function(){ if (!originalData || !originalData.length) { alert('Please upload an Excel or CSV file first.'); return; } _z(); }; }
-  if (typeof downloadFile !== 'undefined') { var _d = downloadFile; downloadFile = function(){ if (typeof XLSX === 'undefined') { alert('The Excel library (SheetJS) did not load. Check your connection and reload the page.'); return; } if (!processedData || !processedData.length) { alert('Nothing to download yet. Upload a file, then Shuffle or Sort first.'); return; } _d(); }; }
-})();
-</script>
-
-<script>
-// LinkXcel: if a CDN library failed to load, say so plainly instead of letting a button fail silently.
-(function(){ if (typeof XLSX === 'undefined') { var d = document.createElement('div'); d.style.cssText = 'background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:12px 14px;border-radius:8px;margin:0 0 16px;font-family:Arial,sans-serif;'; d.textContent = 'Note: the SheetJS library did not load (check your connection and reload the page). File upload and Excel export need it; the rest of the page still works.'; var t = document.querySelector('.tool-body'); if (t) t.insertBefore(d, t.firstChild); } })();
-</script>
-</main>
-<footer class="footer"><b>LinkXcel</b> by SEO Academy &mdash; Free Backlink Checker, Backlink Validator &amp; DR Checker<br><span>Tools run in your browser. No sign-up, no payment. For articles, see the Blog page.</span></footer>
 </body>
 </html>

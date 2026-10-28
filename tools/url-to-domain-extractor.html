@@ -3,79 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>URL → Domain Extractor | LinkXcel</title>
-<meta name="description" content="Paste full URLs and extract one domain per line, with www. stripped and invalid lines skipped.">
-<link rel="icon" href="../assets/favicon.png">
-<link rel="stylesheet" href="../assets/site.css">
-
+<title>URL to Domain Extractor | LinkXcel</title>
+<meta name="description" content="Paste full URLs and extract one domain per line. This tool extracts domains FROM URLs — it does not add anything to bare domains.">
 <style>
-
-    body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
-    h2 { margin-bottom: 10px; }
-    textarea { width: 100%; height: 200px; padding: 10px; font-size: 14px; }
-    button { padding: 10px 20px; font-size: 16px; margin-top: 10px; cursor: pointer; }
-    #output { margin-top: 20px; height: 200px; }
-
-</style>
-<style>
-/* LinkXcel header/footer guard (after the tool's own CSS): the tool's global rules must not restyle the site chrome. */
-.topbar{background:#000!important;color:#fff!important}.topbar a{color:#fff!important}.topbar small{color:#cbd5e1!important}
-.footer{background:#0f172a!important;color:#cbd5e1!important}.footer a{color:#fff!important}.footer b{color:#fff!important}
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+.tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
+.tool-body h3{margin:16px 0 8px;font-size:16px;color:#0f172a}
+.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#0f172a}
+.tool-body .desc{color:#334155;margin:0 0 12px}
+.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+.tool-body .warn{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;color:#991b1b;margin:12px 0}
+.tool-body .ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;color:#166534;margin:12px 0}
+.tool-body textarea,.tool-body input[type="text"],.tool-body input[type="number"],.tool-body select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+.tool-body textarea{min-height:150px;resize:vertical}
+.tool-body input[type="file"]{width:100%;padding:8px}
+.tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body .row>*{flex:1 1 200px}
+.tool-body .row .narrow{flex:0 1 140px}
+.tool-body button,.tool-body .btn{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#b45309}
+.tool-body button:hover,.tool-body .btn:hover{filter:brightness(1.08)}
+.tool-body .btn-sec{background:#fff;color:#0f172a;border:1px solid #cbd5e1}
+.tool-body .btn-sec:hover{background:#f1f5f9}
+.tool-body .tblwrap{overflow-x:auto;margin-top:16px}
+.tool-body table{width:100%;border-collapse:collapse;min-width:480px}
+.tool-body th,.tool-body td{border:1px solid #e2e8f0;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
+.tool-body th{background:#f1f5f9}
+.tool-body tr.found,.tool-body tr.pass{background:#dcfce7}
+.tool-body tr.notfound,.tool-body tr.fail{background:#fee2e2}
+.tool-body .highlight{background:#dcfce7;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .diff{background:#fee2e2;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .stats{font-weight:700;margin:12px 0}
+.tool-body canvas{max-width:100%;border:1px solid #e2e8f0;border-radius:8px}
+.tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
+.tool-body .two-col>*{flex:1 1 320px}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
 </style>
 </head>
-<body>
-<header class="topbar"><div class="topbar-in"><a class="brand" href="../index.html"><img src="../assets/logo.png" alt="LinkXcel logo" onerror="this.style.display='none'"><span>LinkXcel<small>BY SEO ACADEMY &bull; FREE BACKLINK TOOLS</small></span></a><nav class="mainnav"><a href="../index.html#tools">Tools</a><a href="../blog.html">Blog</a><a href="../index.html#how">How It Works</a><a href="../index.html#faq">FAQ</a></nav></div></header>
-<main class="wrap">
-<a class="backlink" href="../index.html#tools">&larr; All Tools</a>
-<section class="tool-intro"><h1>URL → Domain Extractor</h1><p>Paste full URLs and extract one domain per line, with www. stripped and invalid lines skipped.</p><p class="note">Honest note: the post title says “Domain To URL Converter”, but the tool actually does the reverse — it extracts domains FROM URLs. A bare domain with no scheme gives blank output; paste full URLs.</p></section>
+<body style="margin:0;background:#f1f5f9">
 <div class="tool-body">
-<h2>Bulk Domain to URLS Converter</h2>
-
-<textarea id="input" placeholder="Paste your URLs here..."></textarea>
-
-<br>
-<button onclick="convertDomains()">Convert</button>
-
-<h3>Output:</h3>
+<a class="backlink" href="../index.html">&larr; All Tools</a>
+<h1>URL to Domain Extractor</h1>
+<p class="desc">Paste full URLs and extract one domain per line. This tool extracts domains FROM URLs — it does not add anything to bare domains.</p>
+<p class="note">Honest note: paste FULL URLs starting with http:// or https://. A bare domain on its own (for example example.com with no scheme) is not a full URL, so it is skipped and gives blank output for that line.</p>
+<label for="input">Full URLs (one per line)</label>
+<textarea id="input" placeholder="https://www.example.com/page1&#10;https://google.com/search"></textarea>
+<div class="row"><button type="button" id="convertBtn">Extract Domains</button></div>
+<label for="output">Domains (one per line, www. removed)</label>
 <textarea id="output" readonly></textarea>
-
-
-
-
-
-
 </div>
 <script>
-
 function extractDomain(url) {
-    try {
-        let domain = new URL(url).hostname;
-
-        // Remove "www."
-        domain = domain.replace(/^www\./, '');
-
-        return domain;
-    } catch (e) {
-        return ""; // Skip invalid URLs
-    }
+  try { return new URL(url).hostname.replace(/^www\./, ""); }
+  catch (e) { return ""; }
 }
-
-function convertDomains() {
-    let input = document.getElementById("input").value.trim().split(/\n+/);
-    let result = [];
-
-    input.forEach(url => {
-        let domain = extractDomain(url);
-        if (domain) result.push(domain);
-    });
-
-    document.getElementById("output").value = result.join("\n");
-}
-
+document.getElementById("convertBtn").addEventListener("click", function () {
+  var result = [];
+  document.getElementById("input").value.trim().split(/\n+/).forEach(function (raw) {
+    var url = raw.trim();
+    if (!url) return;
+    var domain = extractDomain(url);
+    if (domain) result.push(domain);
+  });
+  document.getElementById("output").value = result.join("\n");
+});
 </script>
-
-
-</main>
-<footer class="footer"><b>LinkXcel</b> by SEO Academy &mdash; Free Backlink Checker, Backlink Validator &amp; DR Checker<br><span>Tools run in your browser. No sign-up, no payment. For articles, see the Blog page.</span></footer>
 </body>
 </html>

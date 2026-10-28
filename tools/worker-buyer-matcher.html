@@ -3,191 +3,130 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Excel Worker ↔ Buyer Link Matcher | LinkXcel</title>
-<meta name="description" content="Upload a Worker Master Sheet (Worker/Name + Link/URL) and a Buyer Demo Sheet, then match them — exact URL first, then domain fallback. Export final_matched_links.xlsx with one sheet per worker, plus Summary and Not_Found sheets.">
-<link rel="icon" href="../assets/favicon.png">
-<link rel="stylesheet" href="../assets/site.css">
+<title>Worker Buyer Link Matcher | LinkXcel</title>
+<meta name="description" content="Upload a Worker Master Sheet and a Buyer Demo Sheet, match buyer links to workers (exact URL first, then domain), and export one sheet per worker plus Summary and Not_Found.">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
-
-    body { font-family: Arial; padding: 20px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 15px; }
-    th, td { border: 1px solid #ccc; padding: 8px; }
-    th { background: #f2f2f2; }
-    .notfound { background: #ffd6d6; }
-  
-</style>
-<style>
-/* LinkXcel header/footer guard (after the tool's own CSS): the tool's global rules must not restyle the site chrome. */
-.topbar{background:#000!important;color:#fff!important}.topbar a{color:#fff!important}.topbar small{color:#cbd5e1!important}
-.footer{background:#0f172a!important;color:#cbd5e1!important}.footer a{color:#fff!important}.footer b{color:#fff!important}
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+.tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
+.tool-body h3{margin:16px 0 8px;font-size:16px;color:#0f172a}
+.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#0f172a}
+.tool-body .desc{color:#334155;margin:0 0 12px}
+.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+.tool-body .warn{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;color:#991b1b;margin:12px 0}
+.tool-body .ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;color:#166534;margin:12px 0}
+.tool-body textarea,.tool-body input[type="text"],.tool-body input[type="number"],.tool-body select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+.tool-body textarea{min-height:150px;resize:vertical}
+.tool-body input[type="file"]{width:100%;padding:8px}
+.tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body .row>*{flex:1 1 200px}
+.tool-body .row .narrow{flex:0 1 140px}
+.tool-body button,.tool-body .btn{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#0d9488}
+.tool-body button:hover,.tool-body .btn:hover{filter:brightness(1.08)}
+.tool-body .btn-sec{background:#fff;color:#0f172a;border:1px solid #cbd5e1}
+.tool-body .btn-sec:hover{background:#f1f5f9}
+.tool-body .tblwrap{overflow-x:auto;margin-top:16px}
+.tool-body table{width:100%;border-collapse:collapse;min-width:480px}
+.tool-body th,.tool-body td{border:1px solid #e2e8f0;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
+.tool-body th{background:#f1f5f9}
+.tool-body tr.found,.tool-body tr.pass{background:#dcfce7}
+.tool-body tr.notfound,.tool-body tr.fail{background:#fee2e2}
+.tool-body .highlight{background:#dcfce7;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .diff{background:#fee2e2;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .stats{font-weight:700;margin:12px 0}
+.tool-body canvas{max-width:100%;border:1px solid #e2e8f0;border-radius:8px}
+.tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
+.tool-body .two-col>*{flex:1 1 320px}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
 </style>
 </head>
-<body>
-<header class="topbar"><div class="topbar-in"><a class="brand" href="../index.html"><img src="../assets/logo.png" alt="LinkXcel logo" onerror="this.style.display='none'"><span>LinkXcel<small>BY SEO ACADEMY &bull; FREE BACKLINK TOOLS</small></span></a><nav class="mainnav"><a href="../index.html#tools">Tools</a><a href="../blog.html">Blog</a><a href="../index.html#how">How It Works</a><a href="../index.html#faq">FAQ</a></nav></div></header>
-<main class="wrap">
-<a class="backlink" href="../index.html#tools">&larr; All Tools</a>
-<section class="tool-intro"><h1>Excel Worker ↔ Buyer Link Matcher</h1><p>Upload a Worker Master Sheet (Worker/Name + Link/URL) and a Buyer Demo Sheet, then match them — exact URL first, then domain fallback. Export final_matched_links.xlsx with one sheet per worker, plus Summary and Not_Found sheets.</p><p class="note">Honest note: despite the post title “Link Distribution Tool”, this tool does NOT distribute links. It matches worker sheets against buyer sheets — the core team workflow for profile backlink creators.</p></section>
+<body style="margin:0;background:#f1f5f9">
 <div class="tool-body">
-<h2>Excel Worker ↔ Buyer Link Matcher</h2>
-
-<p><b>Worker Master Sheet</b></p>
-<input type="file" id="workerFile" accept=".xlsx">
-
-<p><b>Buyer Demo Sheet</b></p>
-<input type="file" id="buyerFile" accept=".xlsx">
-
-<br><br>
-<button onclick="processFiles()">Match Links</button>
-<button onclick="exportExcel()">⬇️ Export Excel</button>
-
-<table id="resultTable"></table>
-
-
-
+<a class="backlink" href="../index.html">&larr; All Tools</a>
+<h1>Worker Buyer Link Matcher</h1>
+<p class="desc">Upload a Worker Master Sheet and a Buyer Demo Sheet, match buyer links to workers (exact URL first, then domain), and export one sheet per worker plus Summary and Not_Found.</p>
+<p class="note">Honest note: this is a matcher, not a distribution tool — it does not send links to workers. It only matches the two sheets you upload and exports the result.</p>
+<div id="libwarn" class="warn" style="display:none">The Excel library (SheetJS) did not load (check your connection and reload the page). File reading and Excel export need it.</div>
+<div class="row"><div><label for="workerFile">Worker Master Sheet (.xlsx — Worker/Name + Link/URL columns)</label><input type="file" id="workerFile" accept=".xlsx,.xls"></div><div><label for="buyerFile">Buyer Demo Sheet (.xlsx — Link/URL column)</label><input type="file" id="buyerFile" accept=".xlsx,.xls"></div></div>
+<div class="row"><button type="button" id="matchBtn">Match Worker Links</button><button type="button" id="exportBtn" class="btn-sec">Export Excel</button></div>
+<div class="tblwrap"><table><thead><tr><th>Worker</th><th>Buyer Link</th><th>Match</th></tr></thead><tbody id="resultTable"></tbody></table></div>
 </div>
 <script>
-
-let workerSheets = {};
-let summary = {};
-let notFound = [];
-
-function safe(v) {
-  return (v || "").toString().trim();
-}
-
+var workerSheets = {}, summary = {}, notFound = [], matchRun = false;
+if (typeof XLSX === "undefined") document.getElementById("libwarn").style.display = "block";
+function safe(v) { return (v || "").toString().trim(); }
 function normalize(url) {
   url = safe(url);
   if (!url) return "";
-  return url.toLowerCase()
-    .replace(/^https?:\/\//, "")
-    .replace(/^www\./, "")
-    .replace(/\/$/, "");
+  return url.toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "");
 }
-
-function getDomain(url) {
-  const n = normalize(url);
-  return n ? n.split("/")[0] : "";
+function getDomain(url) { var n = normalize(url); return n ? n.split("/")[0] : ""; }
+function readExcel(file) {
+  return new Promise(function (resolve, reject) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      try {
+        var wb = XLSX.read(new Uint8Array(e.target.result), { type: "array" });
+        resolve(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: "" }));
+      } catch (err) { reject(err); }
+    };
+    reader.onerror = reject;
+    reader.readAsArrayBuffer(file);
+  });
 }
-
-function readExcel(file, cb) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    const wb = XLSX.read(e.target.result, { type: "binary" });
-    const sheet = wb.Sheets[wb.SheetNames[0]];
-    cb(XLSX.utils.sheet_to_json(sheet, { defval: "" }));
-  };
-  reader.readAsBinaryString(file);
-}
-
-function processFiles() {
-  const workerFile = document.getElementById("workerFile").files[0];
-  const buyerFile = document.getElementById("buyerFile").files[0];
-
-  if (!workerFile || !buyerFile) {
-    alert("Please upload both Excel files");
-    return;
-  }
-
-  readExcel(workerFile, workers => {
-    const exactMap = new Map();
-    const domainMap = new Map();
-
-    workerSheets = {};
-    summary = {};
-
-    workers.forEach(row => {
-      const worker = safe(row.Worker || row.Name);
-      const link = normalize(row.Link || row.URL);
-
+function esc(s) { var d = document.createElement("div"); d.textContent = String(s); return d.innerHTML; }
+document.getElementById("matchBtn").addEventListener("click", function () {
+  var workerFile = document.getElementById("workerFile").files[0];
+  var buyerFile = document.getElementById("buyerFile").files[0];
+  if (!workerFile || !buyerFile) { alert("Please upload both Excel files."); return; }
+  if (typeof XLSX === "undefined") { alert("The Excel library did not load. Reload the page and try again."); return; }
+  readExcel(workerFile).then(function (workers) {
+    var exactMap = new Map(), domainMap = new Map();
+    workerSheets = {}; summary = {};
+    workers.forEach(function (row) {
+      var worker = safe(row.Worker || row.Name);
+      var link = normalize(row.Link || row.URL);
       if (!worker || !link) return;
-
       if (!exactMap.has(link)) exactMap.set(link, worker);
-      if (!domainMap.has(getDomain(link)))
-        domainMap.set(getDomain(link), worker);
-
-      workerSheets[worker] = [];
-      summary[worker] = 0;
+      if (!domainMap.has(getDomain(link))) domainMap.set(getDomain(link), worker);
+      workerSheets[worker] = []; summary[worker] = 0;
     });
-
-    readExcel(buyerFile, buyers => {
+    return readExcel(buyerFile).then(function (buyers) {
       notFound = [];
-      let html = "<tr><th>Worker</th><th>Buyer Link</th><th>Match</th></tr>";
-
-      buyers.forEach(row => {
-        const link = safe(row.Link || row.URL);
-        const norm = normalize(link);
-        const dom = getDomain(link);
-
-        let worker = exactMap.get(norm);
-        let matchType = "Exact URL";
-
-        if (!worker && dom) {
-          worker = domainMap.get(dom);
-          matchType = "Domain";
-        }
-
+      var html = "";
+      buyers.forEach(function (row) {
+        var link = safe(row.Link || row.URL);
+        var norm = normalize(link), dom = getDomain(link);
+        var worker = exactMap.get(norm), matchType = "Exact URL";
+        if (!worker && dom) { worker = domainMap.get(dom); matchType = "Domain"; }
         if (worker) {
           summary[worker]++;
           workerSheets[worker].push({ Link: link, Match: matchType });
-          html += `<tr><td>${worker}</td><td>${link}</td><td>${matchType}</td></tr>`;
+          html += "<tr><td>" + esc(worker) + "</td><td>" + esc(link) + "</td><td>" + matchType + "</td></tr>";
         } else {
           notFound.push({ Link: link });
-          html += `<tr class="notfound"><td>❌ Not Found</td><td>${link}</td><td>No Match</td></tr>`;
+          html += "<tr class=\"notfound\"><td>Not Found</td><td>" + esc(link) + "</td><td>No Match</td></tr>";
         }
       });
-
       document.getElementById("resultTable").innerHTML = html;
+      matchRun = true;
     });
+  }).catch(function (err) { alert("Could not read the files: " + err.message); });
+});
+document.getElementById("exportBtn").addEventListener("click", function () {
+  if (!matchRun) { alert("No matched links yet. Upload both files and click Match Worker Links first."); return; }
+  if (typeof XLSX === "undefined") { alert("The Excel library did not load. Reload the page and try again."); return; }
+  var wb = XLSX.utils.book_new();
+  Object.keys(workerSheets).forEach(function (worker) {
+    if (workerSheets[worker].length) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(workerSheets[worker]), worker.substring(0, 31));
   });
-}
-
-function exportExcel() {
-  const wb = XLSX.utils.book_new();
-
-  Object.keys(workerSheets).forEach(worker => {
-    if (workerSheets[worker].length) {
-      XLSX.utils.book_append_sheet(
-        wb,
-        XLSX.utils.json_to_sheet(workerSheets[worker]),
-        worker.substring(0, 31)
-      );
-    }
-  });
-
-  XLSX.utils.book_append_sheet(
-    wb,
-    XLSX.utils.json_to_sheet(
-      Object.keys(summary).map(w => ({ Worker: w, Links: summary[w] }))
-    ),
-    "Summary"
-  );
-
-  if (notFound.length) {
-    XLSX.utils.book_append_sheet(
-      wb,
-      XLSX.utils.json_to_sheet(notFound),
-      "Not_Found"
-    );
-  }
-
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(Object.keys(summary).map(function (w) { return { Worker: w, Links: summary[w] }; })), "Summary");
+  if (notFound.length) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(notFound), "Not_Found");
   XLSX.writeFile(wb, "final_matched_links.xlsx");
-}
-
+});
 </script>
-
-<script>
-// LinkXcel patch (2026-10-28): export guard. Original exportExcel is kept and called only when there is something to export.
-(function(){
-  if (typeof exportExcel !== 'undefined') { var _e = exportExcel; exportExcel = function(){ if (typeof XLSX === 'undefined') { alert('The Excel library (SheetJS) did not load. Check your connection and reload the page.'); return; } var has = false; try { Object.keys(workerSheets).forEach(function(w){ if (workerSheets[w] && workerSheets[w].length) has = true; }); if (Object.keys(summary).length) has = true; } catch(e) {} if (!has) { alert('No matched links yet. Upload both files and click Match Links first.'); return; } _e(); }; }
-})();
-</script>
-
-<script>
-// LinkXcel: if a CDN library failed to load, say so plainly instead of letting a button fail silently.
-(function(){ if (typeof XLSX === 'undefined') { var d = document.createElement('div'); d.style.cssText = 'background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:12px 14px;border-radius:8px;margin:0 0 16px;font-family:Arial,sans-serif;'; d.textContent = 'Note: the SheetJS library did not load (check your connection and reload the page). File upload and Excel export need it; the rest of the page still works.'; var t = document.querySelector('.tool-body'); if (t) t.insertBefore(d, t.firstChild); } })();
-</script>
-</main>
-<footer class="footer"><b>LinkXcel</b> by SEO Academy &mdash; Free Backlink Checker, Backlink Validator &amp; DR Checker<br><span>Tools run in your browser. No sign-up, no payment. For articles, see the Blog page.</span></footer>
 </body>
 </html>

@@ -4,240 +4,114 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SEO Link Comparator | LinkXcel</title>
-<meta name="description" content="Compare two link lists (Live Links vs Backlinks), by pasting them or dropping CSV files. Options for Domain Only Match, Partial Match and Remove Duplicates. Matched links show green, missing links show red, with an Excel download.">
-<link rel="icon" href="../assets/favicon.png">
-<link rel="stylesheet" href="../assets/site.css">
+<meta name="description" content="Compare two link lists — Live Links vs Backlinks — by exact, domain-only, or partial match, and download the matches as Excel.">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
-
-body{
-    background:#0f172a;
-    color:#e2e8f0;
-    font-family:Arial;
-    padding:20px;
-}
-h1{
-    text-align:center;
-    color:#38bdf8;
-}
-.container{
-    display:flex;
-    gap:20px;
-}
-.box{
-    flex:1;
-}
-textarea{
-    width:100%;
-    height:180px;
-    background:#1e293b;
-    color:#fff;
-    border:1px solid #334155;
-    padding:10px;
-}
-button{
-    background:#38bdf8;
-    border:none;
-    padding:10px 20px;
-    margin:10px 5px 10px 0;
-    cursor:pointer;
-    font-weight:bold;
-}
-button:hover{
-    background:#0ea5e9;
-}
-#output{
-    background:#1e293b;
-    padding:15px;
-    margin-top:20px;
-    min-height:150px;
-    border:1px solid #334155;
-    overflow:auto;
-}
-.highlight{
-    color:#22c55e;
-}
-.diff{
-    color:#ef4444;
-}
-.drop-zone{
-    border:2px dashed #334155;
-    padding:15px;
-    margin-bottom:10px;
-    text-align:center;
-}
-.options{
-    margin-top:10px;
-}
-
-</style>
-<style>
-/* LinkXcel header/footer guard (after the tool's own CSS): the tool's global rules must not restyle the site chrome. */
-.topbar{background:#000!important;color:#fff!important}.topbar a{color:#fff!important}.topbar small{color:#cbd5e1!important}
-.footer{background:#0f172a!important;color:#cbd5e1!important}.footer a{color:#fff!important}.footer b{color:#fff!important}
-</style>
-
-<style>
-/* This tool was designed for a dark page (white headings/labels). The site card is
-   white, which made those headings invisible. Restore the dark tool area. */
-.tool-body{background:#0f172a;color:#fff}
-.tool-body h1,.tool-body h2,.tool-body h3,.tool-body h4,.tool-body label,.tool-body p,.tool-body span,.tool-body li{color:#fff}
-.tool-body a{color:#7dd3fc}
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+.tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
+.tool-body h3{margin:16px 0 8px;font-size:16px;color:#0f172a}
+.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#0f172a}
+.tool-body .desc{color:#334155;margin:0 0 12px}
+.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+.tool-body .warn{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;color:#991b1b;margin:12px 0}
+.tool-body .ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;color:#166534;margin:12px 0}
+.tool-body textarea,.tool-body input[type="text"],.tool-body input[type="number"],.tool-body select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+.tool-body textarea{min-height:150px;resize:vertical}
+.tool-body input[type="file"]{width:100%;padding:8px}
+.tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body .row>*{flex:1 1 200px}
+.tool-body .row .narrow{flex:0 1 140px}
+.tool-body button,.tool-body .btn{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#db2777}
+.tool-body button:hover,.tool-body .btn:hover{filter:brightness(1.08)}
+.tool-body .btn-sec{background:#fff;color:#0f172a;border:1px solid #cbd5e1}
+.tool-body .btn-sec:hover{background:#f1f5f9}
+.tool-body .tblwrap{overflow-x:auto;margin-top:16px}
+.tool-body table{width:100%;border-collapse:collapse;min-width:480px}
+.tool-body th,.tool-body td{border:1px solid #e2e8f0;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
+.tool-body th{background:#f1f5f9}
+.tool-body tr.found,.tool-body tr.pass{background:#dcfce7}
+.tool-body tr.notfound,.tool-body tr.fail{background:#fee2e2}
+.tool-body .highlight{background:#dcfce7;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .diff{background:#fee2e2;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .stats{font-weight:700;margin:12px 0}
+.tool-body canvas{max-width:100%;border:1px solid #e2e8f0;border-radius:8px}
+.tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
+.tool-body .two-col>*{flex:1 1 320px}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
 </style>
 </head>
-<body>
-<header class="topbar"><div class="topbar-in"><a class="brand" href="../index.html"><img src="../assets/logo.png" alt="LinkXcel logo" onerror="this.style.display='none'"><span>LinkXcel<small>BY SEO ACADEMY &bull; FREE BACKLINK TOOLS</small></span></a><nav class="mainnav"><a href="../index.html#tools">Tools</a><a href="../blog.html">Blog</a><a href="../index.html#how">How It Works</a><a href="../index.html#faq">FAQ</a></nav></div></header>
-<main class="wrap">
-<a class="backlink" href="../index.html#tools">&larr; All Tools</a>
-<section class="tool-intro"><h1>SEO Link Comparator</h1><p>Compare two link lists (Live Links vs Backlinks), by pasting them or dropping CSV files. Options for Domain Only Match, Partial Match and Remove Duplicates. Matched links show green, missing links show red, with an Excel download.</p><p class="note">Honest note: despite “Live” in its name, this tool does NOT fetch live links from the internet. It only compares the two lists you give it.</p></section>
+<body style="margin:0;background:#f1f5f9">
 <div class="tool-body">
-<h1>SEO Live Links vs Backlinks Comparator PRO</h1>
-
-<div class="container">
-    <div class="box">
-        <div class="drop-zone" ondrop="dropHandler(event,1)" ondragover="dragOverHandler(event)">
-            Drag & Drop CSV for Input 1
-        </div>
-        <textarea id="input1" placeholder="Live Links (one per line)"></textarea>
-    </div>
-
-    <div class="box">
-        <div class="drop-zone" ondrop="dropHandler(event,2)" ondragover="dragOverHandler(event)">
-            Drag & Drop CSV for Input 2
-        </div>
-        <textarea id="input2" placeholder="Backlinks (one per line)"></textarea>
-    </div>
-</div>
-
-<div class="options">
-    <label><input type="checkbox" id="domainMatch"> Domain Only Match</label>
-    <label><input type="checkbox" id="partialMatch"> Partial Match</label>
-    <label><input type="checkbox" id="removeDuplicates" checked> Remove Duplicates</label>
-</div>
-
-<button onclick="compareLinks()">Compare Links</button>
-<button onclick="downloadExcel()">Download Excel</button>
-
-<h3>Results (<span id="count">0</span> Matches)</h3>
+<a class="backlink" href="../index.html">&larr; All Tools</a>
+<h1>SEO Link Comparator</h1>
+<p class="desc">Compare two link lists — Live Links vs Backlinks — by exact, domain-only, or partial match, and download the matches as Excel.</p>
+<p class="note">Honest note: despite the word Live in its name, this tool does NOT fetch live links from the internet. It only compares the two lists you paste or drop here.</p>
+<div id="libwarn" class="warn" style="display:none">The Excel library (SheetJS) did not load (check your connection and reload the page). Excel download needs it.</div>
+<div class="two-col"><div><label for="input1">Live Links (one per line, or drop a CSV file here)</label><textarea id="input1" placeholder="https://example.com/page1"></textarea></div><div><label for="input2">Backlinks (one per line, or drop a CSV file here)</label><textarea id="input2" placeholder="https://example.com/page1"></textarea></div></div>
+<div class="row"><label><input type="checkbox" id="domainMatch"> Domain Only Match</label><label><input type="checkbox" id="partialMatch"> Partial Match</label><label><input type="checkbox" id="removeDuplicates" checked> Remove Duplicates</label></div>
+<div class="row"><button type="button" id="compareBtn">Compare Links</button><button type="button" id="dlBtn" class="btn-sec">Download Excel</button></div>
+<p class="stats">Matches: <span id="count">0</span></p>
 <div id="output"></div>
-
-
-  
 </div>
 <script>
-
-
-let resultsData = [];
-
-function normalize(url){
-    return url.trim()
-        .replace(/^https?:\/\//,'')
-        .replace(/^www\./,'')
-        .replace(/\/$/,'')
-        .toLowerCase();
+var resultsData = [];
+if (typeof XLSX === "undefined") document.getElementById("libwarn").style.display = "block";
+function normalize(url) {
+  return url.trim().replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "").toLowerCase();
 }
-
-function getDomain(url){
-    let clean = normalize(url);
-    return clean.split('/')[0];
-}
-
-function compareLinks(){
-
-    let input1 = document.getElementById("input1").value.split("\n").filter(x=>x.trim()!='');
-    let input2 = document.getElementById("input2").value.split("\n").filter(x=>x.trim()!='');
-
-    let domainMatch = document.getElementById("domainMatch").checked;
-    let partialMatch = document.getElementById("partialMatch").checked;
-    let removeDuplicates = document.getElementById("removeDuplicates").checked;
-
-    resultsData = [];
-    let outputHTML = "";
-
-    input1.forEach(link1=>{
-        let matchFound = false;
-
-        input2.forEach(link2=>{
-
-            let compare1 = domainMatch ? getDomain(link1) : normalize(link1);
-            let compare2 = domainMatch ? getDomain(link2) : normalize(link2);
-
-            if(
-                (partialMatch && compare2.includes(compare1)) ||
-                (!partialMatch && compare1 === compare2)
-            ){
-                matchFound = true;
-
-                resultsData.push({
-                    "Live Link": link1,
-                    "Backlink": link2,
-                    "Match Type": domainMatch ? "Domain Match" : (partialMatch ? "Partial Match":"Exact Match")
-                });
-            }
-        });
-
-        if(matchFound){
-            outputHTML += `<div class="highlight">${link1}</div>`;
-        }else{
-            outputHTML += `<div class="diff">${link1}</div>`;
-        }
+function getDomain(url) { return normalize(url).split("/")[0]; }
+function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+document.getElementById("compareBtn").addEventListener("click", function () {
+  var input1 = document.getElementById("input1").value.split("\n").filter(function (x) { return x.trim() !== ""; });
+  var input2 = document.getElementById("input2").value.split("\n").filter(function (x) { return x.trim() !== ""; });
+  var domainMatch = document.getElementById("domainMatch").checked;
+  var partialMatch = document.getElementById("partialMatch").checked;
+  var removeDuplicates = document.getElementById("removeDuplicates").checked;
+  resultsData = [];
+  var html = "";
+  input1.forEach(function (link1) {
+    var matchFound = false;
+    input2.forEach(function (link2) {
+      var c1 = domainMatch ? getDomain(link1) : normalize(link1);
+      var c2 = domainMatch ? getDomain(link2) : normalize(link2);
+      if ((partialMatch && c2.indexOf(c1) !== -1) || (!partialMatch && c1 === c2)) {
+        matchFound = true;
+        resultsData.push({ "Live Link": link1, "Backlink": link2, "Match Type": domainMatch ? "Domain Match" : (partialMatch ? "Partial Match" : "Exact Match") });
+      }
     });
-
-    if(removeDuplicates){
-        resultsData = resultsData.filter((v,i,a)=>
-            a.findIndex(t=>(t["Live Link"]===v["Live Link"] && t["Backlink"]===v["Backlink"]))===i
-        );
-    }
-
-    document.getElementById("output").innerHTML = outputHTML;
-    document.getElementById("count").innerText = resultsData.length;
-}
-
-function downloadExcel(){
-
-    if(resultsData.length===0){
-        alert("No matches to export!");
-        return;
-    }
-
-    let ws = XLSX.utils.json_to_sheet(resultsData);
-    let wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "SEO Matches");
-
-    XLSX.writeFile(wb, "SEO_Link_Matches.xlsx");
-}
-
-function dragOverHandler(ev){
+    html += "<div class=\"" + (matchFound ? "highlight" : "diff") + "\">" + esc(link1) + "</div>";
+  });
+  if (removeDuplicates) {
+    resultsData = resultsData.filter(function (v, i, a) {
+      return a.findIndex(function (t) { return t["Live Link"] === v["Live Link"] && t["Backlink"] === v["Backlink"]; }) === i;
+    });
+  }
+  document.getElementById("output").innerHTML = html;
+  document.getElementById("count").textContent = resultsData.length;
+});
+document.getElementById("dlBtn").addEventListener("click", function () {
+  if (!resultsData.length) { alert("No matches to export!"); return; }
+  if (typeof XLSX === "undefined") { alert("The Excel library did not load. Reload the page and try again."); return; }
+  var ws = XLSX.utils.json_to_sheet(resultsData);
+  var wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "SEO Matches");
+  XLSX.writeFile(wb, "SEO_Link_Matches.xlsx");
+});
+["input1", "input2"].forEach(function (id) {
+  var el = document.getElementById(id);
+  el.addEventListener("dragover", function (ev) { ev.preventDefault(); });
+  el.addEventListener("drop", function (ev) {
     ev.preventDefault();
-}
-
-function dropHandler(ev,inputNumber){
-    ev.preventDefault();
-    const file = ev.dataTransfer.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function(e){
-        document.getElementById("input"+inputNumber).value = e.target.result;
-    };
-
+    var file = ev.dataTransfer.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function (e) { el.value = e.target.result; };
     reader.readAsText(file);
-}
-
-
+  });
+});
 </script>
-
-<script>
-// LinkXcel patch (2026-10-28): clear message if the Excel library did not load, instead of a silent failure.
-(function(){
-  if (typeof downloadExcel !== 'undefined') { var _d = downloadExcel; downloadExcel = function(){ if (typeof XLSX === 'undefined') { alert('The Excel library (SheetJS) did not load. Check your connection and reload the page.'); return; } _d(); }; }
-})();
-</script>
-
-<script>
-// LinkXcel: if a CDN library failed to load, say so plainly instead of letting a button fail silently.
-(function(){ if (typeof XLSX === 'undefined') { var d = document.createElement('div'); d.style.cssText = 'background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:12px 14px;border-radius:8px;margin:0 0 16px;font-family:Arial,sans-serif;'; d.textContent = 'Note: the SheetJS library did not load (check your connection and reload the page). File upload and Excel export need it; the rest of the page still works.'; var t = document.querySelector('.tool-body'); if (t) t.insertBefore(d, t.firstChild); } })();
-</script>
-</main>
-<footer class="footer"><b>LinkXcel</b> by SEO Academy &mdash; Free Backlink Checker, Backlink Validator &amp; DR Checker<br><span>Tools run in your browser. No sign-up, no payment. For articles, see the Blog page.</span></footer>
 </body>
 </html>

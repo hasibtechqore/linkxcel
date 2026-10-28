@@ -3,201 +3,129 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Photo Resizer &amp; Logo/Banner Creator | LinkXcel</title>
-<meta name="description" content="Upload an image, pick Custom, Logo 512×512 or Banner 1920×450 (or set your own width and height, with optional aspect-ratio lock), preview it on canvas, and download a resized JPEG (quality 0.92).">
-<link rel="icon" href="../assets/favicon.png">
-<link rel="stylesheet" href="../assets/site.css">
-
+<title>Photo Resizer and Logo Banner Creator | LinkXcel</title>
+<meta name="description" content="Upload an image, pick Custom, Logo 512x512 or Banner 1920x450 (or your own width and height), preview it, and download a resized JPEG.">
 <style>
-
-  /* small style so disabled inputs look disabled */
-  input[disabled] { background:#f2f4f7; color:#6b7280; }
-
-</style>
-<style>
-/* LinkXcel header/footer guard (after the tool's own CSS): the tool's global rules must not restyle the site chrome. */
-.topbar{background:#000!important;color:#fff!important}.topbar a{color:#fff!important}.topbar small{color:#cbd5e1!important}
-.footer{background:#0f172a!important;color:#cbd5e1!important}.footer a{color:#fff!important}.footer b{color:#fff!important}
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+.tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
+.tool-body h3{margin:16px 0 8px;font-size:16px;color:#0f172a}
+.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#0f172a}
+.tool-body .desc{color:#334155;margin:0 0 12px}
+.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+.tool-body .warn{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;color:#991b1b;margin:12px 0}
+.tool-body .ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;color:#166534;margin:12px 0}
+.tool-body textarea,.tool-body input[type="text"],.tool-body input[type="number"],.tool-body select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+.tool-body textarea{min-height:150px;resize:vertical}
+.tool-body input[type="file"]{width:100%;padding:8px}
+.tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body .row>*{flex:1 1 200px}
+.tool-body .row .narrow{flex:0 1 140px}
+.tool-body button,.tool-body .btn{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#0284c7}
+.tool-body button:hover,.tool-body .btn:hover{filter:brightness(1.08)}
+.tool-body .btn-sec{background:#fff;color:#0f172a;border:1px solid #cbd5e1}
+.tool-body .btn-sec:hover{background:#f1f5f9}
+.tool-body .tblwrap{overflow-x:auto;margin-top:16px}
+.tool-body table{width:100%;border-collapse:collapse;min-width:480px}
+.tool-body th,.tool-body td{border:1px solid #e2e8f0;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
+.tool-body th{background:#f1f5f9}
+.tool-body tr.found,.tool-body tr.pass{background:#dcfce7}
+.tool-body tr.notfound,.tool-body tr.fail{background:#fee2e2}
+.tool-body .highlight{background:#dcfce7;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .diff{background:#fee2e2;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .stats{font-weight:700;margin:12px 0}
+.tool-body canvas{max-width:100%;border:1px solid #e2e8f0;border-radius:8px}
+.tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
+.tool-body .two-col>*{flex:1 1 320px}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
 </style>
 </head>
-<body>
-<header class="topbar"><div class="topbar-in"><a class="brand" href="../index.html"><img src="../assets/logo.png" alt="LinkXcel logo" onerror="this.style.display='none'"><span>LinkXcel<small>BY SEO ACADEMY &bull; FREE BACKLINK TOOLS</small></span></a><nav class="mainnav"><a href="../index.html#tools">Tools</a><a href="../blog.html">Blog</a><a href="../index.html#how">How It Works</a><a href="../index.html#faq">FAQ</a></nav></div></header>
-<main class="wrap">
-<a class="backlink" href="../index.html#tools">&larr; All Tools</a>
-<section class="tool-intro"><h1>Photo Resizer &amp; Logo/Banner Creator</h1><p>Upload an image, pick Custom, Logo 512×512 or Banner 1920×450 (or set your own width and height, with optional aspect-ratio lock), preview it on canvas, and download a resized JPEG (quality 0.92).</p><p class="note">Note: this resizes an image you upload with those presets. It does not draw a logo from scratch.</p></section>
+<body style="margin:0;background:#f1f5f9">
 <div class="tool-body">
-<!-- Photo Resizer with working Custom option & presets (output JPEG) -->
-<div style="max-width:780px;margin:18px auto;font-family:Montserrat,Arial,sans-serif">
-  <h2 style="margin:0 0 8px;text-align:center">🖼 Photo Resizer — Logo / Banner / Custom (JPEG)</h2>
-  <p style="text-align:center;margin:0 0 12px">Choose a preset or Custom size. Output always saved as <strong>JPEG</strong>.</p>
-
-  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center">
-    <input type="file" id="uploadImage" accept="image/*" style="flex:0 0 100%;max-width:420px;padding:6px">
-    <label for="presetSelect" style="margin-left:0">Preset:</label>
-    <select id="presetSelect" style="padding:6px">
-      <option value="custom" selected>Custom Size</option>
-      <option value="logo">Logo (512×512)</option>
-      <option value="banner">Banner (1920×450)</option>
-    </select>
-
-    <label style="margin-left:6px">Maintain aspect ratio</label>
-    <input type="checkbox" id="keepAspect" checked>
-
-    <div style="display:flex;gap:8px;align-items:center">
-      <label>W (px)</label>
-      <input type="number" id="widthInput" min="1" value="800" style="width:100px;padding:6px;">
-      <label>H (px)</label>
-      <input type="number" id="heightInput" min="1" value="300" style="width:100px;padding:6px;">
-    </div>
-
-    <button id="resizeButton" type="button" style="padding:8px 14px;background:#007bff;color:#fff;border:none;border-radius:6px;cursor:pointer">
-      Resize & Preview
-    </button>
-  </div>
-
-  <div id="previewContainer" style="text-align:center;margin-top:18px;">
-    <h4 style="margin:6px 0">Preview</h4>
-    <canvas id="canvas" style="max-width:100%;border:1px solid #ddd;border-radius:6px;"></canvas>
-    <br>
-    <a id="downloadLink" style="display:none;margin-top:10px;padding:10px 16px;background:#28a745;color:#fff;border-radius:6px;text-decoration:none;display:inline-block;">
-      Download Resized JPEG
-    </a>
-  </div>
+<a class="backlink" href="../index.html">&larr; All Tools</a>
+<h1>Photo Resizer and Logo Banner Creator</h1>
+<p class="desc">Upload an image, pick Custom, Logo 512x512 or Banner 1920x450 (or your own width and height), preview it, and download a resized JPEG.</p>
+<p class="note">Honest note: this resizes an image you upload using those presets. It does not draw a logo from scratch, and the output is always JPEG.</p>
+<label for="uploadImage">Choose an image</label>
+<input type="file" id="uploadImage" accept="image/*">
+<div class="row"><div><label for="presetSelect">Preset</label><select id="presetSelect"><option value="custom" selected>Custom Size</option><option value="logo">Logo (512x512)</option><option value="banner">Banner (1920x450)</option></select></div><div><label><input type="checkbox" id="keepAspect" checked> Maintain aspect ratio</label></div></div>
+<div class="row"><div><label for="widthInput">Width (px)</label><input type="number" id="widthInput" min="1" value="800"></div><div><label for="heightInput">Height (px)</label><input type="number" id="heightInput" min="1" value="300"></div></div>
+<div class="row"><button type="button" id="resizeButton">Resize &amp; Preview</button></div>
+<h2>Preview</h2>
+<canvas id="canvas"></canvas>
+<p><a id="downloadLink" class="btn" style="display:none;text-decoration:none" href="#">Download Resized JPEG</a></p>
 </div>
-
-
-
-
-
-
 <script>
-
-document.addEventListener('DOMContentLoaded', function () {
-  const upload = document.getElementById('uploadImage');
-  const preset = document.getElementById('presetSelect');
-  const keepAspect = document.getElementById('keepAspect');
-  const wInput = document.getElementById('widthInput');
-  const hInput = document.getElementById('heightInput');
-  const resizeBtn = document.getElementById('resizeButton');
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
-  const downloadLink = document.getElementById('downloadLink');
-
-  let img = new Image();
-  let originalW = 0, originalH = 0, imageLoaded = false;
-
-  // Helper: apply preset (and lock/enable inputs)
-  function applyPreset(value) {
-    if (value === 'logo') {
-      wInput.value = 512; hInput.value = 512;
-      wInput.disabled = true; hInput.disabled = true; keepAspect.disabled = true;
-    } else if (value === 'banner') {
-      wInput.value = 1920; hInput.value = 450;
-      wInput.disabled = true; hInput.disabled = true; keepAspect.disabled = true;
-    } else {
-      // custom: enable inputs. If we already have an image, default to its size.
-      wInput.disabled = false; hInput.disabled = false; keepAspect.disabled = false;
-      if (imageLoaded) {
-        // only set if current inputs look like placeholders or were empty
-        // (so we don't overwrite user-entered custom values)
-        if (!wInput.value || wInput.value === '0') wInput.value = originalW;
-        if (!hInput.value || hInput.value === '0') hInput.value = originalH;
-      }
+var upload = document.getElementById("uploadImage");
+var preset = document.getElementById("presetSelect");
+var keepAspect = document.getElementById("keepAspect");
+var wInput = document.getElementById("widthInput");
+var hInput = document.getElementById("heightInput");
+var resizeBtn = document.getElementById("resizeButton");
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var downloadLink = document.getElementById("downloadLink");
+var img = new Image(), originalW = 0, originalH = 0, imageLoaded = false;
+function applyPreset(value) {
+  if (value === "logo") { wInput.value = 512; hInput.value = 512; wInput.disabled = true; hInput.disabled = true; keepAspect.disabled = true; }
+  else if (value === "banner") { wInput.value = 1920; hInput.value = 450; wInput.disabled = true; hInput.disabled = true; keepAspect.disabled = true; }
+  else {
+    wInput.disabled = false; hInput.disabled = false; keepAspect.disabled = false;
+    if (imageLoaded) {
+      if (!wInput.value || wInput.value === "0") wInput.value = originalW;
+      if (!hInput.value || hInput.value === "0") hInput.value = originalH;
     }
   }
-
-  // initial preset
-  applyPreset(preset.value);
-
-  preset.addEventListener('change', function () {
-    applyPreset(this.value);
-  });
-
-  // When uploading, set preview and default custom sizes to original image size
-  upload.addEventListener('change', function (e) {
-    const f = e.target.files && e.target.files[0];
-    if (!f) return;
-    const reader = new FileReader();
-    reader.onload = function (ev) {
-      img = new Image();
-      img.onload = function () {
-        originalW = img.width;
-        originalH = img.height;
-        imageLoaded = true;
-        // show original as preview
-        canvas.width = originalW;
-        canvas.height = originalH;
-        ctx.clearRect(0,0,canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0);
-        // if custom preset active, set inputs to original size (but don't override user custom entries)
-        if (preset.value === 'custom') {
-          wInput.value = originalW;
-          hInput.value = originalH;
-        } else {
-          // if preset is logo/banner, reapply to lock the preset values
-          applyPreset(preset.value);
-        }
-        downloadLink.style.display = 'none';
-      };
-      img.src = ev.target.result;
+}
+applyPreset(preset.value);
+preset.addEventListener("change", function () { applyPreset(this.value); });
+upload.addEventListener("change", function (e) {
+  var f = e.target.files && e.target.files[0];
+  if (!f) return;
+  var reader = new FileReader();
+  reader.onload = function (ev) {
+    img = new Image();
+    img.onload = function () {
+      originalW = img.width; originalH = img.height; imageLoaded = true;
+      canvas.width = originalW; canvas.height = originalH;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+      if (preset.value === "custom") { wInput.value = originalW; hInput.value = originalH; }
+      else applyPreset(preset.value);
+      downloadLink.style.display = "none";
     };
-    reader.readAsDataURL(f);
-  });
-
-  // Maintain aspect ratio behavior
-  wInput.addEventListener('input', function () {
-    if (keepAspect.checked && imageLoaded && originalW > 0) {
-      const w = parseInt(this.value) || 0;
-      if (w > 0) hInput.value = Math.max(1, Math.round(w * originalH / originalW));
-    }
-  });
-  hInput.addEventListener('input', function () {
-    if (keepAspect.checked && imageLoaded && originalH > 0) {
-      const h = parseInt(this.value) || 0;
-      if (h > 0) wInput.value = Math.max(1, Math.round(h * originalW / originalH));
-    }
-  });
-
-  // Resize and export as JPEG
-  resizeBtn.addEventListener('click', function () {
-    if (!imageLoaded) {
-      alert('Please upload an image first.');
-      return;
-    }
-    const newW = parseInt(wInput.value, 10);
-    const newH = parseInt(hInput.value, 10);
-    if (!newW || !newH || newW <= 0 || newH <= 0) {
-      alert('Please enter valid width and height values.');
-      return;
-    }
-
-    // Resize canvas and draw
-    canvas.width = newW;
-    canvas.height = newH;
-    ctx.clearRect(0, 0, newW, newH);
-    ctx.drawImage(img, 0, 0, newW, newH);
-
-    // Create JPEG (quality 0.92)
-    try {
-      const jpegData = canvas.toDataURL('image/jpeg', 0.92);
-      downloadLink.href = jpegData;
-      downloadLink.download = 'resized-image.jpg';
-      downloadLink.style.display = 'inline-block';
-      downloadLink.textContent = 'Download Resized JPEG';
-    } catch (err) {
-      console.error('Export error:', err);
-      alert('Could not export the image. Some browsers block canvas downloads in certain contexts.');
-    }
-  });
-
-  // make sure preset state is correct on load
-  applyPreset(preset.value);
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(f);
 });
-
+wInput.addEventListener("input", function () {
+  if (keepAspect.checked && imageLoaded && originalW > 0) {
+    var w = parseInt(this.value, 10) || 0;
+    if (w > 0) hInput.value = Math.max(1, Math.round(w * originalH / originalW));
+  }
+});
+hInput.addEventListener("input", function () {
+  if (keepAspect.checked && imageLoaded && originalH > 0) {
+    var h = parseInt(this.value, 10) || 0;
+    if (h > 0) wInput.value = Math.max(1, Math.round(h * originalW / originalH));
+  }
+});
+resizeBtn.addEventListener("click", function () {
+  if (!imageLoaded) { alert("Please upload an image first."); return; }
+  var newW = parseInt(wInput.value, 10), newH = parseInt(hInput.value, 10);
+  if (!newW || !newH || newW <= 0 || newH <= 0) { alert("Please enter valid width and height values."); return; }
+  canvas.width = newW; canvas.height = newH;
+  ctx.clearRect(0, 0, newW, newH);
+  ctx.drawImage(img, 0, 0, newW, newH);
+  try {
+    downloadLink.href = canvas.toDataURL("image/jpeg", 0.92);
+    downloadLink.download = "resized-image.jpg";
+    downloadLink.style.display = "inline-block";
+    downloadLink.textContent = "Download Resized JPEG";
+  } catch (err) { alert("Could not export the image. Some browsers block canvas downloads in certain contexts."); }
+});
 </script>
-
-
-</main>
-<footer class="footer"><b>LinkXcel</b> by SEO Academy &mdash; Free Backlink Checker, Backlink Validator &amp; DR Checker<br><span>Tools run in your browser. No sign-up, no payment. For articles, see the Blog page.</span></footer>
 </body>
 </html>

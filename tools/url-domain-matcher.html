@@ -4,286 +4,131 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>URL Domain Matcher | LinkXcel</title>
-<meta name="description" content="Paste two link lists and compare them by main domain (www. stripped). Results show matched pairs and the unmatched links from List 2, with counts and CSV downloads for each.">
-<link rel="icon" href="../assets/favicon.png">
-<link rel="stylesheet" href="../assets/site.css">
-
+<meta name="description" content="Compare two pasted link lists by main domain and see which domains appear in both lists, plus the List 2 links whose domains do not appear in List 1.">
 <style>
-
-    :root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8;--glass:rgba(255,255,255,0.03)}
-    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;line-height:1.4;background:linear-gradient(180deg,#071023 0%, #071621 100%);color:#e6eef8;margin:0;padding:32px}
-    .wrap{max-width:1000px;margin:0 auto}
-    h1{font-size:20px;margin:0 0 8px}
-    p.lead{margin:0 0 16px;color:var(--muted)}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    textarea{width:100%;min-height:220px;background:#ffffff;border:1px solid #ccc;padding:12px;border-radius:8px;color:#000000;resize:vertical}
-    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
-    .controls{display:flex;gap:8px;margin:12px 0}
-    button{background:var(--accent);border:0;padding:10px 14px;border-radius:8px;color:#042027;font-weight:600;cursor:pointer}
-    button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
-    table{width:100%;border-collapse:collapse;margin-top:12px}
-    th,td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left;font-size:13px}
-    th{background:var(--glass);font-weight:700}
-    .result-wrap{margin-top:18px}
-    .small{font-size:12px;color:var(--muted)}
-    .actions{display:flex;gap:8px;margin-top:10px}
-    .csv-link{color:var(--accent);cursor:pointer;text-decoration:underline}
-    .footer{margin-top:26px;color:var(--muted);font-size:13px}
-  
-</style>
-<style>
-/* LinkXcel header/footer guard (after the tool's own CSS): the tool's global rules must not restyle the site chrome. */
-.topbar{background:#000!important;color:#fff!important}.topbar a{color:#fff!important}.topbar small{color:#cbd5e1!important}
-.footer{background:#0f172a!important;color:#cbd5e1!important}.footer a{color:#fff!important}.footer b{color:#fff!important}
-</style>
-
-<style>
-/* This tool was designed for a dark page (white headings/labels). The site card is
-   white, which made those headings invisible. Restore the dark tool area. */
-.tool-body{background:#0f172a;color:#fff}
-.tool-body h1,.tool-body h2,.tool-body h3,.tool-body h4,.tool-body label,.tool-body p,.tool-body span,.tool-body li{color:#fff}
-.tool-body a{color:#7dd3fc}
+.tool-body{max-width:900px;margin:24px auto;padding:24px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;box-sizing:border-box}
+.tool-body *{box-sizing:border-box}
+.tool-body .backlink{display:inline-block;margin-bottom:16px;font-weight:700;color:#2563eb;text-decoration:none}
+.tool-body h1{margin:0 0 8px;font-size:26px;color:#0f172a}
+.tool-body h2{margin:24px 0 8px;font-size:19px;color:#0f172a}
+.tool-body h3{margin:16px 0 8px;font-size:16px;color:#0f172a}
+.tool-body p,.tool-body label,.tool-body li,.tool-body td,.tool-body th{color:#0f172a}
+.tool-body .desc{color:#334155;margin:0 0 12px}
+.tool-body .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;color:#92400e;margin:12px 0}
+.tool-body .warn{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;color:#991b1b;margin:12px 0}
+.tool-body .ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;color:#166534;margin:12px 0}
+.tool-body textarea,.tool-body input[type="text"],.tool-body input[type="number"],.tool-body select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff;color:#0f172a}
+.tool-body textarea{min-height:150px;resize:vertical}
+.tool-body input[type="file"]{width:100%;padding:8px}
+.tool-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tool-body .row>*{flex:1 1 200px}
+.tool-body .row .narrow{flex:0 1 140px}
+.tool-body button,.tool-body .btn{padding:10px 18px;border:0;border-radius:8px;cursor:pointer;font-weight:700;font-size:15px;color:#fff;background:#4f46e5}
+.tool-body button:hover,.tool-body .btn:hover{filter:brightness(1.08)}
+.tool-body .btn-sec{background:#fff;color:#0f172a;border:1px solid #cbd5e1}
+.tool-body .btn-sec:hover{background:#f1f5f9}
+.tool-body .tblwrap{overflow-x:auto;margin-top:16px}
+.tool-body table{width:100%;border-collapse:collapse;min-width:480px}
+.tool-body th,.tool-body td{border:1px solid #e2e8f0;padding:9px;text-align:left;vertical-align:top;word-break:break-word}
+.tool-body th{background:#f1f5f9}
+.tool-body tr.found,.tool-body tr.pass{background:#dcfce7}
+.tool-body tr.notfound,.tool-body tr.fail{background:#fee2e2}
+.tool-body .highlight{background:#dcfce7;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .diff{background:#fee2e2;padding:6px 8px;border-radius:6px;margin:4px 0;word-break:break-all}
+.tool-body .stats{font-weight:700;margin:12px 0}
+.tool-body canvas{max-width:100%;border:1px solid #e2e8f0;border-radius:8px}
+.tool-body .two-col{display:flex;gap:12px;flex-wrap:wrap}
+.tool-body .two-col>*{flex:1 1 320px}
+@media (max-width:600px){.tool-body{margin:12px;padding:16px}.tool-body h1{font-size:22px}}
 </style>
 </head>
-<body>
-<header class="topbar"><div class="topbar-in"><a class="brand" href="../index.html"><img src="../assets/logo.png" alt="LinkXcel logo" onerror="this.style.display='none'"><span>LinkXcel<small>BY SEO ACADEMY &bull; FREE BACKLINK TOOLS</small></span></a><nav class="mainnav"><a href="../index.html#tools">Tools</a><a href="../blog.html">Blog</a><a href="../index.html#how">How It Works</a><a href="../index.html#faq">FAQ</a></nav></div></header>
-<main class="wrap">
-<a class="backlink" href="../index.html#tools">&larr; All Tools</a>
-<section class="tool-intro"><h1>URL Domain Matcher</h1><p>Paste two link lists and compare them by main domain (www. stripped). Results show matched pairs and the unmatched links from List 2, with counts and CSV downloads for each.</p><p class="note">Note: non-www subdomains are treated as distinct domains (for example blog.example.com vs example.com).</p></section>
+<body style="margin:0;background:#f1f5f9">
 <div class="tool-body">
-<div class="wrap">
-    <h1>URL Domain Matcher</h1>
-    <p class="lead">Paste two lists of links (one per line). The tool will match links by <strong>main domain</strong> (ignoring <code>www.</code> and subdomains) and show matched pairs plus links from List 2 that did not match any domain in List 1.</p>
-
-    <div class="grid">
-      <div>
-        <label for="list1">List 1 — input links (one per line)</label>
-        <textarea id="list1" placeholder="https://example.com/page1\nhttps://sub.example.com/other"></textarea>
-      </div>
-      <div>
-        <label for="list2">List 2 — input links (one per line)</label>
-        <textarea id="list2" placeholder="https://example.com/abc\nhttps://other.com/home"></textarea>
-      </div>
-    </div>
-
-    <div class="controls">
-      <button id="run">Compare &amp; Match</button>
-      <button id="clear" class="secondary">Clear</button>
-      <button id="example" class="secondary">Load Example</button>
-    </div>
-
-    <div class="result-wrap">
-      <div id="summary" class="small"></div>
-
-      <h3 style="margin-top:12px;margin-bottom:6px">Matched Links (by domain)</h3>
-      <div id="matchedArea"></div>
-
-      <h3 style="margin-top:12px;margin-bottom:6px">Unmatched links from List 2</h3>
-      <div id="unmatchedArea"></div>
-
-      <div class="actions">
-        <button id="downloadMatched" class="secondary">Download Matched CSV</button>
-        <button id="downloadUnmatched" class="secondary">Download Unmatched CSV</button>
-      </div>
-    </div>
-
-    <div class="footer">Notes: Matching uses the <em>registered host</em> (netloc) with <code>www.</code> stripped. Subdomains other than <code>www</code> are treated as distinct if they remain (e.g. <code>blog.example.com</code> vs <code>example.com</code>) except that many common cases are reduced by removing leading <code>www.</code>.</div>
-  </div>
-
-
-
-
-
+<a class="backlink" href="../index.html">&larr; All Tools</a>
+<h1>URL Domain Matcher</h1>
+<p class="desc">Compare two pasted link lists by main domain and see which domains appear in both lists, plus the List 2 links whose domains do not appear in List 1.</p>
+<p class="note">Honest note: matching is by full host with www. removed. Subdomains count as different domains (for example sub.example.com is not the same as example.com). It does not fetch or check the links.</p>
+<div class="two-col"><div><label for="list1">List 1 links (one per line)</label><textarea id="list1"></textarea></div><div><label for="list2">List 2 links (one per line)</label><textarea id="list2"></textarea></div></div>
+<div class="row"><button type="button" id="run">Compare &amp; Match Domains</button><button type="button" id="example" class="btn-sec">Load Example</button><button type="button" id="clear" class="btn-sec">Clear</button></div>
+<p class="stats" id="summary"></p>
+<h2>Matched pairs</h2>
+<div id="matchedArea"></div>
+<h2>Unmatched (List 2 only)</h2>
+<div id="unmatchedArea"></div>
+<div class="row"><button type="button" id="downloadMatched" class="btn-sec">Download Matched CSV</button><button type="button" id="downloadUnmatched" class="btn-sec">Download Unmatched CSV</button></div>
 </div>
 <script>
-
-(function(){
-  const list1El = document.getElementById('list1');
-  const list2El = document.getElementById('list2');
-  const runBtn = document.getElementById('run');
-  const clearBtn = document.getElementById('clear');
-  const exampleBtn = document.getElementById('example');
-  const matchedArea = document.getElementById('matchedArea');
-  const unmatchedArea = document.getElementById('unmatchedArea');
-  const summary = document.getElementById('summary');
-  const downloadMatched = document.getElementById('downloadMatched');
-  const downloadUnmatched = document.getElementById('downloadUnmatched');
-
-  function splitLines(text){
-    return text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
-  }
-
-  function extractDomain(url){
-    try{
-      // If user entered raw domain without scheme, add http:// so URL API can parse
-      const withScheme = /^(https?:)?\/\//i.test(url) ? url : 'http://' + url;
-      const u = new URL(withScheme);
-      let host = u.hostname || '';
-      // remove leading www.
-      if(host.toLowerCase().startsWith('www.')) host = host.slice(4);
-      return host.toLowerCase();
-    }catch(e){
-      return null;
-    }
-  }
-
-  function buildMatched(list1, list2){
-    // list1/list2 are arrays of urls
-    const rows = [];
-    const domainMap1 = new Map(); // domain -> array of original links from list1
-    const domainMap2 = new Map();
-
-    list1.forEach(u => {
-      const d = extractDomain(u);
-      if(!d) return;
-      if(!domainMap1.has(d)) domainMap1.set(d, []);
-      domainMap1.get(d).push(u);
-    });
-    list2.forEach(u => {
-      const d = extractDomain(u);
-      if(!d) return;
-      if(!domainMap2.has(d)) domainMap2.set(d, []);
-      domainMap2.get(d).push(u);
-    });
-
-    // For every domain that exists in both maps, create pairs for every combination
-    domainMap1.forEach((arr1, domain) => {
-      if(domainMap2.has(domain)){
-        const arr2 = domainMap2.get(domain);
-        arr1.forEach(a1 => {
-          arr2.forEach(a2 => rows.push({a1,a2,domain}));
-        });
-      }
-    });
-
-    // unmatched list2: those domains in list2 not present in list1
-    const unmatched = [];
-    domainMap2.forEach((arr2, domain) => {
-      if(!domainMap1.has(domain)){
-        arr2.forEach(a2 => unmatched.push({a2,domain}));
-      }
-    });
-
-    return {rows, unmatched};
-  }
-
-  function renderMatched(rows){
-    if(rows.length === 0){
-      matchedArea.innerHTML = '<div class="small">No matched links found.</div>';
-      return;
-    }
-    const table = document.createElement('table');
-    const thead = document.createElement('thead');
-    thead.innerHTML = '<tr><th>List 1 (input1)</th><th>List 2 (input2)</th><th class="small">Domain</th></tr>';
-    table.appendChild(thead);
-    const tbody = document.createElement('tbody');
-    rows.forEach(r =>{
-      const tr = document.createElement('tr');
-      const td1 = document.createElement('td'); td1.textContent = r.a1;
-      const td2 = document.createElement('td'); td2.textContent = r.a2;
-      const td3 = document.createElement('td'); td3.textContent = r.domain; td3.className='small';
-      tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);
-      tbody.appendChild(tr);
-    });
-    table.appendChild(tbody);
-    matchedArea.innerHTML = '';
-    matchedArea.appendChild(table);
-  }
-
-  function renderUnmatched(unmatched){
-    if(unmatched.length === 0){
-      unmatchedArea.innerHTML = '<div class="small">All links from List 2 matched domains in List 1.</div>';
-      return;
-    }
-    const table = document.createElement('table');
-    const thead = document.createElement('thead');
-    thead.innerHTML = '<tr><th>List 2 (input2)</th><th class="small">Domain</th></tr>';
-    table.appendChild(thead);
-    const tbody = document.createElement('tbody');
-    unmatched.forEach(r =>{
-      const tr = document.createElement('tr');
-      const td1 = document.createElement('td'); td1.textContent = r.a2;
-      const td2 = document.createElement('td'); td2.textContent = r.domain; td2.className='small';
-      tr.appendChild(td1);tr.appendChild(td2);
-      tbody.appendChild(tr);
-    });
-    table.appendChild(tbody);
-    unmatchedArea.innerHTML = '';
-    unmatchedArea.appendChild(table);
-  }
-
-  function toCSV(rows, headers){
-    const escapeCell = s => '"' + ('' + (s===null||s===undefined? '': s)).replace(/"/g,'""') + '"';
-    const lines = [headers.map(escapeCell).join(',')];
-    rows.forEach(r => {
-      const line = headers.map(h => escapeCell(r[h]));
-      lines.push(line.join(','));
-    });
-    return lines.join('\r\n');
-  }
-
-  function download(filename, content){
-    const blob = new Blob([content], {type: 'text/csv;charset=utf-8;'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),1000);
-  }
-
-  runBtn.addEventListener('click', ()=>{
-    const list1 = splitLines(list1El.value);
-    const list2 = splitLines(list2El.value);
-    const {rows, unmatched} = buildMatched(list1, list2);
-
-    renderMatched(rows);
-    renderUnmatched(unmatched);
-
-    summary.innerHTML = `List 1: ${list1.length} links — List 2: ${list2.length} links — Matches: ${rows.length} pairs — Unmatched in List 2: ${unmatched.length}`;
-
-    // store latest results for download
-    runBtn._latest = {rows, unmatched};
+function splitLines(text) { return text.split(/\r?\n/).map(function (s) { return s.trim(); }).filter(Boolean); }
+function extractDomain(url) {
+  try {
+    var withScheme = /^(https?:)?\/\//i.test(url) ? url : "http://" + url;
+    var host = new URL(withScheme).hostname || "";
+    if (host.toLowerCase().indexOf("www.") === 0) host = host.slice(4);
+    return host.toLowerCase();
+  } catch (e) { return null; }
+}
+function buildMatched(list1, list2) {
+  var map1 = new Map(), map2 = new Map();
+  list1.forEach(function (u) { var d = extractDomain(u); if (!d) return; if (!map1.has(d)) map1.set(d, []); map1.get(d).push(u); });
+  list2.forEach(function (u) { var d = extractDomain(u); if (!d) return; if (!map2.has(d)) map2.set(d, []); map2.get(d).push(u); });
+  var rows = [], unmatched = [];
+  map1.forEach(function (arr1, domain) {
+    if (map2.has(domain)) map2.get(domain).forEach(function (a2) { arr1.forEach(function (a1) { rows.push({ a1: a1, a2: a2, domain: domain }); }); });
   });
-
-  downloadMatched.addEventListener('click', ()=>{
-    const data = runBtn._latest;
-    if(!data || !data.rows) return alert('Run the matcher first');
-    const csvRows = data.rows.map(r=>({
-      'input1': r.a1,
-      'input2': r.a2,
-      'domain': r.domain
-    }));
-    const csv = toCSV(csvRows, ['input1','input2','domain']);
-    download('matched_links.csv', csv);
+  map2.forEach(function (arr2, domain) {
+    if (!map1.has(domain)) arr2.forEach(function (a2) { unmatched.push({ a2: a2, domain: domain }); });
   });
-
-  downloadUnmatched.addEventListener('click', ()=>{
-    const data = runBtn._latest;
-    if(!data || !data.unmatched) return alert('Run the matcher first');
-    const csvRows = data.unmatched.map(r=>({
-      'input2': r.a2,
-      'domain': r.domain
-    }));
-    const csv = toCSV(csvRows, ['input2','domain']);
-    download('unmatched_list2.csv', csv);
-  });
-
-  clearBtn.addEventListener('click', ()=>{
-    list1El.value=''; list2El.value=''; matchedArea.innerHTML=''; unmatchedArea.innerHTML=''; summary.innerHTML='';
-  });
-
-  exampleBtn.addEventListener('click', ()=>{
-    list1El.value = 'https://example.com/page1\nhttps://google.com/search\nhttps://facebook.com/home\nhttps://sub.domain.com/special';
-    list2El.value = 'https://google.com/maps\nhttps://facebook.com/login\nhttps://youtube.com/watch\nhttps://example.com/other\nhttp://domain.com/another';
-  });
-
-  // load an example on first open
-  exampleBtn.click();
-})();
-
+  return { rows: rows, unmatched: unmatched };
+}
+function esc(s) { var d = document.createElement("div"); d.textContent = String(s); return d.innerHTML; }
+function renderTable(area, headers, rows, fields) {
+  if (!rows.length) { area.innerHTML = "<p>No rows.</p>"; return; }
+  var html = "<div class=\"tblwrap\"><table><thead><tr>" + headers.map(function (h) { return "<th>" + h + "</th>"; }).join("") + "</tr></thead><tbody>";
+  rows.forEach(function (r) { html += "<tr>" + fields.map(function (f) { return "<td>" + esc(r[f]) + "</td>"; }).join("") + "</tr>"; });
+  area.innerHTML = html + "</tbody></table></div>";
+}
+function toCSV(rows, headers) {
+  function cell(s) { return '"' + String(s === undefined || s === null ? "" : s).replace(/"/g, '""') + '"'; }
+  var lines = [headers.map(cell).join(",")];
+  rows.forEach(function (r) { lines.push(headers.map(function (h) { return cell(r[h]); }).join(",")); });
+  return lines.join("\r\n");
+}
+function downloadFile(filename, content) {
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([content], { type: "text/csv;charset=utf-8;" }));
+  a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+}
+var latest = null;
+document.getElementById("run").addEventListener("click", function () {
+  var list1 = splitLines(document.getElementById("list1").value);
+  var list2 = splitLines(document.getElementById("list2").value);
+  var res = buildMatched(list1, list2);
+  latest = res;
+  renderTable(document.getElementById("matchedArea"), ["List 1", "List 2", "Domain"], res.rows, ["a1", "a2", "domain"]);
+  if (!res.rows.length) document.getElementById("matchedArea").innerHTML = "<p>No matched links found.</p>";
+  renderTable(document.getElementById("unmatchedArea"), ["List 2", "Domain"], res.unmatched, ["a2", "domain"]);
+  if (!res.unmatched.length) document.getElementById("unmatchedArea").innerHTML = "<p>All links from List 2 matched domains in List 1.</p>";
+  document.getElementById("summary").textContent = "List 1: " + list1.length + " links — List 2: " + list2.length + " links — Matches: " + res.rows.length + " pairs — Unmatched in List 2: " + res.unmatched.length;
+});
+document.getElementById("downloadMatched").addEventListener("click", function () {
+  if (!latest) { alert("Run the matcher first"); return; }
+  downloadFile("matched_links.csv", toCSV(latest.rows.map(function (r) { return { input1: r.a1, input2: r.a2, domain: r.domain }; }), ["input1", "input2", "domain"]));
+});
+document.getElementById("downloadUnmatched").addEventListener("click", function () {
+  if (!latest) { alert("Run the matcher first"); return; }
+  downloadFile("unmatched_list2.csv", toCSV(latest.unmatched.map(function (r) { return { input2: r.a2, domain: r.domain }; }), ["input2", "domain"]));
+});
+document.getElementById("clear").addEventListener("click", function () {
+  document.getElementById("list1").value = ""; document.getElementById("list2").value = "";
+  document.getElementById("matchedArea").innerHTML = ""; document.getElementById("unmatchedArea").innerHTML = "";
+  document.getElementById("summary").textContent = ""; latest = null;
+});
+function loadExample() {
+  document.getElementById("list1").value = "https://example.com/page1\nhttps://google.com/search\nhttps://facebook.com/home\nhttps://sub.domain.com/special";
+  document.getElementById("list2").value = "https://google.com/maps\nhttps://facebook.com/login\nhttps://youtube.com/watch\nhttps://example.com/other\nhttp://domain.com/another";
+}
+document.getElementById("example").addEventListener("click", loadExample);
+loadExample();
 </script>
-
-
-</main>
-<footer class="footer"><b>LinkXcel</b> by SEO Academy &mdash; Free Backlink Checker, Backlink Validator &amp; DR Checker<br><span>Tools run in your browser. No sign-up, no payment. For articles, see the Blog page.</span></footer>
 </body>
 </html>
